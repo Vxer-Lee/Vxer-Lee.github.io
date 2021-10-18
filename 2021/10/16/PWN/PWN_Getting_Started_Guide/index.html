@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PWN二进制漏洞学习指南 | Lee's Blog</title><meta name="keywords" content="PWN学习"><meta name="author" content="VxerLee"><meta name="copyright" content="VxerLee"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="前言最近准备学PWN，所以买了《CTF权威指南(PWN)篇》的书粗略的看完后，在这里做个学PWN需要掌握的知识指南，如有补充欢迎评论。 前置技能首先我觉得要学习PWN还是要有一定基础的，因为PWN毕竟是和系统底层知识打交道，所以我觉得应该具备如下的一些技能，并且我推荐了一些不错的书籍。  Linux系统基础知识《鸟哥Linux私房菜》、《Linux就该这么学》、《Linux命令大全》 Linu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PWN二进制漏洞学习指南">
+<meta property="og:url" content="https://vxer-lee.github.io/2021/10/16/PWN/PWN_Getting_Started_Guide/index.html">
+<meta property="og:site_name" content="Lee&#39;s Blog">
+<meta property="og:description" content="前言最近准备学PWN，所以买了《CTF权威指南(PWN)篇》的书粗略的看完后，在这里做个学PWN需要掌握的知识指南，如有补充欢迎评论。 前置技能首先我觉得要学习PWN还是要有一定基础的，因为PWN毕竟是和系统底层知识打交道，所以我觉得应该具备如下的一些技能，并且我推荐了一些不错的书籍。  Linux系统基础知识《鸟哥Linux私房菜》、《Linux就该这么学》、《Linux命令大全》 Linu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://vxer-lee.github.io/cover/PWN/PWN.JPG">
+<meta property="article:published_time" content="2021-10-16T03:17:11.000Z">
+<meta property="article:modified_time" content="2021-10-18T03:06:45.794Z">
+<meta property="article:author" content="VxerLee">
+<meta property="article:tag" content="PWN学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://vxer-lee.github.io/cover/PWN/PWN.JPG"><link rel="shortcut icon" href="/img/gh0st.ico"><link rel="canonical" href="https://vxer-lee.github.io/2021/10/16/PWN/PWN_Getting_Started_Guide/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'PWN二进制漏洞学习指南',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-10-18 11:06:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/lee.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">16</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../cover/PWN/PWN.JPG')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Lee's Blog</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">PWN二进制漏洞学习指南</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-10-16T03:17:11.000Z" title="发表于 2021-10-16 11:17:11">2021-10-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-10-18T03:06:45.794Z" title="更新于 2021-10-18 11:06:45">2021-10-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">二进制安全</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="PWN二进制漏洞学习指南"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer"/>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近准备学PWN，所以买了<a target="_blank" rel="noopener" href="http://product.dangdang.com/29166115.html">《CTF权威指南(PWN)篇》</a>的书粗略的看完后，在这里做个学PWN需要掌握的知识指南，如有补充欢迎评论。</p>
+<h2 id="前置技能"><a href="#前置技能" class="headerlink" title="前置技能"></a>前置技能</h2><p>首先我觉得要学习PWN还是要有一定基础的，因为PWN毕竟是和系统底层知识打交道，所以我觉得应该具备如下的一些技能，并且我推荐了一些不错的书籍。</p>
+<ul>
+<li>Linux系统基础知识<a target="_blank" rel="noopener" href="https://tiramisutes.github.io/images/PDF/vbird-linux-basic-4e.pdf">《鸟哥Linux私房菜》</a>、<a target="_blank" rel="noopener" href="https://www.linuxprobe.com/book">《Linux就该这么学》</a>、<a target="_blank" rel="noopener" href="https://www.linuxcool.com/">《Linux命令大全》</a></li>
+<li>Linux下C语言编程 <a target="_blank" rel="noopener" href="http://staff.ustc.edu.cn/~guoyan/os12/LinuxC.pdf">《Linux C编程一站式学习》</a></li>
+<li>Python编程基础知识 <a target="_blank" rel="noopener" href="https://www.lanzoui.com/i508dab">《Python编程：从入门到实践》</a></li>
+<li>汇编语言<a target="_blank" rel="noopener" href="https://ihpm.cn/2318/.html">《汇编语言(第4版)》</a>、 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/VxerLee/p/15055485.html">王爽8086汇编学习笔记</a></li>
+<li>熟悉ELF文件格式 <a target="_blank" rel="noopener" href="https://www.xknote.com/books/nc6mb8.html#download">《Linux二进制分析 》</a></li>
+<li>熟悉GDB动态调试 <a target="_blank" rel="noopener" href="https://hack-big.tech/2019/01/30/gdb%E8%B0%83%E8%AF%95%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/">gdb调试常用指令</a></li>
+</ul>
+<h2 id="PWN概念"><a href="#PWN概念" class="headerlink" title="PWN概念"></a>PWN概念</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>PWN我觉得最开始的时候应该是没有这门学科和系统化的资料教程的，PWN本身属于高阶技能，个人感觉都是以前那些逆向大佬、编程大佬开始玩点高级的东西，然后就开始挖漏洞，结果就挖出了各种二进制漏洞，并且把二进制漏洞也完美的利用起来了，后面就归纳总结出一套体系供后人学习，在此真的膜拜那些前辈的共享精神。<br><img src="https://img2020.cnblogs.com/blog/2080041/202110/2080041-20211017165443461-330330439.jpg" alt="看门狗》对主角团的演变，也是黑客的形象变迁简史_腾讯新闻"> </p>
+<h3 id="发音"><a href="#发音" class="headerlink" title="发音"></a>发音</h3><p>至于PWN为什么叫PWN呢？是什么单词的缩写吗？其实只是一种声音，pwn!你的电脑爆炸了，你的电脑被攻破了，因为用二进制漏洞挖掘与利用这词来形容pwn未免也太长了，所以就用了简洁的叫法。</p>
+<h3 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h3><p>这里介绍一些简单的PWN术语</p>
+<ul>
+<li>Exploit(exp)  用于攻击的脚本与方案</li>
+<li>Payload 攻击载荷，是对目标进程劫持控制流的数据</li>
+<li>Shellcode 调用攻击目标的shell的代码</li>
+</ul>
+<h2 id="PWN环境搭建"><a href="#PWN环境搭建" class="headerlink" title="PWN环境搭建"></a>PWN环境搭建</h2><p>学习PWN知识我们先需要一个指定的环境来进行PWN，这里首选的操作系统为Ubuntu、Kali然后安装必要的PWN环境软件来进行搭建，当然如果你想省力气的话也可以用docker直接部署别人封装好的pwn环境。</p>
+<p>推荐教程链接：<a target="_blank" rel="noopener" href="https://www.yuque.com/hxfqg9/bin/hg3qeh">PWN虚拟机配置-yichen知识库</a>、<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Uv411j7fr?p=1">PWN环境配置-星盟安全</a>、<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/71914632">PWN入门教程-环境配置</a>、<a target="_blank" rel="noopener" href="https://hub.docker.com/r/skysider/pwndocker">pwndocker</a></p>
+<h2 id="PWN知识学习途径"><a href="#PWN知识学习途径" class="headerlink" title="PWN知识学习途径"></a>PWN知识学习途径</h2><p>个人觉得PWN知识的话需要掌握<code>常见漏洞</code>、<code>安全机制</code>、<code>PWN技巧</code>。</p>
+<h3 id="常见漏洞"><a href="#常见漏洞" class="headerlink" title="常见漏洞"></a>常见漏洞</h3><ul>
+<li>整数安全</li>
+<li>格式化字符串</li>
+<li>栈溢出与ROP</li>
+<li>堆利用</li>
+</ul>
+<h3 id="安全机制"><a href="#安全机制" class="headerlink" title="安全机制"></a>安全机制</h3><ul>
+<li>Stack Canaries 栈保护</li>
+<li>No-eXecute</li>
+<li>ALSR 和 PIE</li>
+<li>FORTIFY_SOURCE</li>
+<li>RELRO</li>
+</ul>
+<h3 id="PWN技巧"><a href="#PWN技巧" class="headerlink" title="PWN技巧"></a>PWN技巧</h3><ul>
+<li>One-gadget</li>
+<li>通用dadget及Return-to-csu</li>
+<li>劫持hook函数</li>
+<li>利用DynELF泄露函数地址</li>
+<li>SSP Leak</li>
+<li>利用environ泄露栈地址</li>
+<li>利用_IO_FILE结构</li>
+<li>利用vsyscall</li>
+</ul>
+<p>推荐的学习资料有<a target="_blank" rel="noopener" href="https://weread.qq.com/web/reader/8c632950722265af8c62923">《CTF竞赛权威指南（PWN篇）》</a>、<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Uv411j7fr?from=search&seid=12666855031097058738&spm_id_from=333.337.0.0">星盟安全 PWN系列教程</a>、<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/75268518">Linux Pwn入门教程</a>、<a target="_blank" rel="noopener" href="https://www.yuque.com/hxfqg9/bin">yichen的信安知识库 二进制安全</a>、<a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv11002853">CTF中PWN知识点整理</a>。然后最好是跟着视频或者书籍再找一个在线的CTF网站练习，因为只有练习多了后才能熟能生巧，才能加深各种知识的理解。</p>
+<p>推荐的CTF平台有：<a target="_blank" rel="noopener" href="https://buuoj.cn/">BUUCTF</a>、<a target="_blank" rel="noopener" href="https://pwnable.tw/challenge/">pwnable.tw</a>、<a target="_blank" rel="noopener" href="https://adworld.xctf.org.cn/">攻防世界</a>、<a target="_blank" rel="noopener" href="https://www.ctfer.vip/#/index">NSSCTF</a>、<a target="_blank" rel="noopener" href="http://pwnable.kr/">pwnable.kr</a></p>
+<h2 id="PWN相关资源博客"><a href="#PWN相关资源博客" class="headerlink" title="PWN相关资源博客"></a>PWN相关资源博客</h2><p>这些是我随便收集的排名不分先后，方便知识获取与整理。</p>
+<p><a target="_blank" rel="noopener" href="https://bestwing.me/">https://bestwing.me/</a> Swing’Blog 浮生若梦</p>
+<p><a target="_blank" rel="noopener" href="https://www.jarvisw.com/">https://www.jarvisw.com/</a> 人称汪神 白帽子、全栈、IoT安全专家、嵌入式系统专家</p>
+<p><a target="_blank" rel="noopener" href="http://whereisk0shl.top/">http://whereisk0shl.top/</a> K0sh1: 就职于 360 vulcan Team ，擅长windows 漏洞挖掘与利用</p>
+<p><a target="_blank" rel="noopener" href="https://o0xmuhe.github.io/">https://o0xmuhe.github.io/</a> 三叶草Pwn选手，多个Adobe CVE编号拥有者</p>
+<p><a target="_blank" rel="noopener" href="https://changochen.github.io/about.html">https://changochen.github.io/about.html</a> Pwn神，目前在美国求学，专研学术</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Ox9A82/">https://www.cnblogs.com/Ox9A82/</a> 三叶草Pwn选手，玄武实验室就职，方向是Windows和浏览器</p>
+<p><a target="_blank" rel="noopener" href="https://f1r.github.io/">https://f1r.github.io/</a> r2kapig 成员，二进制选手</p>
+<p><a target="_blank" rel="noopener" href="https://gloxec.github.io/">https://gloxec.github.io/</a> Hook iOS &amp;&amp; Pwn选手，目前就职360</p>
+<p><a target="_blank" rel="noopener" href="http://riusksk.me/">http://riusksk.me/</a> 泉哥，《漏洞战争》作者</p>
+<p><a target="_blank" rel="noopener" href="https://firmianay.github.io/">https://firmianay.github.io/</a> Firmy Yang 《CTF权威指南(Pwn)篇》作者</p>
+<p><a target="_blank" rel="noopener" href="https://roderickchan.github.io/">https://roderickchan.github.io/</a> 群里某位二进制大佬博客</p>
+<p><a target="_blank" rel="noopener" href="http://47.101.67.103/tags/pwn/">http://47.101.67.103/tags/pwn/</a> eeeeeeeeeeeeeeeea</p>
+<p><a target="_blank" rel="noopener" href="https://zhouyetao.github.io/">https://zhouyetao.github.io</a> 星盟团队创始人之一</p>
+<p><a target="_blank" rel="noopener" href="https://eur1ka.github.io/">https://eur1ka.github.io/</a> eur1ka ，群内Pwn大佬 已刷几百pwn题，目前研究IoT</p>
+<p><a href="https://vxer-lee.github.io/">https://vxer-lee.github.io/</a> 我，一个渣渣会点re，正在学pwn</p>
+<h2 id="Pwn菜鸡小分队"><a href="#Pwn菜鸡小分队" class="headerlink" title="Pwn菜鸡小分队"></a>Pwn菜鸡小分队</h2><p>可以加群一起学习pwn技术，群内有pwn大佬(不是我)，互相交流才能进步，群内也可分享re和web技术。</p>
+<p><img src="https://github.com/Vxer-Lee/ReverseCTF/raw/main/assets/qr.png" alt="avatar"> </p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/PWN%E5%AD%A6%E4%B9%A0/">PWN学习</a></div><div class="post_share"><div class="social-share" data-image="/../cover/PWN/PWN.JPG" data-sites="wechat,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/10/15/Coding/Python/Python_Learning_Summry/"><img class="next-cover" src="/../../cover/Python/Python.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Python入门学习总结</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/lee.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">VxerLee</div><div class="author-info__description">喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">16</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Vxer-Lee"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="/s" target="_blank" title=""><i></i></a><a class="social-icon" href="/e" target="_blank" title=""><i class="1"></i></a><a class="social-icon" href="/a" target="_blank" title=""><i class="2"></i></a><a class="social-icon" href="/r" target="_blank" title=""><i class="3"></i></a><a class="social-icon" href="/c" target="_blank" title=""><i class="4"></i></a><a class="social-icon" href="/h" target="_blank" title=""><i class="5"></i></a><a class="social-icon" href="/" target="_blank" title=""><i class="6"></i></a><a class="social-icon" href="/(" target="_blank" title=""><i class="7"></i></a><a class="social-icon" href="/%E6%90%9C" target="_blank" title=""><i class="8"></i></a><a class="social-icon" href="/%E7%B4%A2" target="_blank" title=""><i class="9"></i></a><a class="social-icon" href="/)" target="_blank" title=""><i class="10"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">喜欢一起研究逆向或者Pwn的可以加QQ群：1145528880</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E6%8A%80%E8%83%BD"><span class="toc-number">2.</span> <span class="toc-text">前置技能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PWN%E6%A6%82%E5%BF%B5"><span class="toc-number">3.</span> <span class="toc-text">PWN概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">3.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E9%9F%B3"><span class="toc-number">3.2.</span> <span class="toc-text">发音</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AF%E8%AF%AD"><span class="toc-number">3.3.</span> <span class="toc-text">术语</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PWN%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">4.</span> <span class="toc-text">PWN环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PWN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0%E9%80%94%E5%BE%84"><span class="toc-number">5.</span> <span class="toc-text">PWN知识学习途径</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E"><span class="toc-number">5.1.</span> <span class="toc-text">常见漏洞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E6%9C%BA%E5%88%B6"><span class="toc-number">5.2.</span> <span class="toc-text">安全机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PWN%E6%8A%80%E5%B7%A7"><span class="toc-number">5.3.</span> <span class="toc-text">PWN技巧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PWN%E7%9B%B8%E5%85%B3%E8%B5%84%E6%BA%90%E5%8D%9A%E5%AE%A2"><span class="toc-number">6.</span> <span class="toc-text">PWN相关资源博客</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn%E8%8F%9C%E9%B8%A1%E5%B0%8F%E5%88%86%E9%98%9F"><span class="toc-number">7.</span> <span class="toc-text">Pwn菜鸡小分队</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By VxerLee</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
