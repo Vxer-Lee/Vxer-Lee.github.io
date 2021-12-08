@@ -1,0 +1,250 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PE增加节实验-让记事本弹计算器Shellcode | Lee's Blog</title><meta name="keywords" content="PE分析"><meta name="author" content="VxerLee"><meta name="copyright" content="VxerLee"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="[toc] PE增加节实验-让记事本弹计算器Shellcode0x00 前言在上一篇文章中介绍了PE节表的分析，这篇文章主要是对其进行手动实验来加深对节表的理解，并且这里用一个记事本的例子做演示，我们用Winhex软件通过修改、添加十六进制数据让记事本一启动就能弹出计算器。 整体的思路是：给记事本添加一个节，节内添加弹计算器Shellcode十六进制+jmp到原OEP(程序入口点)，修改OEP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PE增加节实验-让记事本弹计算器Shellcode">
+<meta property="og:url" content="https://vxer-lee.github.io/2021/11/04/PCRe/PE_Notepad/index.html">
+<meta property="og:site_name" content="Lee&#39;s Blog">
+<meta property="og:description" content="[toc] PE增加节实验-让记事本弹计算器Shellcode0x00 前言在上一篇文章中介绍了PE节表的分析，这篇文章主要是对其进行手动实验来加深对节表的理解，并且这里用一个记事本的例子做演示，我们用Winhex软件通过修改、添加十六进制数据让记事本一启动就能弹出计算器。 整体的思路是：给记事本添加一个节，节内添加弹计算器Shellcode十六进制+jmp到原OEP(程序入口点)，修改OEP">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://vxer-lee.github.io/cover/PCRe/PE_Notepad.png">
+<meta property="article:published_time" content="2021-11-04T05:42:08.000Z">
+<meta property="article:modified_time" content="2021-12-08T13:11:29.800Z">
+<meta property="article:author" content="VxerLee">
+<meta property="article:tag" content="PE分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://vxer-lee.github.io/cover/PCRe/PE_Notepad.png"><link rel="shortcut icon" href="/img/gh0st.ico"><link rel="canonical" href="https://vxer-lee.github.io/2021/11/04/PCRe/PE_Notepad/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'PE增加节实验-让记事本弹计算器Shellcode',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-12-08 21:11:29'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/lee.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../cover/PCRe/PE_Notepad.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Lee's Blog</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">PE增加节实验-让记事本弹计算器Shellcode</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-11-04T05:42:08.000Z" title="发表于 2021-11-04 13:42:08">2021-11-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-12-08T13:11:29.800Z" title="更新于 2021-12-08 21:11:29">2021-12-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="PE增加节实验-让记事本弹计算器Shellcode"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer"/>
+
+<p>[toc]</p>
+<h1 id="PE增加节实验-让记事本弹计算器Shellcode"><a href="#PE增加节实验-让记事本弹计算器Shellcode" class="headerlink" title="PE增加节实验-让记事本弹计算器Shellcode"></a>PE增加节实验-让记事本弹计算器Shellcode</h1><h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>在上一篇文章中介绍了<a target="_blank" rel="noopener" href="https://www.cnblogs.com/VxerLee/p/15518129.html">PE节表的分析</a>，这篇文章主要是对其进行手动实验来加深对节表的理解，并且这里用一个记事本的例子做演示，我们用Winhex软件通过修改、添加十六进制数据让记事本一启动就能弹出计算器。</p>
+<p>整体的思路是：给记事本添加一个节，节内添加弹计算器Shellcode十六进制+jmp到原OEP(程序入口点)，修改OEP指向-&gt;新区段位置。运行记事本让其弹计算器。</p>
+<h2 id="0x01-添加新节"><a href="#0x01-添加新节" class="headerlink" title="0x01 添加新节"></a>0x01 添加新节</h2><p>首先需要找一个<code>32位</code>的记事本，我这里用的是xp系统下的<code>notepad.exe</code>。</p>
+<h3 id="修改节数量"><a href="#修改节数量" class="headerlink" title="修改节数量"></a>修改节数量</h3><p>第一步我们先修改节数量，之前都有介绍节数量在标准PE头中的NT标识后4个字节，这里原本是<code>3</code>我们将其改成4。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106210307840-1429862303.png" alt="image-20211106210310909"> </p>
+<h3 id="节表位置"><a href="#节表位置" class="headerlink" title="节表位置"></a>节表位置</h3><p>节表位置在<code>可选PE头</code>下面，所以我们先找到可选PE头，并且找到可选PE头的大小就能找到节表位置了。可选PE头大小在<code>NT标识</code>开始0x14字节位置。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106212621961-628350521.png" alt="image-20211106212625305"> </p>
+<h3 id="添加新节表信息"><a href="#添加新节表信息" class="headerlink" title="添加新节表信息"></a>添加新节表信息</h3><p>新节信息的位置应该在节表数量*3的位置即：节表开始处+(3 x 0x28=0x78处)，一个节信息固定大小<code>0x28</code>。</p>
+<p>然后我们将荧光笔中的数据覆盖成我们新节的信息。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106213608636-26564039.png" alt="image-20211106213612000"> </p>
+<p>新节名就叫<code>.hack</code>把，hack节哈哈挺酷。然后节在内存中大小就设成<code>0x1000</code>，新节在内存中的位置为<code>0x13000</code>。</p>
+<p>这个<code>0x13000</code>即新节位置是根据：之前最后一个节(内存中节位置+对其后节大小)计算出来的，可以根据我们上篇文章写的工具来进行分析。</p>
+<p><code>0xb000+0x8000</code>等于<code>0x13000</code>，所以这是新节位置。这里一定不要算错了要不然程序会崩溃。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106214429259-158280782.png" alt="image-20211106214432673"> </p>
+<p>接着是文件中节的大小即对其后节的大小0x1000刚好对其，所以也设置成<code>0x1000</code>。接着是新节在文件中的位置，这里同样我们得到之前最后一个节在文件中的偏移，然后再加上文件中节大小就是其新节位置了。</p>
+<p>(新节在文件中的位置)<code>0x8400+0x8000=0x10400</code>，然后其余还有4各成员数据默认都设置成<code>0x00</code>，最后一个比较关键之前也讲过他是节的属性，决定了改节是否可读、写、执行。</p>
+<p>在这里我们直接将他设置成代码段的属性<code>(包含可执行代码),(可读),(可执行)</code>：<code>0x60000020</code>。这里不懂的可以复习下<a target="_blank" rel="noopener" href="https://www.cnblogs.com/VxerLee/p/15518129.html">PE节表的详细分析</a>。</p>
+<table>
+<thead>
+<tr>
+<th align="center">新节信息</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Name</td>
+<td>.hack</td>
+</tr>
+<tr>
+<td align="center">VirtualSize(内存中大小)</td>
+<td>0x1000</td>
+</tr>
+<tr>
+<td align="center">VirtualAddress(内存中偏移)</td>
+<td>0x13000</td>
+</tr>
+<tr>
+<td align="center">SizeOfRawData(文件中大小)</td>
+<td>0x1000</td>
+</tr>
+<tr>
+<td align="center">PointerToRawData(文件中偏移)</td>
+<td>0x10400</td>
+</tr>
+<tr>
+<td align="center">PointerToRelocations</td>
+<td>0x00000000</td>
+</tr>
+<tr>
+<td align="center">PointerToLinenumbers</td>
+<td>0x00000000</td>
+</tr>
+<tr>
+<td align="center">NumberOfRelocations</td>
+<td>0x0000</td>
+</tr>
+<tr>
+<td align="center">NumberOfLinenumbers</td>
+<td>0x0000</td>
+</tr>
+<tr>
+<td align="center">Characteristics(标志节属性)</td>
+<td>0x60000020</td>
+</tr>
+</tbody></table>
+<p>最后在<code>0x104000</code>位置添加<code>0x1000</code>数据，也就是文件末尾处我们添加0x1000个0的数据。</p>
+<p>先用Winhex新建一个0x1000的文件</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106233002057-510516362.png" alt="image-20211106233005409"> </p>
+<p>然后复制数据到notepad.exe文件末尾处。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106232813188-842765331.png" alt="image-20211106232816583"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106233116350-1052532084.png" alt="image-20211106233119664"> </p>
+<p>至此新节添加完毕，我们可以来添加shellcode了。</p>
+<h2 id="0x02-添加弹计算器Shellcode"><a href="#0x02-添加弹计算器Shellcode" class="headerlink" title="0x02 添加弹计算器Shellcode"></a>0x02 添加弹计算器Shellcode</h2><p>好了到这里我们可以来添加我们的Shellcode了，首先我们需要用汇编写一个弹计算器的代码，然后将其转换成十六进制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">.386</span><br><span class="line">.model flat,stdcall</span><br><span class="line"></span><br><span class="line">; 代码区域</span><br><span class="line">.code</span><br><span class="line"></span><br><span class="line">main:</span><br><span class="line">	push ebp</span><br><span class="line">	mov ebp,esp</span><br><span class="line">	sub esp,20h; 开辟栈空间</span><br><span class="line">    ;获取Kernel32基址</span><br><span class="line">	assume fs:nothing</span><br><span class="line">	mov eax,[fs:30h]; peb结构所在地址</span><br><span class="line">	mov eax,[eax+0Ch]; Ldr</span><br><span class="line">	mov eax,[eax+1Ch]; 指向ntdll</span><br><span class="line">	mov eax,[eax]; 指向kernelbase</span><br><span class="line">	mov eax,[eax]; 指向kernel32</span><br><span class="line">	mov eax,[eax+08h]; BaseAddress</span><br><span class="line">    ;遍历kernel32导出函数	</span><br><span class="line">	;初始化栈空间用来保存变量</span><br><span class="line">	mov DWORD PTR[ebp-04h],0; 用来存放导出函数“地址表”</span><br><span class="line">	mov DWORD PTR[ebp-08h],0; 用来存放导出函数“名称表”</span><br><span class="line">	mov DWORD PTR[ebp-0Ch],0; 用来存放导出函数“序号表”</span><br><span class="line">	</span><br><span class="line">	; 解析PE结构获取导出表结构实际地址</span><br><span class="line">	mov ebx,DWORD PTR[eax + 3Ch]   ; NT头偏移地址</span><br><span class="line">	lea ebx,DWORD PTR[ebx + eax]   ; NT头VA</span><br><span class="line">	mov ebx,DWORD PTR[ebx + 78h]   ; 导出表结构VirtualAddress</span><br><span class="line">	lea edx,DWORD PTR[ebx + eax]   ; 导出表结构实际地址</span><br><span class="line">	</span><br><span class="line">	; 获取导出函数地址表VA</span><br><span class="line">	mov ebx,DWORD PTR[edx + 1Ch]   ; AddressOfFunctions 偏移</span><br><span class="line">	lea ebx,DWORD PTR[ebx + eax]   ; AddressOfFunctions 实际地址</span><br><span class="line">	mov DWORD PTR[ebp - 04h],ebx   ; 保存到局部变量</span><br><span class="line">	</span><br><span class="line">	; 获取导出函数名称表VA</span><br><span class="line">	mov ebx,DWORD PTR[edx + 20h]   ; AddressOfNames 偏移</span><br><span class="line">	lea ebx,DWORD PTR[ebx + eax]   ; AddressOfNames 实际地址</span><br><span class="line">	mov DWORD PTR[ebp - 08h],ebx   ; 保存到局部变量</span><br><span class="line">	</span><br><span class="line">	; 获取导出函数序号表VA</span><br><span class="line">	mov ebx,DWORD PTR[edx + 24h]   ; AddressOfNameOrdinals 偏移</span><br><span class="line">	lea ebx,DWORD PTR[ebx + eax]   ; AddressOfNameOrdinals 实际地址</span><br><span class="line">	mov DWORD PTR[ebp - 0Ch],ebx   ; 保存到局部变量</span><br><span class="line">	</span><br><span class="line">	; 开始遍历三张表,找到目标函数地址</span><br><span class="line">	mov edi,DWORD PTR[edx + 18h]   ; NumberOfNames循环次数</span><br><span class="line">	xor ecx,ecx		       ; 清空ecx,作为循环计数</span><br><span class="line">	mov esi,DWORD PTR[ebp - 08h]   ; 暂存导出函数名称表 实际地址	</span><br><span class="line">_ExportName:</span><br><span class="line">	mov ebx,DWORD PTR[esi + ecx * 4];函数名称 偏移地址</span><br><span class="line">	lea ebx,DWORD PTR[ebx + eax]; 获取第n个导出函数的名称 实际地址</span><br><span class="line"></span><br><span class="line">	; 判断函数名称  </span><br><span class="line">	mov ebx,[ebx]</span><br><span class="line">	cmp ebx,456E6957h;判断是否WinE</span><br><span class="line">	je _FindFunc</span><br><span class="line"></span><br><span class="line">	;自增1,开始下一次遍历</span><br><span class="line">	inc ecx;</span><br><span class="line">	jmp _ExportName</span><br><span class="line">	</span><br><span class="line">_FindFunc:</span><br><span class="line">	;找到目标函数，获取该函数地址VA</span><br><span class="line">	mov ebx,DWORD PTR[ebp - 0Ch]    ; 序号表 实际地址</span><br><span class="line">	xor edx,edx		        ; 注意序号表是2字节数组</span><br><span class="line">	mov dx,WORD PTR[ebx + ecx * 2]  ; 获取对应序号表中保存的值</span><br><span class="line">	mov ebx,DWORD PTR[ebp - 04h]    ; 地址表 实际地址</span><br><span class="line">	mov ebx,DWORD PTR[ebx + edx * 4]; 地址表中，目标函数地址 偏移地址</span><br><span class="line">	lea eax,DWORD PTR[ebx + eax]    ; 目标函数实际地址;</span><br><span class="line">; 调用函数</span><br><span class="line">	jmp _gotFunc</span><br><span class="line">	g_str db &quot;calc.exe&quot;</span><br><span class="line">	g_stop db 0</span><br><span class="line">_gotFunc:	call $+5</span><br><span class="line">	pop ebx;获取eip</span><br><span class="line">	sub ebx,0Eh</span><br><span class="line">	push 5h</span><br><span class="line">	push ebx</span><br><span class="line">	call eax</span><br><span class="line">	; 恢复函数栈帧</span><br><span class="line">	mov esp,ebp</span><br><span class="line">	pop ebp</span><br><span class="line">	ret</span><br><span class="line">end main</span><br><span class="line"></span><br><span class="line">end </span><br></pre></td></tr></table></figure>
+
+<p>用MASM套件中的ml将其编译成可执行文件，这里我推荐用RadASM这工具来写Windows汇编代码，他是一个专门用来写汇编的IDE非常好用 YYDS!</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106231402671-2113487965.png" alt="image-20211106231405578"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106231434796-1038294165.png" alt="image-20211106231438247"> </p>
+<p>然后我们用Winhex打开这个编译好的exe提取他代码段中的数据作为Shellcode。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106231705198-146504999.png" alt="image-20211106231708566"> </p>
+<h3 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h3><p>然后我们需要将代码在改一改，比如在shellcode的最后一个地方C3这里对应的汇编代码是<code>ret</code>这样会让程序返回到调用的地方，这里我需要将其改成<code>nop</code>即：0x90。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0040101D| C3  ret</span><br><span class="line">;C3改为如下90</span><br><span class="line">0040101D| 90  nop</span><br></pre></td></tr></table></figure>
+
+<p>然后我们还要跳回到原来的入口点，这样程序才能正常执行他原本的功能。</p>
+<p>跳转的代码是<code>jmp</code>，然后我们需要计算出当前位置距离OEP的位置，目前还不知道距离所以先写<code>jmp 0x0000000</code>来代替即<code>E9 00 00 00 00</code></p>
+<p>我们先把Shellcode覆盖到新节的位置，利用WinHex的写入hex数据来覆盖之前的0数据。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106233622762-758993203.png" alt="image-20211106233625885"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106233918129-1150591501.png" alt="image-20211106233921305"> </p>
+<p>覆盖后的shellcode。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106234011403-973550869.png" alt="image-20211106234014806"> </p>
+<h2 id="0x03-修改入口点"><a href="#0x03-修改入口点" class="headerlink" title="0x03 修改入口点"></a>0x03 修改入口点</h2><p>在最后我们需要修改入口点来使的notepad.exe一开始就先执行我们的shellcode代码，不知道怎么改入口点的读者可以看看我之前写的文章<a target="_blank" rel="noopener" href="https://www.cnblogs.com/VxerLee/p/15498560.html#oep%E7%A8%8B%E5%BA%8F%E5%85%A5%E5%8F%A3%E7%82%B9">PE头详细分析</a>。</p>
+<p>原来的入口点地址为：<code>0x0000739D</code>。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106234450068-1450267792.png" alt="image-20211106234453447"> </p>
+<p>修改为shellcode处的入口点：<code>0x00010400</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106234759814-1548036274.png" alt="image-20211106234803152"> </p>
+<h3 id="计算跳转OEP偏移"><a href="#计算跳转OEP偏移" class="headerlink" title="计算跳转OEP偏移"></a>计算跳转OEP偏移</h3><p>好了在最后我们需要把<code>E9 00000000</code>中的数据给填上，才能真正的完成。计算公式为：<code>(原OEP)-((当前地址)+5)</code></p>
+<p>先把光标停在<code>E9</code>处，然后Winhex中显示地址为<code>0x1049F</code>,那么我们可以把公式中的当前地址改成0x1049F,即<code>(0x0000739D)-((0x1049F)+5)</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106235301466-967546700.png" alt="image-20211106235304791"> </p>
+<p>最后利用Python来计算下偏移，算出来是负数的因为他要往上跳，正常是应该为负数。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106235638159-152868489.png" alt="image-20211106235641549"> </p>
+<p>然后用最终用计算器将其转换成十六进制，并且我们取他的4字节就行。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106235726222-459308992.png" alt="image-20211106235729683"> </p>
+<p>最后我们把地址给填上，收工完成。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211106235838658-539410013.png" alt="image-20211106235841977"> </p>
+<h2 id="0x04-bug修复"><a href="#0x04-bug修复" class="headerlink" title="0x04 bug修复"></a>0x04 bug修复</h2><p>哈哈哈哈果然没有那么幸运，我一运行时候发现程序报错了。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211107001858701-1643815555.png" alt="image-20211107001901954"> </p>
+<p>然后仔细研究后发现，<code>SizeofImage</code>这个值我没有改，得把他改成添加节后的大小<code>0x14000</code>。</p>
+<p>还有就是入口点偏移没算对，因为我发现新的段在内存中不在<code>0x14000</code>，而是在0x13000，应该是我们没有把之前那个段填对其，导致我们新加的段被他对其，所以地址就变成了0x13000。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211107002825083-633348679.png" alt="image-20211107002828445"> </p>
+<p>这里我计算出新的偏移：0xFFFF42F9</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211107003150037-1432748370.png" alt="image-20211107003153292"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211107003251874-755059182.png" alt="image-20211107003255266"> </p>
+<p>修复后winhex中的地址。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211107003331882-1667374678.png" alt="image-20211107003335233"> </p>
+<p>最后把入口点也修复成：<code>0x13000</code>。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211107003414991-272481184.png" alt="image-20211107003418313"> </p>
+<h2 id="0x05-验证结果"><a href="#0x05-验证结果" class="headerlink" title="0x05 验证结果"></a>0x05 验证结果</h2><p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211107003629553-1075491245.png" alt="image-20211107003632827"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211208211044448-1914555245.png" alt="image-20211107003742275"> </p>
+<p>欢迎各位加群：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202111/2080041-20211107003804920-732491660.png" alt="Pwn菜鸡学习小分队群聊二维码"> </p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/PE%E5%88%86%E6%9E%90/">PE分析</a></div><div class="post_share"><div class="social-share" data-image="/../cover/PCRe/PE_Notepad.png" data-sites="wechat,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/11/03/PCRe/PE_Section/"><img class="next-cover" src="/../cover/PCRe/PE_Section.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">PE节表详细分析</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/11/02/PCRe/PE_Header/" title="PE头详细分析"><img class="cover" src="/../cover/PCRe/PE_Header.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-02</div><div class="title">PE头详细分析</div></div></a></div><div><a href="/2021/11/03/PCRe/PE_Section/" title="PE节表详细分析"><img class="cover" src="/../cover/PCRe/PE_Section.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-03</div><div class="title">PE节表详细分析</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/lee.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">VxerLee</div><div class="author-info__description">喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Vxer-Lee"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="/s" target="_blank" title=""><i></i></a><a class="social-icon" href="/e" target="_blank" title=""><i class="1"></i></a><a class="social-icon" href="/a" target="_blank" title=""><i class="2"></i></a><a class="social-icon" href="/r" target="_blank" title=""><i class="3"></i></a><a class="social-icon" href="/c" target="_blank" title=""><i class="4"></i></a><a class="social-icon" href="/h" target="_blank" title=""><i class="5"></i></a><a class="social-icon" href="/" target="_blank" title=""><i class="6"></i></a><a class="social-icon" href="/(" target="_blank" title=""><i class="7"></i></a><a class="social-icon" href="/%E6%90%9C" target="_blank" title=""><i class="8"></i></a><a class="social-icon" href="/%E7%B4%A2" target="_blank" title=""><i class="9"></i></a><a class="social-icon" href="/)" target="_blank" title=""><i class="10"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">喜欢一起研究逆向或者Pwn的可以加QQ群：1145528880</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PE%E5%A2%9E%E5%8A%A0%E8%8A%82%E5%AE%9E%E9%AA%8C-%E8%AE%A9%E8%AE%B0%E4%BA%8B%E6%9C%AC%E5%BC%B9%E8%AE%A1%E7%AE%97%E5%99%A8Shellcode"><span class="toc-number">1.</span> <span class="toc-text">PE增加节实验-让记事本弹计算器Shellcode</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E6%B7%BB%E5%8A%A0%E6%96%B0%E8%8A%82"><span class="toc-number">1.2.</span> <span class="toc-text">0x01 添加新节</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E8%8A%82%E6%95%B0%E9%87%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">修改节数量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%82%E8%A1%A8%E4%BD%8D%E7%BD%AE"><span class="toc-number">1.2.2.</span> <span class="toc-text">节表位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%96%B0%E8%8A%82%E8%A1%A8%E4%BF%A1%E6%81%AF"><span class="toc-number">1.2.3.</span> <span class="toc-text">添加新节表信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-%E6%B7%BB%E5%8A%A0%E5%BC%B9%E8%AE%A1%E7%AE%97%E5%99%A8Shellcode"><span class="toc-number">1.3.</span> <span class="toc-text">0x02 添加弹计算器Shellcode</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E4%BB%A3%E7%A0%81"><span class="toc-number">1.3.1.</span> <span class="toc-text">修改代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-%E4%BF%AE%E6%94%B9%E5%85%A5%E5%8F%A3%E7%82%B9"><span class="toc-number">1.4.</span> <span class="toc-text">0x03 修改入口点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E8%B7%B3%E8%BD%ACOEP%E5%81%8F%E7%A7%BB"><span class="toc-number">1.4.1.</span> <span class="toc-text">计算跳转OEP偏移</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-bug%E4%BF%AE%E5%A4%8D"><span class="toc-number">1.5.</span> <span class="toc-text">0x04 bug修复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05-%E9%AA%8C%E8%AF%81%E7%BB%93%E6%9E%9C"><span class="toc-number">1.6.</span> <span class="toc-text">0x05 验证结果</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By VxerLee</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
