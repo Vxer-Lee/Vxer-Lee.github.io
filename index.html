@@ -1,0 +1,880 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+  <meta name="author" content="VxerLee">
+  <meta name="keywords" content="">
+  <meta name="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lee&#39;s Blog">
+<meta property="og:url" content="https://vxer-lee.github.io/index.html">
+<meta property="og:site_name" content="Lee&#39;s Blog">
+<meta property="og:description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="VxerLee">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>Lee&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"vxer-lee.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="An elegant Material-Design theme for Hexo">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/12/10/PCRe/DuiLib_button/" target="_self">
+          DuiLib逆向分析の按钮事件定位
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/10/PCRe/DuiLib_button/" target="_self">
+          
+          
+            
+          
+          
+
+DuiLib逆向分析の按钮事件定位0x00 前言记录自己学习Duilib逆向分析的笔记。
+DuiLib介绍DuiLib官方介绍，Duilib是一个Windows下免费开源的DirectUI界面库，由于简约易扩展的设计以及稳定高效的实现被各大互联网公司普遍接受，广泛应用于包括IM、视频客户端、股票行情软件、导航软件、手机辅助软件、安全软件等多个行业的众多pc客户端软件。Duilib还在不断的发展
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-10 13:42" pubdate>
+              2021-12-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/DuiLib%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/">DuiLib逆向分析</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/12/08/AndroidRe/Java/" target="_self">
+          Java入门学习笔记
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/08/AndroidRe/Java/" target="_self">
+          
+          
+            
+          
+          
+
+Java入门学习笔记Java常量常量不同于常量值，它可以在程序中用符号来代替常量值使用，因此在使用前必须先定义。
+12345final dataType(数据类型) variableName(变量名) = value(值)//final        为定义常量的关键字//dataType     指明常量的数据类型//variableName 变量名称//value        初始化的值
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-08 13:42" pubdate>
+              2021-12-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Android%E9%80%86%E5%90%91/">Android逆向</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java%E5%85%A5%E9%97%A8/">Java入门</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/11/04/PCRe/PE_Notepad/" target="_self">
+          PE增加节实验-让记事本弹计算器Shellcode
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/11/04/PCRe/PE_Notepad/" target="_self">
+          
+          
+            
+          
+          
+
+
+PE增加节实验-让记事本弹计算器Shellcode0x00 前言在上一篇文章中介绍了PE节表的分析，这篇文章主要是对其进行手动实验来加深对节表的理解，并且这里用一个记事本的例子做演示，我们用Winhex软件通过修改、添加十六进制数据让记事本一启动就能弹出计算器。
+整体的思路是：给记事本添加一个节，节内添加弹计算器Shellcode十六进制+jmp到原OEP(程序入口点)，修改OEP指向-&g
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-11-04 13:42" pubdate>
+              2021-11-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/PE%E5%88%86%E6%9E%90/">PE分析</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/11/03/PCRe/PE_Section/" target="_self">
+          PE节表详细分析
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/11/03/PCRe/PE_Section/" target="_self">
+          
+          
+            
+          
+          
+
+
+PE节表详细分析0x00 前言上一篇文章我们学习了PE结构中的PE头，我之前说过PE文件结构是PE头-&gt;节表-&gt;每个节，所以我们掌握了节表后也就知道怎么去获取每个节了。（当然后面还有输入表，输出表这些比较重要的东西。这些知识在后面的文章详细介绍。）
+0x01 PE节表分析节表结构PE节表位于PE头的下面，PE节表中记录了各个节表的起始位置、大小，以及在内存中偏移位置和属性。
+其结
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-11-03 13:42" pubdate>
+              2021-11-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/PE%E5%88%86%E6%9E%90/">PE分析</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/11/02/PCRe/PE_Header/" target="_self">
+          PE头详细分析
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/11/02/PCRe/PE_Header/" target="_self">
+          
+          
+            
+          
+          
+
+
+0x00 前言最近我在学习Linux PWN相关知识的时候，也是在看《程序员的自我修养(装载-&gt;链接-&gt;库)》这本书的时候，接触到了可执行文件格式，COFF、ELF、PE，所以也找了Bilibili上海东老师的《滴水逆向三期》视频中的PE课程在学习，刚看完PE头这节课。在此做个笔记也算是整理学习的结果 并且分享给大家，共同学习，如有错误欢迎指正。
+0x01 PE文件介绍PE文件是
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-11-02 13:42" pubdate>
+              2021-11-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/PE%E5%88%86%E6%9E%90/">PE分析</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/18/PWN/PWN_ENV_SETUP/" target="_self">
+          PWN环境搭建
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/18/PWN/PWN_ENV_SETUP/" target="_self">
+          
+          
+            
+          
+          
+
+本教程主要参考PWN虚拟机配置、Linux Pwn入门教程—–环境配置 、星盟安全 PWN系列教程 PWN环境配置 。
+需要的工具或系统
+VMware16
+Kali
+
+如何安装VM虚拟机，虚拟机如何安装kali系统，这里就不再介绍，读者可自行通过搜索引擎查找相关资料，这里主要记录下kali安装相关pwn工具的过程。
+安装PWN工具pwntools （CTF库、漏洞利用库）1234#提前安装pi
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-18 14:01" pubdate>
+              2021-10-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">二进制安全</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/PWN%E5%AD%A6%E4%B9%A0/">PWN学习</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/16/PWN/PWN_Getting_Started_Guide/" target="_self">
+          PWN二进制漏洞学习指南
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/16/PWN/PWN_Getting_Started_Guide/" target="_self">
+          
+          
+            
+          
+          
+
+前言最近准备学PWN，所以买了《CTF权威指南(PWN)篇》的书粗略的看完后，在这里做个学PWN需要掌握的知识指南，如有补充欢迎评论。
+前置技能首先我觉得要学习PWN还是要有一定基础的，因为PWN毕竟是和系统底层知识打交道，所以我觉得应该具备如下的一些技能，并且我推荐了一些不错的书籍。
+
+Linux系统基础知识《鸟哥Linux私房菜》、《Linux就该这么学》、《Linux命令大全》
+Linu
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-16 11:17" pubdate>
+              2021-10-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/">二进制安全</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/PWN%E5%AD%A6%E4%B9%A0/">PWN学习</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/10/15/Coding/Python/Python_Learning_Summry/" target="_self">
+          Python入门学习总结
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/15/Coding/Python/Python_Learning_Summry/" target="_self">
+          
+          
+            
+          
+          
+
+前言由于有其他高级语言的开发经验，所以入门学起来就快很多，不用像初学那样详细的看，我根据《Python编程：从入门到实践（第2版）》做个简单笔记总结。
+安装安装就不记录了，傻瓜式的下载Python安装包，然后运行python来确定是否已经添加到环境变量、安装完毕，当然还要安装pip.
+ 
+数据类型Hello,World先来写个简单的Hello，World看看
+12msg = &quot;Hel
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-15 22:39" pubdate>
+              2021-10-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/programing/">编程开发</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Python/">Python</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/22/DoSASM/CallDetail/" target="_self">
+          CALL指令详解
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/09/22/DoSASM/CallDetail/" target="_self">
+          
+          
+            
+          
+          
+
+call和ret指令概述：call和ret指令都是转移指令，它们都修改IP，或同时修改CS和IP。他们经常被用来实现子程序(函数)的设计。
+ret和retfret指令ret指令：用栈中的数据，修改IP的内容，从而实现(近转移)；CPU执行ret指令时，需要进行下面两个步骤：
+相当于：pop IP
+
+(1) (IP) = ((ss)*16+(sp))
+(2) (SP)=(sp)+2retf指令r
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-22 19:18" pubdate>
+              2021-09-22
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%BB%91%E9%AD%94%E6%B3%95/">黑魔法</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/09/18/DoSASM/JmpAndHook/" target="_self">
+          转移指令原理和Inline Hook
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/09/18/DoSASM/JmpAndHook/" target="_self">
+          
+          
+            
+          
+          
+
+转移指令可以修改IP，或同时可以修改CS和IP的指令统称为：转移指令
+8086CPU的转移行为有以下几类：
+
+只修改IP时，称为段内转移，比如：jmp ax。
+同时修改CS和IP时，称为段间转移，比如：jmp 1000:0。
+
+由于转移指令对IP的修改范围不同，段内转移又分为：短转移和近转移。
+
+短转移IP的修改范围为-128~127(0xFF)
+近转移IP的修改范围为-32768~32767
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-09-18 21:13" pubdate>
+              2021-09-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%BB%91%E9%AD%94%E6%B3%95/">黑魔法</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

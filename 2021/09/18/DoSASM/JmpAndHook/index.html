@@ -1,0 +1,635 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+  <meta name="author" content="VxerLee">
+  <meta name="keywords" content="">
+  <meta name="description" content="转移指令可以修改IP，或同时可以修改CS和IP的指令统称为：转移指令 8086CPU的转移行为有以下几类：  只修改IP时，称为段内转移，比如：jmp ax。 同时修改CS和IP时，称为段间转移，比如：jmp 1000:0。  由于转移指令对IP的修改范围不同，段内转移又分为：短转移和近转移。  短转移IP的修改范围为-128~127(0xFF) 近转移IP的修改范围为-32768~32767">
+<meta property="og:type" content="article">
+<meta property="og:title" content="转移指令原理和Inline Hook">
+<meta property="og:url" content="https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/index.html">
+<meta property="og:site_name" content="Lee&#39;s Blog">
+<meta property="og:description" content="转移指令可以修改IP，或同时可以修改CS和IP的指令统称为：转移指令 8086CPU的转移行为有以下几类：  只修改IP时，称为段内转移，比如：jmp ax。 同时修改CS和IP时，称为段间转移，比如：jmp 1000:0。  由于转移指令对IP的修改范围不同，段内转移又分为：短转移和近转移。  短转移IP的修改范围为-128~127(0xFF) 近转移IP的修改范围为-32768~32767">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918143140531-2008352147.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918144623663-219091642.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918145107101-354257289.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918160641539-1461236271.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918161229851-1188553784.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918161736599-1281580491.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918170436048-1143709016.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918170703443-874850949.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918170737726-1528159212.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918172320244-2144817826.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918172653005-1631893331.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918203636137-886924868.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918203920782-2082657891.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918204106980-521533007.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918204134570-1795939212.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918205234237-1010668954.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918205537550-1594805525.png">
+<meta property="article:published_time" content="2021-09-18T13:13:08.000Z">
+<meta property="article:modified_time" content="2021-09-18T13:25:34.000Z">
+<meta property="article:author" content="VxerLee">
+<meta property="article:tag" content="黑魔法">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918143140531-2008352147.png">
+  
+  <title>转移指令原理和Inline Hook - Lee&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"vxer-lee.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="转移指令原理和Inline Hook">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-09-18 21:13" pubdate>
+        2021年9月18日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      undefined 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      NaN 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">转移指令原理和Inline Hook</h1>
+            
+            <div class="markdown-body">
+              <meta name="referrer" content="no-referrer"/>
+
+<h2 id="转移指令"><a href="#转移指令" class="headerlink" title="转移指令"></a>转移指令</h2><p><code>可以修改IP，或同时可以修改CS和IP的指令统称为：转移指令</code></p>
+<p><code>8086CPU</code>的<code>转移行为</code>有以下几类：</p>
+<ul>
+<li>只修改IP时，称为段内转移，比如：jmp ax。</li>
+<li>同时修改CS和IP时，称为段间转移，比如：jmp 1000:0。</li>
+</ul>
+<p>由于转移指令对<code>IP的修改范围</code>不同，段内转移又分为：短转移和近转移。</p>
+<ul>
+<li>短转移IP的修改范围为-128~127(0xFF)</li>
+<li>近转移IP的修改范围为-32768~32767(0xFFFF)</li>
+</ul>
+<p><code>8086CPU</code>的<code>转移指令</code>分为以下几类：</p>
+<ul>
+<li>无条件转移指令（jmp）</li>
+<li>条件转移指令（jnz jz..）</li>
+<li>循环指令（loop）</li>
+<li>过程</li>
+<li>中断（int）</li>
+</ul>
+<h2 id="操作符offset"><a href="#操作符offset" class="headerlink" title="操作符offset"></a>操作符offset</h2><p>操作符offset是伪指令，在汇编语言中由编译器处理的符号，它的功能是<code>取得标号的偏移地址</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918143140531-2008352147.png" srcset="/img/loading.gif" lazyload alt="image-20210918143138015"> </p>
+<h2 id="jmp指令"><a href="#jmp指令" class="headerlink" title="jmp指令"></a>jmp指令</h2><p>jmp为无条件转移指令，可以只修改IP，也可以同时修改CS和IP。</p>
+<p>jmp指令要给出两种信息：</p>
+<ul>
+<li>(1) 转移的目的地址</li>
+<li>(2) 转移的距离（段间转移、段内短转移、段内近转移）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jmp short 标号</span><br><span class="line">jmp near ptr 标号</span><br><span class="line">jcxz 标号</span><br><span class="line">loop 标号 等几种汇编指令，它们对 IP的修改是根据转移目的地址和转移起始地址之间的位移来进行的。在它们对应的机器码中不包含转移的目的地址，而包含的是到目的地址的位移距离。</span><br></pre></td></tr></table></figure>
+
+<h2 id="根据位移进行转移的jmp指令"><a href="#根据位移进行转移的jmp指令" class="headerlink" title="根据位移进行转移的jmp指令"></a>根据位移进行转移的jmp指令</h2><p><code>jmp short 标号</code>（段内短转移）</p>
+<p>指令“<code>jmp short 标号</code>”的功能为<code>(IP)=(IP)+8位位移</code>，转到标号处执行指令</p>
+<ul>
+<li>8位位移 = “标号”处的地址 - jmp指令后的第一个字节的地址；</li>
+<li>short指明此处的位移为8位位移动；</li>
+<li>8位位移的范围为(-128~127)，用补码表示。  也就是最大一个字节(0xFF)</li>
+<li>8位位移由编译程序在编译时算出</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918144623663-219091642.png" srcset="/img/loading.gif" lazyload alt="image-20210918144622021"> </p>
+<p>编译后标号被翻译成了位移。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918145107101-354257289.png" srcset="/img/loading.gif" lazyload alt="image-20210918145105557"> </p>
+<p>CPU不需要这个目的地址就可以实现对IP的修改。这里是依据位移进行转移。</p>
+<p>jmp short s指令的读取和执行过程如下：</p>
+<ul>
+<li>(1) (CS)=076C,(IP)=0000，执行完<code>mov ax,0</code>后CS:IP指向了<code>EB 03</code>(jmp short s机器码)；</li>
+<li>(2) 读取指令码<code>EB 03</code>进入指令缓冲器；</li>
+<li>(3) (IP) = (IP) + 所读取指令的长度 = (IP) + 2 = 5，CS:IP指向了add ax,1；</li>
+<li>(4) CPU执行指令缓冲器中的指令<code>EB 03</code>；</li>
+<li>(5) 指令执行后<code>IP+位移</code>=(IP) + 3 = 8，CS:IP(076C:0008) 指向-&gt;inc ax</li>
+</ul>
+<h2 id="插播HOOK知识"><a href="#插播HOOK知识" class="headerlink" title="插播HOOK知识"></a>插播HOOK知识</h2><p>这里插播点<code>X86</code>平台下的hook知识，看到这里我们已经知道了我们可以通过修改ip的方式来让代码跳到想要的地方执行代码。</p>
+<h3 id="Inline-Hook"><a href="#Inline-Hook" class="headerlink" title="Inline Hook"></a>Inline Hook</h3><p>inline hook是一种通过修改机器码的方式来实现hook的技术。</p>
+<p>在没有学汇编知识前，我们可能对Hook这种技术感到很深奥，觉得这简直是一种黑魔法，凭什么他就能把正常函数替换成我们自己的假函数。</p>
+<h3 id="Inline-Hook-原理"><a href="#Inline-Hook-原理" class="headerlink" title="Inline Hook 原理"></a>Inline Hook 原理</h3><p>当我们学习了王爽老师的汇编知识后，才明白原来在底层，CPU是根据ip寄存器来控制我们要执行的指令处的。</p>
+<p>而学习了《王爽汇编第9章转移指令的原理》后，了解了可以通过jmp指令来修改ip寄存器，目前我们已经学习了短转移的使用，这已经足够用来学HOOK了。 </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918160641539-1461236271.png" srcset="/img/loading.gif" lazyload alt="image-20210918160639667"> </p>
+<p>打开OD载入程序，然后找到执行demo函数的汇编代码处，再利用我们今天刚学的短转移知识进行机器码的修改。</p>
+<p>首先经过单步调试后，我找到了执行demo函数处的位置，我们先记下他下条指令的地址<code>0x00481885</code>。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918161229851-1188553784.png" srcset="/img/loading.gif" lazyload alt="image-20210918161228301"> </p>
+<p>接着我们需要找到<code>标号</code>处，也就是<code>fake_demo</code>函数处，也记下地址<code>0x004817D0</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918161736599-1281580491.png" srcset="/img/loading.gif" lazyload alt="image-20210918161734983"> </p>
+<p>好了，最后的步骤就是改机器码，根据公式计算出位移：<code>-181(0xFFFFFF4B)</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918170436048-1143709016.png" srcset="/img/loading.gif" lazyload alt="image-20210918170433891"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918170703443-874850949.png" srcset="/img/loading.gif" lazyload alt="image-20210918170702265"> </p>
+<p>最后来执行一遍：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918170737726-1528159212.png" srcset="/img/loading.gif" lazyload alt="image-20210918170736257"> </p>
+<h3 id="Hook代码开发"><a href="#Hook代码开发" class="headerlink" title="Hook代码开发"></a>Hook代码开发</h3><p>在了解了Hook原理后，甚至我们用手动方式实现了HOOK后，就有了思路来代码开发了。</p>
+<p>在此之前让我们先来认识两个函数<code>WriteProcessMemory</code>、<code>VirtualProtect</code></p>
+<ul>
+<li>WriteProcessMemory函数可以对进程的内存进行写入，这样我们就可以修改，写入机器码了。</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918172320244-2144817826.png" srcset="/img/loading.gif" lazyload alt="image-20210918172319045"> </p>
+<ul>
+<li>VirtualProtect函数可以更改虚拟内存中的访问保护，在Win32中代码段具有写保护，所以我们无法直接写入，可以利用此函数修改保护后再调用WriteProcessMemory修改和写入机器码。</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918172653005-1631893331.png" srcset="/img/loading.gif" lazyload alt="image-20210918172651511"> </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*************************************************</span></span><br><span class="line"><span class="comment"> *功能：内联HOOK 函数，可以劫持函数的原本流程</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *函数名：InlineHook</span></span><br><span class="line"><span class="comment"> *参数：(原函数地址)、(fake函数地址)</span></span><br><span class="line"><span class="comment"> *by: 《王爽汇编笔记》</span></span><br><span class="line"><span class="comment"> ************************************************/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InlineHook</span><span class="params">(DWORD dwHookAddr, LPVOID pFunAddr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    BYTE jmpCode[<span class="number">5</span>] = &#123;<span class="number">0xE9</span>&#125;;</span><br><span class="line">    <span class="comment">//计算偏移</span></span><br><span class="line">    *(DWORD*)(&amp;jmpCode[<span class="number">1</span>]) = (DWORD)pFunAddr - dwHookAddr - <span class="number">5</span>;</span><br><span class="line">    <span class="comment">// 保存以前的属性用于还原</span></span><br><span class="line">    DWORD OldProtext = <span class="number">0</span>;</span><br><span class="line">    DWORD dwWritten;</span><br><span class="line">    <span class="comment">// 因为要往代码段写入数据，又因为代码段是不可写的，所以需要修改属性</span></span><br><span class="line">    <span class="built_in">VirtualProtect</span>((LPVOID)dwHookAddr, <span class="number">5</span>, PAGE_EXECUTE_READWRITE, &amp;OldProtext);</span><br><span class="line">    <span class="built_in">WriteProcessMemory</span>(<span class="built_in">GetCurrentProcess</span>(), (FARPROC)dwHookAddr, jmpCode, <span class="number">5</span>, &amp;dwWritten);</span><br><span class="line">    <span class="built_in">VirtualProtect</span>((LPVOID)dwHookAddr, <span class="number">5</span>, OldProtext, &amp;OldProtext);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//故意让程序暂停</span></span><br><span class="line">    <span class="built_in">getchar</span>();</span><br><span class="line">    <span class="comment">//执行函数</span></span><br><span class="line">    <span class="built_in">InlineHook</span>((DWORD)&amp;demo, &amp;fake_demo);</span><br><span class="line">    <span class="built_in">demo</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="转移的目的地址在指令中的jmp指令"><a href="#转移的目的地址在指令中的jmp指令" class="headerlink" title="转移的目的地址在指令中的jmp指令"></a>转移的目的地址在指令中的jmp指令</h2><p><code>jmp far ptr 标号</code>(远转移、段间转移)</p>
+<ul>
+<li>(CS) = 标号所在段的段地址;</li>
+<li>(IP) = 标号所在段中的偏移地址。</li>
+<li>far ptr 指明了指令用标号的<code>段地址 和 偏移地址</code>修改 <code>CS和IP</code>。</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918203636137-886924868.png" srcset="/img/loading.gif" lazyload alt="image-20210918203632593"> </p>
+<p>在<code>Win32</code>中的<code>远转移</code>可以跳到其他DLL的空间，其中关键的机器码是<code>0xFF25</code> + 目标地址</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918203920782-2082657891.png" srcset="/img/loading.gif" lazyload alt="image-20210918203919798">  </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918204106980-521533007.png" srcset="/img/loading.gif" lazyload alt="image-20210918204105999"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918204134570-1795939212.png" srcset="/img/loading.gif" lazyload alt="image-20210918204133578"> </p>
+<h2 id="转移地址在寄存器或内存中的jmp指令"><a href="#转移地址在寄存器或内存中的jmp指令" class="headerlink" title="转移地址在寄存器或内存中的jmp指令"></a>转移地址在寄存器或内存中的jmp指令</h2><p><code>jmp 16位寄存器</code>功能：<code>IP=(16位寄存器)[段内转移]</code></p>
+<p>转移地址在内存中的jmp指令有两周格式：</p>
+<ul>
+<li>jmp word ptr […] (段内转移)</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918205234237-1010668954.png" srcset="/img/loading.gif" lazyload alt="image-20210918205233143"> </p>
+<ul>
+<li>jmp dword ptr […] (段间转移)</li>
+</ul>
+<p>功能：从内存单元地址处开始存放着两个字，<code>高地址</code>出的字是转移目的<code>段地址</code>，<code>低地址</code>处是转移目的<code>偏移地址</code>。</p>
+<p>1：(CS) = (内存单元地址+2)</p>
+<p>2：(IP) = (内存单元地址)</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918205537550-1594805525.png" srcset="/img/loading.gif" lazyload alt="image-20210918205536587"> </p>
+<h2 id="jcxz指令和loop指令"><a href="#jcxz指令和loop指令" class="headerlink" title="jcxz指令和loop指令"></a>jcxz指令和loop指令</h2><h3 id="jcxz指令"><a href="#jcxz指令" class="headerlink" title="jcxz指令"></a>jcxz指令</h3><p>jcxz指令为有条件转移指令，所有的有条件转移指令都是短转移，在对应的机器码中包含转移的<code>位移</code>，<code>而不是目的地址</code>。对IP的修改范围都为-128~127(0xff)。</p>
+<p>指令格式：jcxz <code>标号</code> (如果<code>cx=0</code>,则转移到标号处执行。)</p>
+<p>当(cx) = 0时，(IP) = (IP) + 8位位移</p>
+<ul>
+<li>8位位移 = “标号” 处的地址 - jcxz指令后的第一个字节的地址；</li>
+<li>8位位移的范围为-128~127，用补码表示；</li>
+<li>8位位移由编译程序在编译时算出。</li>
+</ul>
+<p>当(cx)!=0时，程序向下执行什么都不做！</p>
+<h3 id="loop指令"><a href="#loop指令" class="headerlink" title="loop指令"></a>loop指令</h3><p>loop指令为循环指令，所有的循环指令都是短转移，在对应的机器码中包含转移的<code>位移</code>，而不是目的地址。</p>
+<p>对IP的修改范围都为-128~127(0xFF)。</p>
+<p>指令格式：loop <code>标号</code> ((cx) = (cx) - 1，如果<code>(cx) ≠ 0</code>，转移到标号处执行)。</p>
+<p>(cx) = (cx) - 1；如果 (cx) != 0，(IP) = (IP) + 8位位移。</p>
+<ul>
+<li>8位位移 = “”标号””处的地址 - loop指令后的第一个字节的地址；</li>
+<li>8位位移的范围为-128~127，用补码表示；</li>
+<li>8位位移由编译程序在编译时算出。</li>
+</ul>
+<p>如果（cx）= 0，什么也不做（程序向下执行）。</p>
+<h2 id="几种跳转指令和对应的机器码"><a href="#几种跳转指令和对应的机器码" class="headerlink" title="几种跳转指令和对应的机器码"></a>几种跳转指令和对应的机器码</h2><p>注：(Win32 x86架构下)</p>
+<table>
+<thead>
+<tr>
+<th>机器码</th>
+<th>指令</th>
+<th align="center">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0xE8</td>
+<td>CALL</td>
+<td align="center">后面的四个字节是地址 (近转移)</td>
+</tr>
+<tr>
+<td>0xE9</td>
+<td>JMP</td>
+<td align="center">后面的四个字节是偏移 (近转移)</td>
+</tr>
+<tr>
+<td>0xEB</td>
+<td>JMP</td>
+<td align="center">后面的二个字节是偏移 (近转移 8086)</td>
+</tr>
+<tr>
+<td>0xFF15</td>
+<td>CALL</td>
+<td align="center">后面的四个字节是存放地址的地址 (远转移)</td>
+</tr>
+<tr>
+<td>0xFF25</td>
+<td>JMP</td>
+<td align="center">后面的四个字节是存放地址的地址 (远转移)</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>PUSH</td>
+<td align="center">后面的四个字节入栈</td>
+</tr>
+<tr>
+<td>0x6A</td>
+<td>PUSH</td>
+<td align="center">后面的一个字节入栈</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>参考文献：<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Archimedes/p/14823218.html">https://www.cnblogs.com/Archimedes/p/14823218.html</a> inline hook原理和实现<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/wzsy/article/details/17163589">https://blog.csdn.net/wzsy/article/details/17163589</a> 几种跳转指令和对应的机器码<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39654127/article/details/88698911">https://blog.csdn.net/qq_39654127/article/details/88698911</a> 王爽《汇编语言》笔记（详细）<br>《王爽汇编第四版 第9章》</p>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%BB%91%E9%AD%94%E6%B3%95/">黑魔法</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/09/22/DoSASM/CallDetail/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CALL指令详解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/09/15/DoSASM/Register/">
+                        <span class="hidden-mobile">汇编寄存器知识详解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,708 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="喜欢逆向破解，漏洞挖掘、Web渗透，梦想着成为Mr. Robot">
+  <meta name="author" content="VxerLee">
+  <meta name="keywords" content="">
+  <meta name="description" content="call和ret指令概述：call和ret指令都是转移指令，它们都修改IP，或同时修改CS和IP。他们经常被用来实现子程序(函数)的设计。 ret和retfret指令ret指令：用栈中的数据，修改IP的内容，从而实现(近转移)；CPU执行ret指令时，需要进行下面两个步骤： 相当于：pop IP  (1) (IP) &#x3D; ((ss)*16+(sp)) (2) (SP)&#x3D;(sp)+2retf指令r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CALL指令详解">
+<meta property="og:url" content="https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/index.html">
+<meta property="og:site_name" content="Lee&#39;s Blog">
+<meta property="og:description" content="call和ret指令概述：call和ret指令都是转移指令，它们都修改IP，或同时修改CS和IP。他们经常被用来实现子程序(函数)的设计。 ret和retfret指令ret指令：用栈中的数据，修改IP的内容，从而实现(近转移)；CPU执行ret指令时，需要进行下面两个步骤： 相当于：pop IP  (1) (IP) &#x3D; ((ss)*16+(sp)) (2) (SP)&#x3D;(sp)+2retf指令r">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922191210226-1672149662.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210921185015534-846887787.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210921185802601-1064316223.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922110351902-799470557.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922165550633-717733755.jpg">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922170402346-103598367.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922182431178-692842958.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922183236795-1429433559.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922190829064-1785248816.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922190849866-832177354.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922190917233-1739319645.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922174223474-1634946666.jpg">
+<meta property="article:published_time" content="2021-09-22T11:18:01.000Z">
+<meta property="article:modified_time" content="2021-09-22T11:43:45.000Z">
+<meta property="article:author" content="VxerLee">
+<meta property="article:tag" content="黑魔法">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922191210226-1672149662.png">
+  
+  <title>CALL指令详解 - Lee&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"vxer-lee.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="CALL指令详解">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-09-22 19:18" pubdate>
+        2021年9月22日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      undefined 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      NaN 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CALL指令详解</h1>
+            
+            <div class="markdown-body">
+              <meta name="referrer" content="no-referrer"/>
+
+<h2 id="call和ret指令概述："><a href="#call和ret指令概述：" class="headerlink" title="call和ret指令概述："></a>call和ret指令概述：</h2><p><code>call</code>和<code>ret</code>指令都是转移指令，它们都修改IP，或同时修改CS和IP。他们经常被用来实现子程序(函数)的设计。</p>
+<h2 id="ret和retf"><a href="#ret和retf" class="headerlink" title="ret和retf"></a>ret和retf</h2><h3 id="ret指令"><a href="#ret指令" class="headerlink" title="ret指令"></a>ret指令</h3><p><code>ret</code>指令：用栈中的数据，修改IP的内容，从而实现(<code>近转移</code>)；<br>CPU执行ret指令时，需要进行下面两个步骤：</p>
+<p>相当于：<code>pop IP</code></p>
+<ul>
+<li>(1) (IP) = ((ss)*16+(sp))</li>
+<li>(2) (SP)=(sp)+2<h3 id="retf指令"><a href="#retf指令" class="headerlink" title="retf指令"></a>retf指令</h3><code>retf</code>指令：用栈中的数据，修改CS和IP的内容，从而实现(``远转移`)。</li>
+</ul>
+<p>CPU执行retf指令时，需要进行下面四个步骤</p>
+<p>相当于：<code>pop CS,pop IP</code></p>
+<ul>
+<li>(1) (IP) = ((ss)*16+(sp))</li>
+<li>(2) (SP) = (sp)+2</li>
+<li>(3) (CS) = ((ss)*16+(sp))</li>
+<li>(4) (SP) = (sp)+2  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">;************************************</span><br><span class="line">;            ret指令实验             *          </span><br><span class="line">;************************************</span><br><span class="line">assume cs:code,ss:stack</span><br><span class="line"></span><br><span class="line">;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br><span class="line">;堆栈段</span><br><span class="line">;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br><span class="line">stack segment</span><br><span class="line">	db 16 dup(0)</span><br><span class="line">stack ends</span><br><span class="line"></span><br><span class="line">;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br><span class="line">;代码段</span><br><span class="line">;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br><span class="line">code segment</span><br><span class="line">		  mov ax,4c00h</span><br><span class="line">		  int 21h;退出到DOS</span><br><span class="line">main:;程序入口</span><br><span class="line">	    mov ax,stack</span><br><span class="line">	    mov ss,ax   ;关联堆栈段</span><br><span class="line">	    mov sp,16   ;设置栈顶</span><br><span class="line">	    mov ax,0</span><br><span class="line">	    push ax     ;压栈</span><br><span class="line">      ret         ;pop ip, -&gt;cs:ip cs:0 ,让程序跳到入口处上面</span><br><span class="line">code ends</span><br><span class="line">end main</span><br></pre></td></tr></table></figure>
+<h3 id="call-和-ret-的配合使用"><a href="#call-和-ret-的配合使用" class="headerlink" title="call 和 ret 的配合使用"></a>call 和 ret 的配合使用</h3><p>call 与 ret 指令共同支持了汇编语言编程中的模块化设计</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922191210226-1672149662.png" srcset="/img/loading.gif" lazyload alt="image-20210922191207275"> </p>
+<h2 id="call指令详解"><a href="#call指令详解" class="headerlink" title="call指令详解"></a>call指令详解</h2><p>在X86架构下：call基本都是调用一个函数,比如调用<code>MessageBox</code>，在汇编中就会写成<code>Call MessageBox</code>，并且<code>call</code>经常和<code>ret</code>搭配使用，下面我们来说说call的原理。</p>
+<h3 id="call原理"><a href="#call原理" class="headerlink" title="call原理"></a>call原理</h3><p>CPU执行call指令时，会进行如下两个步骤：</p>
+<ul>
+<li>(1) 将当前的IP或者CS:IP压入栈中；</li>
+<li>(2) 转移指令(jmp)</li>
+</ul>
+<p>我们这里先来看看<code>x86</code>架构下EXE执行call的流程。</p>
+<ol>
+<li>用<code>x32dbg</code>打开<code>HelloWorld.exe</code>，然后反汇编视图如下：<br>此时我们还没执行Call，然后我们先记一下Call下条指令的地址<code>0x0040107C</code>，然后接着第2步骤按<code>F7</code>进入到call内部，然后此时注意观察堆栈的信息。</li>
+</ol>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210921185015534-846887787.png" srcset="/img/loading.gif" lazyload alt="image-20210921185014473"> </p>
+<ol start="2">
+<li>我们按<code>F7</code>进入到call内容。<br>第一步里面我们记下来的<code>0x0040107C</code>地址，被push到了堆栈里面，并且<code>jmp</code>到了函数的地址<code>00401000</code>，所以验证了之前CPU执行call指令会有两个步骤(push ip，并且jmp 到call 函数的地址)。</li>
+</ol>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210921185802601-1064316223.png" srcset="/img/loading.gif" lazyload alt="image-20210921185801800"> </p>
+<h3 id="call指令所有写法"><a href="#call指令所有写法" class="headerlink" title="call指令所有写法"></a>call指令所有写法</h3><p><code>8086</code>CPU架构中：</p>
+<ul>
+<li>call 标号（近转移）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">push ip</span><br><span class="line">jmp near ptr 标号</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>call far ptr 标号（段间转移）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">push cs</span><br><span class="line">push ip</span><br><span class="line">jmp fat ptr 标号</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>call 16位寄存器</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">push ip</span><br><span class="line">jmp ax</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>call word ptr 内存单元地址</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mov ax, 0123h</span><br><span class="line">mov ds:[0],ax</span><br><span class="line">call word ptr ds:[0]</span><br><span class="line">;等于</span><br><span class="line">push ip</span><br><span class="line">jmp word ptr ds:[0]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>call dword ptr 内存单元地址</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mov ds:[0],ax</span><br><span class="line">mov word ptr ds:[2],0</span><br><span class="line">call dword ptr ds:[0]</span><br><span class="line">;等于 cs:ip 0:0123h</span><br><span class="line">push cs</span><br><span class="line">push ip</span><br><span class="line">jmp dword ptr ds:[0]</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>X86</code>CPU架构中：</p>
+<p>先来看一张<code>Intel X86架构手册</code>的图片。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922110351902-799470557.png" srcset="/img/loading.gif" lazyload alt="CALL指令有多少种写法"> </p>
+<ul>
+<li><p>E8 cw(w表示word的意思|代表后面要跟两个字节)   - 近转移 位移</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">!注意! CPU在实模式下，0xE8才接受2字节操作数</span><br><span class="line">0xE8 0x04 0x00  call 标号 偏移:0x04</span><br></pre></td></tr></table></figure></li>
+<li><p>E8 cd(d表示dword的意思)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在保护式下，0xE8接受4字节操作数</span><br><span class="line">0xE8 0x04 0x03 0x02 0x01  call 偏移:0x01234</span><br></pre></td></tr></table></figure></li>
+<li><p>FF /2 (r/m32)<br>FF /2，是 0xFF 后面跟着一个 /digit 表示的东西。如下图 2 对应的就是DL带头的那一列，标红的这32个值代表了32种寻址方式。</p>
+</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922165550633-717733755.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">;call的是取寄存器地址的值</span><br><span class="line">FF 10 call dword ptr [eax]</span><br><span class="line">FF 11 call dword ptr [ecx]</span><br><span class="line">FF 12 call dword ptr [edx]</span><br><span class="line">FF 13 call dword ptr [ebx]</span><br><span class="line">;call的是寄存器的值</span><br><span class="line">FF D0 call eax</span><br><span class="line">FF D1 call ecx</span><br><span class="line">FF D2 call edx </span><br><span class="line">FF D3 call ebx</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922170402346-103598367.png" srcset="/img/loading.gif" lazyload alt="image-20210922170402158"> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FF 15 [地址] 常见于调用Windows的导出表比如:</span><br><span class="line">call dword ptr ds:[&lt;&amp;CreateFileA&gt;]</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922182431178-692842958.png" srcset="/img/loading.gif" lazyload alt="image-20210922182431058"> </p>
+<ul>
+<li>FF /2 (r/m64)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">同32位，只是寄存器和地址都是64位的</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>9A cd(d表示dword的意思)  – call far ptr 标号(段间转移)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">类似8086中的call far ptr</span><br><span class="line">9A xx xx xx xx xx xx</span><br><span class="line">其中最后两个xx xx &#x3D; 段地址</span><br><span class="line">9A后面4个xx       &#x3D; 要call的地址</span><br><span class="line"></span><br><span class="line">push cs</span><br><span class="line">push eip</span><br><span class="line">jmp xx xx xx xx</span><br></pre></td></tr></table></figure>
+<p>执行<code>call far ptr 标号</code>前的数据</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922183236795-1429433559.png" srcset="/img/loading.gif" lazyload alt="image-20210922183236402"> </p>
+<p>跟入call后的数据，注意堆栈的内容。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922190829064-1785248816.png" srcset="/img/loading.gif" lazyload alt="image-20210922190825113"> </p>
+<p>执行ret后</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922190849866-832177354.png" srcset="/img/loading.gif" lazyload alt="image-20210922190846909"> </p>
+<p>返回到了call调用处</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922190917233-1739319645.png" srcset="/img/loading.gif" lazyload alt="image-20210922190914295"> </p>
+<h3 id="call-指令大全图表"><a href="#call-指令大全图表" class="headerlink" title="call 指令大全图表"></a>call 指令大全图表</h3><p>表格</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>二进制格式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>call rel32</td>
+<td>E8 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EAX]</td>
+<td>FF 10</td>
+</tr>
+<tr>
+<td>call dword ptr [ECX]</td>
+<td>FF 11</td>
+</tr>
+<tr>
+<td>call dword ptr [edx]</td>
+<td>FF 12</td>
+</tr>
+<tr>
+<td>call dword ptr [ebx]</td>
+<td>FF 13</td>
+</tr>
+<tr>
+<td>call dword ptr [REG * SCALE+BASE]</td>
+<td>FF 14 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [Address]</td>
+<td>FF 15 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [ESI]</td>
+<td>FF 16</td>
+</tr>
+<tr>
+<td>call dword ptr [EDI]</td>
+<td>FF 17</td>
+</tr>
+<tr>
+<td>call dword ptr [EAX+xx]</td>
+<td>FF 50 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [ECX+xx]</td>
+<td>FF 51 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EDX+xx]</td>
+<td>FF 52 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EBX+xx]</td>
+<td>FF 53 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [REG*SCALE+BASE+offset8]</td>
+<td>FF 54 xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EBP+xx]</td>
+<td>FF 55 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [ESI+xx]</td>
+<td>FF 56 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EDI+xx]</td>
+<td>FF 57 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EAX+xxxxxxxx]</td>
+<td>FF 90 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [ECX+xxxxxxxx]</td>
+<td>FF 91 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EDX+xxxxxxxx]</td>
+<td>FF 92 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EBX+xxxxxxxx]</td>
+<td>FF 93 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [REG*SCALE+BASE+offset32]</td>
+<td>FF 94 xx xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EBP+xxxxxxxx]</td>
+<td>FF 95 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [ESI+xxxxxxxx]</td>
+<td>FF 96 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EDI+xxxxxxxx]</td>
+<td>FF 97 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call eax</td>
+<td>FF D0</td>
+</tr>
+<tr>
+<td>call ecx</td>
+<td>FF D1</td>
+</tr>
+<tr>
+<td>call edx</td>
+<td>FF D2</td>
+</tr>
+<tr>
+<td>call ebx</td>
+<td>FF D3</td>
+</tr>
+<tr>
+<td>call esp</td>
+<td>FF D4</td>
+</tr>
+<tr>
+<td>call ebp</td>
+<td>FF D5</td>
+</tr>
+<tr>
+<td>call esi</td>
+<td>FF D6</td>
+</tr>
+<tr>
+<td>call edi</td>
+<td>FF D7</td>
+</tr>
+<tr>
+<td>call FAR seg16:Address</td>
+<td>9A xx xx xx xx xx xx</td>
+</tr>
+</tbody></table>
+<p>图</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922174223474-1634946666.jpg" srcset="/img/loading.gif" lazyload alt="1"> </p>
+<blockquote>
+<p>参考资料：<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/68588184">https://zhuanlan.zhihu.com/p/68588184</a> CALL指令有多少种写法<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39654127/article/details/88698911">https://blog.csdn.net/qq_39654127/article/details/88698911</a> 王爽《汇编语言》笔记（详细）</p>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%BB%91%E9%AD%94%E6%B3%95/">黑魔法</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/15/Coding/Python/Python_Learning_Summry/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Python入门学习总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/09/18/DoSASM/JmpAndHook/">
+                        <span class="hidden-mobile">转移指令原理和Inline Hook</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
