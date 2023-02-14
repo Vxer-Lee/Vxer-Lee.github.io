@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="DuiLib逆向分析の按钮事件定位0x00 前言记录自己学习Duilib逆向分析的笔记。 DuiLib介绍DuiLib官方介绍，Duilib是一个Windows下免费开源的DirectUI界面库，由于简约易扩展的设计以及稳定高效的实现被各大互联网公司普遍接受，广泛应用于包括IM、视频客户端、股票行情软件、导航软件、手机辅助软件、安全软件等多个行业的众多pc客户端软件。Duilib还在不断的发展">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DuiLib逆向分析の按钮事件定位">
+<meta property="og:url" content="https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/index.html">
+<meta property="og:site_name" content="Lee&#39;s Blog">
+<meta property="og:description" content="DuiLib逆向分析の按钮事件定位0x00 前言记录自己学习Duilib逆向分析的笔记。 DuiLib介绍DuiLib官方介绍，Duilib是一个Windows下免费开源的DirectUI界面库，由于简约易扩展的设计以及稳定高效的实现被各大互联网公司普遍接受，广泛应用于包括IM、视频客户端、股票行情软件、导航软件、手机辅助软件、安全软件等多个行业的众多pc客户端软件。Duilib还在不断的发展">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210141429835-1880371262.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210142047258-1266196039.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210150307096-40501924.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210150422152-1875008819.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210150542608-997763333.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210150711285-86632842.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210150806747-562352170.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210151444680-2028183859.png">
+<meta property="article:published_time" content="2021-12-10T05:42:08.000Z">
+<meta property="article:modified_time" content="2021-12-10T07:25:04.927Z">
+<meta property="article:author" content="VxerLee">
+<meta property="article:tag" content="DuiLib逆向分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210141429835-1880371262.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>DuiLib逆向分析の按钮事件定位</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2021/12/08/AndroidRe/Java/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&text=DuiLib逆向分析の按钮事件定位"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&title=DuiLib逆向分析の按钮事件定位"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&is_video=false&description=DuiLib逆向分析の按钮事件定位"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DuiLib逆向分析の按钮事件定位&body=Check out this article: https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&title=DuiLib逆向分析の按钮事件定位"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&title=DuiLib逆向分析の按钮事件定位"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&title=DuiLib逆向分析の按钮事件定位"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&title=DuiLib逆向分析の按钮事件定位"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&name=DuiLib逆向分析の按钮事件定位&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&t=DuiLib逆向分析の按钮事件定位"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DuiLib%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E3%81%AE%E6%8C%89%E9%92%AE%E4%BA%8B%E4%BB%B6%E5%AE%9A%E4%BD%8D"><span class="toc-number">1.</span> <span class="toc-text">DuiLib逆向分析の按钮事件定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-%E5%89%8D%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DuiLib%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.</span> <span class="toc-text">DuiLib介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DuiLib%E5%AE%89%E8%A3%85"><span class="toc-number">4.</span> <span class="toc-text">DuiLib安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DuiLib-Hello-World"><span class="toc-number">5.</span> <span class="toc-text">DuiLib Hello,World!</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Duilib%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E4%B9%8B%E5%AE%9A%E4%BD%8D%E6%8C%89%E9%92%AE%E4%BA%8B%E4%BB%B6"><span class="toc-number">6.</span> <span class="toc-text">Duilib逆向分析之定位按钮事件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A2%8E%E7%A2%8E%E5%BF%B5"><span class="toc-number">6.1.</span> <span class="toc-text">碎碎念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E8%8E%B7%E5%8F%96xml%E5%B8%83%E5%B1%80%E6%96%87%E4%BB%B6"><span class="toc-number">6.2.</span> <span class="toc-text">第一步：获取xml布局文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E6%8C%89%E9%92%AE%E4%BA%8B%E4%BB%B6%E5%88%86%E9%87%91%E7%82%B9%E7%A9%B4"><span class="toc-number">6.3.</span> <span class="toc-text">第二步：按钮事件分金点穴</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%86%E5%90%91%E3%80%81PWN%E5%AD%A6%E4%B9%A0%E4%BA%A4%E6%B5%81"><span class="toc-number">7.</span> <span class="toc-text">逆向、PWN学习交流</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        DuiLib逆向分析の按钮事件定位
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">VxerLee</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-12-10T05:42:08.000Z" itemprop="datePublished">2021-12-10</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/DuiLib%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/" rel="tag">DuiLib逆向分析</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <meta name="referrer" content="no-referrer"/>
+
+<h2 id="DuiLib逆向分析の按钮事件定位"><a href="#DuiLib逆向分析の按钮事件定位" class="headerlink" title="DuiLib逆向分析の按钮事件定位"></a>DuiLib逆向分析の按钮事件定位</h2><h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>记录自己学习Duilib逆向分析的笔记。</p>
+<h2 id="DuiLib介绍"><a href="#DuiLib介绍" class="headerlink" title="DuiLib介绍"></a>DuiLib介绍</h2><p><a target="_blank" rel="noopener" href="https://github.com/duilib/duilib/blob/master/README.md">DuiLib官方介绍</a>，Duilib是一个Windows下免费开源的DirectUI界面库，由于简约易扩展的设计以及稳定高效的实现被各大互联网公司普遍接受，广泛应用于包括IM、视频客户端、股票行情软件、导航软件、手机辅助软件、安全软件等多个行业的众多pc客户端软件。Duilib还在不断的发展中，在文档、例子、动画、渲染引擎等多个方面将持续改进。</p>
+<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/directui">DirectUI介绍</a>，直接在父窗口上绘图，构建易于扩展的界面。(DirectUI意为直接在父窗口上绘图(Paint on parent dc directly)。即子窗口不以窗口句柄 的形式创建(windowless)，只是逻辑上的窗口，绘制在父窗口之上。)</p>
+<p><strong>Duilib是一个自绘控件界面库，可以很方便的构建高效，绚丽的，非常易于扩展的界面。</strong></p>
+<p>国外如<strong>微软</strong>，国内如<strong>腾讯</strong>，<strong>百度</strong>等公司的客户端产品多采用这种方式来组织界面，从而很好的<strong>将界面和逻辑分离</strong>，同时易于实现各种超炫的界面效果如换色，换肤，透明等。</p>
+<h2 id="DuiLib安装"><a href="#DuiLib安装" class="headerlink" title="DuiLib安装"></a>DuiLib安装</h2><p>安装DuiLib推荐用C++库管理器<code>vcpkg</code>来安装，这东西我感觉类似Python的<code>pip</code>。可以很方便的安装管理<code>第三方库</code>。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/microsoft/vcpkg/blob/master/README_zh_CN.md">vcpkg官方安装教程</a>，安装vcpkg非常简单，就如下几条命令就搞定：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/microsoft/vcpkg</span><br><span class="line"><span class="comment">#将vcpkg目录添加到环境变量</span></span><br><span class="line">RefreshEnv.cmd          <span class="comment">#更新环境变量</span></span><br><span class="line">bootstarp-vcpkg.bat     <span class="comment">#vcpkg初始化相关文件</span></span><br><span class="line">vcpkg integrate install <span class="comment">#配置到VS相关环境中</span></span><br><span class="line">vcpkg search  [库名]    <span class="comment">#搜索相关第三方库</span></span><br><span class="line">vcpkg install [库名]    <span class="comment">#安装第三方库</span></span><br></pre></td></tr></table></figure>
+
+<p>安装DuiLib库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcpkg install DuiLib <span class="comment">#安装DuiLib库</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="DuiLib-Hello-World"><a href="#DuiLib-Hello-World" class="headerlink" title="DuiLib Hello,World!"></a>DuiLib Hello,World!</h2><p>装好了库后，我们来写第一个DuiLib程序，经典的Hello，World！</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//DuiLib库头文件</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;DuiLib/UILib.h&gt;</span></span></span><br><span class="line"><span class="comment">//命名空间</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> DuiLib;</span><br><span class="line"></span><br><span class="line"><span class="comment">//重写Windows窗口类，继承自-&gt;CWindow -&gt; INotifyUI</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CDuilibWnd</span> :</span> <span class="keyword">public</span> CWindowWnd,<span class="keyword">public</span> INotifyUI</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//虚函数</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> LPCTSTR <span class="title">GetWindowClassName</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> _T(<span class="string">&quot;DuiWnd&quot;</span>);&#125;<span class="comment">//窗口类</span></span><br><span class="line">    <span class="comment">//重写响应消息</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Notify</span><span class="params">(TNotifyUI&amp; msg)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(msg.sType == _T(<span class="string">&quot;click&quot;</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(msg.pSender-&gt;<span class="built_in">GetName</span>() == _T(<span class="string">&quot;Hello_btn&quot;</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">MessageBoxA</span>(<span class="literal">NULL</span>,<span class="string">&quot;Hello,World!&quot;</span>,<span class="string">&quot;Dui逆向の按钮事件定位&quot;</span>,MB_OK);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//重写消息处理</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> LRESULT <span class="title">HandleMessage</span><span class="params">(UINT uMsg,WPARAM wParam,LPARAM lParam)</span><span class="comment">//回调函数</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        LRESULT lRes = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(uMsg == WM_CREATE)</span><br><span class="line">        &#123;</span><br><span class="line">            m_PaintManager.<span class="built_in">Init</span>(m_hWnd);</span><br><span class="line">            <span class="comment">//利用XML布局生成界面</span></span><br><span class="line">            CDialogBuilder builder;</span><br><span class="line">            CControlUI* pRoot = builder.<span class="built_in">Create</span>(_T(<span class="string">&quot;duilib.xml&quot;</span>),<span class="number">0</span>,<span class="literal">NULL</span>,&amp;m_PaintManager);</span><br><span class="line">            <span class="built_in">ASSERT</span>(pRoot &amp;&amp; <span class="string">&quot;Failed to parse XML&quot;</span>);</span><br><span class="line">            m_PaintManager.<span class="built_in">AttachDialog</span>(pRoot);</span><br><span class="line">            <span class="comment">//用于处理消息</span></span><br><span class="line">            m_PaintManager.<span class="built_in">AddNotifier</span>(<span class="keyword">this</span>);</span><br><span class="line">            <span class="keyword">return</span> lRes;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(m_PaintManager.<span class="built_in">MessageHandler</span>(uMsg,wParam,lParam,lRes)) <span class="keyword">return</span> lRes;</span><br><span class="line">        <span class="keyword">return</span> __super::<span class="built_in">HandleMessage</span>(uMsg,wParam,lParam);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">protected</span>:</span><br><span class="line">    CPaintManagerUI m_PaintManager;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> __stdcall <span class="title">wWinMain</span><span class="params">(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, <span class="keyword">int</span> nCmdShow)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    CPaintManagerUI::<span class="built_in">SetInstance</span>(hInstance);<span class="comment">//绑定窗口句柄</span></span><br><span class="line">    CPaintManagerUI::<span class="built_in">SetResourcePath</span>(CPaintManagerUI::<span class="built_in">GetInstancePath</span>());<span class="comment">//加载XML</span></span><br><span class="line">    <span class="comment">//创建并显示窗口</span></span><br><span class="line">    CDuilibWnd duilibWnd;</span><br><span class="line">    duilibWnd.<span class="built_in">Create</span>(<span class="literal">NULL</span>,_T(<span class="string">&quot;Dui逆向の按钮事件定位&quot;</span>),UI_WNDSTYLE_FRAME,WS_EX_WINDOWEDGE);</span><br><span class="line">    duilibWnd.<span class="built_in">ShowModal</span>();<span class="comment">//监听消息</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>duilib.xml 界面布局文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Window</span> <span class="attr">size</span>=<span class="string">&quot;320,100&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">HorizontalLayout</span> <span class="attr">bkcolor</span>=<span class="string">&quot;#FFFFFFFF&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">Button</span> <span class="attr">name</span>=<span class="string">&quot;Hello_btn&quot;</span> <span class="attr">text</span>=<span class="string">&quot;按钮&quot;</span>  <span class="attr">height</span>=<span class="string">&quot;40&quot;</span> <span class="attr">width</span>=<span class="string">&quot;80&quot;</span>  <span class="attr">bordersize</span>=<span class="string">&quot;1,1,1,1&quot;</span> <span class="attr">bordercolor</span>=<span class="string">&quot;#0079DE&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;111,10,0,0&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">HorizontalLayout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Window</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>编译生成后的界面如下，并且点击按钮后触发了事件：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210141429835-1880371262.png" alt="image-20211210141430317"> </p>
+<h2 id="Duilib逆向分析之定位按钮事件"><a href="#Duilib逆向分析之定位按钮事件" class="headerlink" title="Duilib逆向分析之定位按钮事件"></a>Duilib逆向分析之定位按钮事件</h2><h3 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h3><p>所以我觉得做逆向开发，不能盲目的一开始就去看OD，去IDA F5反编译，而是应该擅长利用搜索引擎去学习了解相关：框架、库、模型、开发等知识，有了这些知识后逆向就如鱼得水。</p>
+<h3 id="第一步：获取xml布局文件"><a href="#第一步：获取xml布局文件" class="headerlink" title="第一步：获取xml布局文件"></a>第一步：获取xml布局文件</h3><p>首先切入点是从<code>duilib.xml</code>文件开始，所以我们在逆向Duilib相关程序时候应该先拿到他的布局文件。</p>
+<p>而在我们的demo中duilib.xml是在本地的，而在源码中可以看到<code>builder.Create</code>来加载使用<code>duilib.xml</code>。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210142047258-1266196039.png" alt="image-20211210142047876"> </p>
+<p>如果xml在本地的话则很简单直接找到路径即可，但是常规逆向分析中基本都是在内存中的，那这种要如何获取到他的xml布局文件呢？</p>
+<p>思路还是一样，先定位到这个<code>builder.Create</code>函数，然后跟进去一步步调试，看堆栈信息，看经过哪一句汇编代码或Call后出现xml内容。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210150307096-40501924.png" alt="image-20211210150307646"> </p>
+<h3 id="第二步：按钮事件分金点穴"><a href="#第二步：按钮事件分金点穴" class="headerlink" title="第二步：按钮事件分金点穴"></a>第二步：按钮事件分金点穴</h3><p>当我们拿到布局后，找到对应按钮的名称，例子中的按钮对应的名称是<code>Hello_btn</code>，然后去调试软件中搜索相关字符串<code>Hello_btn</code>。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210150422152-1875008819.png" alt="image-20211210150422786"> </p>
+<p>并且下上断点。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210150542608-997763333.png" alt="image-20211210150543271"> </p>
+<p>当我们点击按钮后，成功的断到如下位置：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210150711285-86632842.png" alt="image-20211210150711936"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210150806747-562352170.png" alt="111"> </p>
+<p>断点断到后，查看上下文中的汇编就已经很明显了，在je下面 (je那一句是判断当前btn按钮事件是否是<code>Hello_btn</code>的按钮事件)，对应的源码就是：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(msg.pSender-&gt;<span class="built_in">GetName</span>() == _T(<span class="string">&quot;Hello_btn&quot;</span>))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">MessageBoxA</span>(<span class="literal">NULL</span>,<span class="string">&quot;Hello,World!&quot;</span>,<span class="string">&quot;Dui逆向の按钮事件定位&quot;</span>,MB_OK);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>感谢观看我的笔记，如有问题请指出谢谢。</p>
+<h2 id="逆向、PWN学习交流"><a href="#逆向、PWN学习交流" class="headerlink" title="逆向、PWN学习交流"></a>逆向、PWN学习交流</h2><p><img src="https://img2020.cnblogs.com/blog/2080041/202112/2080041-20211210151444680-2028183859.png" alt="Pwn菜鸡学习小分队群聊二维码"> </p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DuiLib%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E3%81%AE%E6%8C%89%E9%92%AE%E4%BA%8B%E4%BB%B6%E5%AE%9A%E4%BD%8D"><span class="toc-number">1.</span> <span class="toc-text">DuiLib逆向分析の按钮事件定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-%E5%89%8D%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DuiLib%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.</span> <span class="toc-text">DuiLib介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DuiLib%E5%AE%89%E8%A3%85"><span class="toc-number">4.</span> <span class="toc-text">DuiLib安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DuiLib-Hello-World"><span class="toc-number">5.</span> <span class="toc-text">DuiLib Hello,World!</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Duilib%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E4%B9%8B%E5%AE%9A%E4%BD%8D%E6%8C%89%E9%92%AE%E4%BA%8B%E4%BB%B6"><span class="toc-number">6.</span> <span class="toc-text">Duilib逆向分析之定位按钮事件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A2%8E%E7%A2%8E%E5%BF%B5"><span class="toc-number">6.1.</span> <span class="toc-text">碎碎念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E8%8E%B7%E5%8F%96xml%E5%B8%83%E5%B1%80%E6%96%87%E4%BB%B6"><span class="toc-number">6.2.</span> <span class="toc-text">第一步：获取xml布局文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E6%8C%89%E9%92%AE%E4%BA%8B%E4%BB%B6%E5%88%86%E9%87%91%E7%82%B9%E7%A9%B4"><span class="toc-number">6.3.</span> <span class="toc-text">第二步：按钮事件分金点穴</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%86%E5%90%91%E3%80%81PWN%E5%AD%A6%E4%B9%A0%E4%BA%A4%E6%B5%81"><span class="toc-number">7.</span> <span class="toc-text">逆向、PWN学习交流</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&text=DuiLib逆向分析の按钮事件定位"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&title=DuiLib逆向分析の按钮事件定位"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&is_video=false&description=DuiLib逆向分析の按钮事件定位"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=DuiLib逆向分析の按钮事件定位&body=Check out this article: https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&title=DuiLib逆向分析の按钮事件定位"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&title=DuiLib逆向分析の按钮事件定位"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&title=DuiLib逆向分析の按钮事件定位"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&title=DuiLib逆向分析の按钮事件定位"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&name=DuiLib逆向分析の按钮事件定位&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://vxer-lee.github.io/2021/12/10/PCRe/DuiLib_button/&t=DuiLib逆向分析の按钮事件定位"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    VxerLee
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

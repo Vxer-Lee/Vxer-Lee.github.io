@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="iOS逆向里面比较重要的几项技能：动态调试、静态分析、HOOK关键函数、重签名  前言先来讲下动态调试，iOS动态调试需要一个服务端和客户端程序，服务端程序在手机上监听要动态调试程序的进程ID或是程序名，客户端程序在Mac OS系统上运行。 123服务端程序:debugserver客户端程序:lldb#这两个程序不用额外的去外网下载，只要你的Mac电脑有装XCode，并且进行真机调试过（真机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 动态调试のdebugserver">
+<meta property="og:url" content="https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/index.html">
+<meta property="og:site_name" content="Lee&#39;s Blog">
+<meta property="og:description" content="iOS逆向里面比较重要的几项技能：动态调试、静态分析、HOOK关键函数、重签名  前言先来讲下动态调试，iOS动态调试需要一个服务端和客户端程序，服务端程序在手机上监听要动态调试程序的进程ID或是程序名，客户端程序在Mac OS系统上运行。 123服务端程序:debugserver客户端程序:lldb#这两个程序不用额外的去外网下载，只要你的Mac电脑有装XCode，并且进行真机调试过（真机">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816143238501-832880721.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816143250533-1123187422.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816144926834-60173329.png">
+<meta property="article:published_time" content="2020-02-06T09:30:34.000Z">
+<meta property="article:modified_time" content="2021-08-16T07:58:08.000Z">
+<meta property="article:author" content="VxerLee">
+<meta property="article:tag" content="iOS逆向学习系列">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816143238501-832880721.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>iOS 动态调试のdebugserver</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/11/13/Forensics/mimikatz/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/01/09/PCRe/HuxiangBei_Writeup/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&text=iOS 动态调试のdebugserver"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&title=iOS 动态调试のdebugserver"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&is_video=false&description=iOS 动态调试のdebugserver"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=iOS 动态调试のdebugserver&body=Check out this article: https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&title=iOS 动态调试のdebugserver"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&title=iOS 动态调试のdebugserver"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&title=iOS 动态调试のdebugserver"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&title=iOS 动态调试のdebugserver"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&name=iOS 动态调试のdebugserver&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&t=iOS 动态调试のdebugserver"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEdebugserver-%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90"><span class="toc-number">2.</span> <span class="toc-text">配置debugserver 赋予权限</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E4%B8%8A%E8%BF%87%E6%97%B6%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">网上过时方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iOS13%E5%8F%8A%E4%BB%A5%E4%B8%8A%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text">iOS13及以上配置方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%90%8D%E4%B8%BAent-xml"><span class="toc-number">2.2.1.</span> <span class="toc-text">新建一个文件名为ent.xml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8ldid%E5%AF%B9debugserver%E7%AD%BE%E5%90%8D-%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90"><span class="toc-number">2.2.2.</span> <span class="toc-text">用ldid对debugserver签名 赋予权限</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81debugserver-%E8%BF%9B%E8%A1%8C%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95"><span class="toc-number">3.</span> <span class="toc-text">验证debugserver 进行动态调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%EF%BC%81"><span class="toc-number">4.</span> <span class="toc-text">最后！</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        iOS 动态调试のdebugserver
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">VxerLee</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-02-06T09:30:34.000Z" itemprop="datePublished">2020-02-06</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/iOS%E9%80%86%E5%90%91/">iOS逆向</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/iOS%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97/" rel="tag">iOS逆向学习系列</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <meta name="referrer" content="no-referrer"/>
+
+<blockquote>
+<p>iOS逆向里面比较重要的几项技能：动态调试、静态分析、HOOK关键函数、重签名</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>先来讲下动态调试，iOS动态调试需要一个服务端和客户端程序，服务端程序在手机上监听要动态调试程序的进程ID或是程序名，客户端程序在Mac OS系统上运行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">服务端程序:debugserver</span><br><span class="line">客户端程序:lldb</span><br><span class="line"><span class="comment">#这两个程序不用额外的去外网下载，只要你的Mac电脑有装XCode，并且进行真机调试过（真机调试一般可以在淘宝买UDID开发者证书，就是和你手机UDID绑定的证书那么你就可以在你手机上安装开发你的APP|土豪（开发者账号））</span></span><br></pre></td></tr></table></figure>
+<p>只要你手机进行真机调试过，那么在你手机的这个目录下就会有debugserver</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/Developer/usr/<span class="built_in">bin</span>/debugserver</span><br><span class="line"><span class="comment">#不过这个debugserver 默认只能调试自己开发的APP，我们逆向当然是要逆别人的程序，所以想要debugserver能调试三方APP，需要进行一些修改，下面就是修改的一些重点。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置debugserver-赋予权限"><a href="#配置debugserver-赋予权限" class="headerlink" title="配置debugserver 赋予权限"></a>配置debugserver 赋予权限</h2><p>debugserver默认只能调试自己开发的应用，调试其他应用会抛异常<code>unable to start the exception thread</code>。默认的debugserver缺少<code>task_for_pid()</code>权限，因此需要给debugserver赋予task_for_pid权限。——这是网上摘抄的话</p>
+<h3 id="网上过时方法"><a href="#网上过时方法" class="headerlink" title="网上过时方法"></a>网上过时方法</h3><p>我发现网上配置debugserver的方法已经过时，不适用iOS13系统，导致debugserver还是无法调试三方APP，所以按照如下方法进行。</p>
+<h3 id="iOS13及以上配置方法"><a href="#iOS13及以上配置方法" class="headerlink" title="iOS13及以上配置方法"></a>iOS13及以上配置方法</h3><h4 id="新建一个文件名为ent-xml"><a href="#新建一个文件名为ent-xml" class="headerlink" title="新建一个文件名为ent.xml"></a>新建一个文件名为ent.xml</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">plist</span> <span class="meta-keyword">PUBLIC</span> <span class="meta-string">&quot;-//Apple//DTD PLIST 1.0//EN&quot;</span> <span class="meta-string">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.backboardd.debugapplications<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.backboardd.launchapplications<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.diagnosticd.diagnostic<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.frontboard.debugapplications<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.frontboard.launchapplications<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.security.network.client<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.security.network.server<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.springboard.debugapplications<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.system-task-ports<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>get-task-allow<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>platform-application<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>run-unsigned-code<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>task_for_pid-allow<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="用ldid对debugserver签名-赋予权限"><a href="#用ldid对debugserver签名-赋予权限" class="headerlink" title="用ldid对debugserver签名 赋予权限"></a>用ldid对debugserver签名 赋予权限</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ldid -Sxml全路径 debugserver全路径`</span><br><span class="line">例如：`ldid -Sent.xml debugserver</span><br></pre></td></tr></table></figure>
+
+<p>这里要SSH连入iPhone手机执行命令：需要越狱您的iPhone,不会的请去看 <a target="_blank" rel="noopener" href="https://mrmad.com.tw/category/jb/jailbreak">疯先生越狱</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#开启端口转发,数据线连SSH</span></span><br><span class="line">iproxy 2222 44        <span class="comment">#默认用Checkra1n越狱的端口号为44，其余的默认为22</span></span><br><span class="line"><span class="comment">#连入iPhone SSH</span></span><br><span class="line">ssh root@localhost -p 2222 <span class="comment">#iPhone默认ssh密码,alpine</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#切换到debugserver存在的目录</span></span><br><span class="line">iPhone:~ root<span class="comment"># cd /Developer/usr/bin/</span></span><br><span class="line">iPhone:/Developer/usr/bin root<span class="comment"># ls</span></span><br><span class="line">DTDeviceArbitration*  ScreenShotr*  axauditd*  debugserver*</span><br><span class="line"></span><br><span class="line"><span class="comment">#新建ent.xml文件</span></span><br><span class="line">iPhone:/Developer/usr/bin root<span class="comment"># vim ent.xml   #将1、里面的ent.xml内容复制进去，并且保存</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#最后ldid赋予权限</span></span><br><span class="line">iPhone:/Developer/usr/bin root<span class="comment"># ldid -Sent.xml debugserver</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#拷贝到系统目录</span></span><br><span class="line">iPhone:/Developer/usr/bin root<span class="comment"># copy ./debugserver /usr/bin</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816143238501-832880721.png" alt="截屏2020-02-06下午7.52.51"> </p>
+<h2 id="验证debugserver-进行动态调试"><a href="#验证debugserver-进行动态调试" class="headerlink" title="验证debugserver 进行动态调试"></a>验证debugserver 进行动态调试</h2><p>配置好iPhone端的debugserver后，就可以在Mac电脑上用lldb远程进行动态调试了<strong>lldb调试大全后续会讲</strong>，此次注重debugserver的配置，lldb一笔带，只要知道lldb是Mac上的客户端用来动态调试。</p>
+<p>以调试Sugram 聊天软件为例</p>
+<p>手机端：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看Sugram的进程ID</span></span><br><span class="line">iPhone:~ root<span class="comment"># ps aux|grep &quot;Sugram&quot;</span></span><br><span class="line">mobile          6542   0.0  2.9  5055392  59136   ??  Ss    8:38PM   0:00.51 /var/containers/Bundle/Application/12CA134A-E92A-4F35-BEAA-542F84A0A39F/Sugram.app/Sugram</span><br><span class="line"></span><br><span class="line"><span class="comment">#注入方式对Sugram进行监听</span></span><br><span class="line">iPhone:~ root<span class="comment"># debugserver 127.0.0.1:1234 --attach 6542</span></span><br></pre></td></tr></table></figure>
+
+<p>这时候被注入监听的那个APP就会进入卡死状态，因为debugserver已经对Sugram进行调试状态。</p>
+<p>电脑端：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#先用iProxy 转发debugserver监听的端口</span></span><br><span class="line">iproxy 1234 1234</span><br><span class="line"><span class="comment">#进入lldb 进行远程调试</span></span><br><span class="line">lldb</span><br><span class="line">(lldb) process connect connect://localhost:1234</span><br></pre></td></tr></table></figure>
+<h2 id="最后！"><a href="#最后！" class="headerlink" title="最后！"></a>最后！</h2><p>出现如下画面说明debugserver 配置正确，lldb也可以进行动态调试了。😁😁  –专注逆向、网络安全 Lee</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816143250533-1123187422.png" alt="截屏2020-02-06下午8.48.39"> </p>
+<p>欢迎各位大佬：一起研究逆向、PWN、WEB安全、物联网安全</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816144926834-60173329.png" alt="Pwn菜鸡学习小分队群聊二维码"> </p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEdebugserver-%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90"><span class="toc-number">2.</span> <span class="toc-text">配置debugserver 赋予权限</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E4%B8%8A%E8%BF%87%E6%97%B6%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">网上过时方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iOS13%E5%8F%8A%E4%BB%A5%E4%B8%8A%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text">iOS13及以上配置方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%90%8D%E4%B8%BAent-xml"><span class="toc-number">2.2.1.</span> <span class="toc-text">新建一个文件名为ent.xml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8ldid%E5%AF%B9debugserver%E7%AD%BE%E5%90%8D-%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90"><span class="toc-number">2.2.2.</span> <span class="toc-text">用ldid对debugserver签名 赋予权限</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81debugserver-%E8%BF%9B%E8%A1%8C%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95"><span class="toc-number">3.</span> <span class="toc-text">验证debugserver 进行动态调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%EF%BC%81"><span class="toc-number">4.</span> <span class="toc-text">最后！</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&text=iOS 动态调试のdebugserver"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&title=iOS 动态调试のdebugserver"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&is_video=false&description=iOS 动态调试のdebugserver"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=iOS 动态调试のdebugserver&body=Check out this article: https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&title=iOS 动态调试のdebugserver"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&title=iOS 动态调试のdebugserver"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&title=iOS 动态调试のdebugserver"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&title=iOS 动态调试のdebugserver"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&name=iOS 动态调试のdebugserver&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://vxer-lee.github.io/2020/02/06/iOSRe/iOSRe_debugserver/&t=iOS 动态调试のdebugserver"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    VxerLee
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

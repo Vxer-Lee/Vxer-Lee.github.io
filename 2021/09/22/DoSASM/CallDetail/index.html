@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="call和ret指令概述：call和ret指令都是转移指令，它们都修改IP，或同时修改CS和IP。他们经常被用来实现子程序(函数)的设计。 ret和retfret指令ret指令：用栈中的数据，修改IP的内容，从而实现(近转移)；CPU执行ret指令时，需要进行下面两个步骤： 相当于：pop IP  (1) (IP) &#x3D; ((ss)*16+(sp)) (2) (SP)&#x3D;(sp)+2retf指令r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CALL指令详解">
+<meta property="og:url" content="https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/index.html">
+<meta property="og:site_name" content="Lee&#39;s Blog">
+<meta property="og:description" content="call和ret指令概述：call和ret指令都是转移指令，它们都修改IP，或同时修改CS和IP。他们经常被用来实现子程序(函数)的设计。 ret和retfret指令ret指令：用栈中的数据，修改IP的内容，从而实现(近转移)；CPU执行ret指令时，需要进行下面两个步骤： 相当于：pop IP  (1) (IP) &#x3D; ((ss)*16+(sp)) (2) (SP)&#x3D;(sp)+2retf指令r">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922191210226-1672149662.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210921185015534-846887787.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210921185802601-1064316223.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922110351902-799470557.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922165550633-717733755.jpg">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922170402346-103598367.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922182431178-692842958.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922183236795-1429433559.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922190829064-1785248816.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922190849866-832177354.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922190917233-1739319645.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922174223474-1634946666.jpg">
+<meta property="article:published_time" content="2021-09-22T11:18:01.000Z">
+<meta property="article:modified_time" content="2021-09-22T11:43:45.000Z">
+<meta property="article:author" content="VxerLee">
+<meta property="article:tag" content="黑魔法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922191210226-1672149662.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CALL指令详解</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2021/10/15/Coding/Python/Python_Learning_Summry/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2021/09/18/DoSASM/JmpAndHook/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&text=CALL指令详解"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&title=CALL指令详解"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&is_video=false&description=CALL指令详解"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CALL指令详解&body=Check out this article: https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&title=CALL指令详解"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&title=CALL指令详解"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&title=CALL指令详解"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&title=CALL指令详解"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&name=CALL指令详解&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&t=CALL指令详解"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#call%E5%92%8Cret%E6%8C%87%E4%BB%A4%E6%A6%82%E8%BF%B0%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">call和ret指令概述：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ret%E5%92%8Cretf"><span class="toc-number">2.</span> <span class="toc-text">ret和retf</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ret%E6%8C%87%E4%BB%A4"><span class="toc-number">2.1.</span> <span class="toc-text">ret指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#retf%E6%8C%87%E4%BB%A4"><span class="toc-number">2.2.</span> <span class="toc-text">retf指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#call-%E5%92%8C-ret-%E7%9A%84%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8"><span class="toc-number">2.3.</span> <span class="toc-text">call 和 ret 的配合使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#call%E6%8C%87%E4%BB%A4%E8%AF%A6%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">call指令详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#call%E5%8E%9F%E7%90%86"><span class="toc-number">3.1.</span> <span class="toc-text">call原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#call%E6%8C%87%E4%BB%A4%E6%89%80%E6%9C%89%E5%86%99%E6%B3%95"><span class="toc-number">3.2.</span> <span class="toc-text">call指令所有写法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#call-%E6%8C%87%E4%BB%A4%E5%A4%A7%E5%85%A8%E5%9B%BE%E8%A1%A8"><span class="toc-number">3.3.</span> <span class="toc-text">call 指令大全图表</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CALL指令详解
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">VxerLee</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-09-22T11:18:01.000Z" itemprop="datePublished">2021-09-22</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E9%BB%91%E9%AD%94%E6%B3%95/" rel="tag">黑魔法</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <meta name="referrer" content="no-referrer"/>
+
+<h2 id="call和ret指令概述："><a href="#call和ret指令概述：" class="headerlink" title="call和ret指令概述："></a>call和ret指令概述：</h2><p><code>call</code>和<code>ret</code>指令都是转移指令，它们都修改IP，或同时修改CS和IP。他们经常被用来实现子程序(函数)的设计。</p>
+<h2 id="ret和retf"><a href="#ret和retf" class="headerlink" title="ret和retf"></a>ret和retf</h2><h3 id="ret指令"><a href="#ret指令" class="headerlink" title="ret指令"></a>ret指令</h3><p><code>ret</code>指令：用栈中的数据，修改IP的内容，从而实现(<code>近转移</code>)；<br>CPU执行ret指令时，需要进行下面两个步骤：</p>
+<p>相当于：<code>pop IP</code></p>
+<ul>
+<li>(1) (IP) = ((ss)*16+(sp))</li>
+<li>(2) (SP)=(sp)+2<h3 id="retf指令"><a href="#retf指令" class="headerlink" title="retf指令"></a>retf指令</h3><code>retf</code>指令：用栈中的数据，修改CS和IP的内容，从而实现(``远转移`)。</li>
+</ul>
+<p>CPU执行retf指令时，需要进行下面四个步骤</p>
+<p>相当于：<code>pop CS,pop IP</code></p>
+<ul>
+<li>(1) (IP) = ((ss)*16+(sp))</li>
+<li>(2) (SP) = (sp)+2</li>
+<li>(3) (CS) = ((ss)*16+(sp))</li>
+<li>(4) (SP) = (sp)+2  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">;************************************</span><br><span class="line">;            ret指令实验             *          </span><br><span class="line">;************************************</span><br><span class="line">assume cs:code,ss:stack</span><br><span class="line"></span><br><span class="line">;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br><span class="line">;堆栈段</span><br><span class="line">;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br><span class="line">stack segment</span><br><span class="line">	db 16 dup(0)</span><br><span class="line">stack ends</span><br><span class="line"></span><br><span class="line">;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br><span class="line">;代码段</span><br><span class="line">;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br><span class="line">code segment</span><br><span class="line">		  mov ax,4c00h</span><br><span class="line">		  int 21h;退出到DOS</span><br><span class="line">main:;程序入口</span><br><span class="line">	    mov ax,stack</span><br><span class="line">	    mov ss,ax   ;关联堆栈段</span><br><span class="line">	    mov sp,16   ;设置栈顶</span><br><span class="line">	    mov ax,0</span><br><span class="line">	    push ax     ;压栈</span><br><span class="line">      ret         ;pop ip, -&gt;cs:ip cs:0 ,让程序跳到入口处上面</span><br><span class="line">code ends</span><br><span class="line">end main</span><br></pre></td></tr></table></figure>
+<h3 id="call-和-ret-的配合使用"><a href="#call-和-ret-的配合使用" class="headerlink" title="call 和 ret 的配合使用"></a>call 和 ret 的配合使用</h3><p>call 与 ret 指令共同支持了汇编语言编程中的模块化设计</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922191210226-1672149662.png" alt="image-20210922191207275"> </p>
+<h2 id="call指令详解"><a href="#call指令详解" class="headerlink" title="call指令详解"></a>call指令详解</h2><p>在X86架构下：call基本都是调用一个函数,比如调用<code>MessageBox</code>，在汇编中就会写成<code>Call MessageBox</code>，并且<code>call</code>经常和<code>ret</code>搭配使用，下面我们来说说call的原理。</p>
+<h3 id="call原理"><a href="#call原理" class="headerlink" title="call原理"></a>call原理</h3><p>CPU执行call指令时，会进行如下两个步骤：</p>
+<ul>
+<li>(1) 将当前的IP或者CS:IP压入栈中；</li>
+<li>(2) 转移指令(jmp)</li>
+</ul>
+<p>我们这里先来看看<code>x86</code>架构下EXE执行call的流程。</p>
+<ol>
+<li>用<code>x32dbg</code>打开<code>HelloWorld.exe</code>，然后反汇编视图如下：<br>此时我们还没执行Call，然后我们先记一下Call下条指令的地址<code>0x0040107C</code>，然后接着第2步骤按<code>F7</code>进入到call内部，然后此时注意观察堆栈的信息。</li>
+</ol>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210921185015534-846887787.png" alt="image-20210921185014473"> </p>
+<ol start="2">
+<li>我们按<code>F7</code>进入到call内容。<br>第一步里面我们记下来的<code>0x0040107C</code>地址，被push到了堆栈里面，并且<code>jmp</code>到了函数的地址<code>00401000</code>，所以验证了之前CPU执行call指令会有两个步骤(push ip，并且jmp 到call 函数的地址)。</li>
+</ol>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210921185802601-1064316223.png" alt="image-20210921185801800"> </p>
+<h3 id="call指令所有写法"><a href="#call指令所有写法" class="headerlink" title="call指令所有写法"></a>call指令所有写法</h3><p><code>8086</code>CPU架构中：</p>
+<ul>
+<li>call 标号（近转移）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">push ip</span><br><span class="line">jmp near ptr 标号</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>call far ptr 标号（段间转移）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">push cs</span><br><span class="line">push ip</span><br><span class="line">jmp fat ptr 标号</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>call 16位寄存器</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">push ip</span><br><span class="line">jmp ax</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>call word ptr 内存单元地址</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mov ax, 0123h</span><br><span class="line">mov ds:[0],ax</span><br><span class="line">call word ptr ds:[0]</span><br><span class="line">;等于</span><br><span class="line">push ip</span><br><span class="line">jmp word ptr ds:[0]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>call dword ptr 内存单元地址</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mov ds:[0],ax</span><br><span class="line">mov word ptr ds:[2],0</span><br><span class="line">call dword ptr ds:[0]</span><br><span class="line">;等于 cs:ip 0:0123h</span><br><span class="line">push cs</span><br><span class="line">push ip</span><br><span class="line">jmp dword ptr ds:[0]</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>X86</code>CPU架构中：</p>
+<p>先来看一张<code>Intel X86架构手册</code>的图片。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922110351902-799470557.png" alt="CALL指令有多少种写法"> </p>
+<ul>
+<li><p>E8 cw(w表示word的意思|代表后面要跟两个字节)   - 近转移 位移</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">!注意! CPU在实模式下，0xE8才接受2字节操作数</span><br><span class="line">0xE8 0x04 0x00  call 标号 偏移:0x04</span><br></pre></td></tr></table></figure></li>
+<li><p>E8 cd(d表示dword的意思)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在保护式下，0xE8接受4字节操作数</span><br><span class="line">0xE8 0x04 0x03 0x02 0x01  call 偏移:0x01234</span><br></pre></td></tr></table></figure></li>
+<li><p>FF /2 (r/m32)<br>FF /2，是 0xFF 后面跟着一个 /digit 表示的东西。如下图 2 对应的就是DL带头的那一列，标红的这32个值代表了32种寻址方式。</p>
+</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922165550633-717733755.jpg" alt="img"> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">;call的是取寄存器地址的值</span><br><span class="line">FF 10 call dword ptr [eax]</span><br><span class="line">FF 11 call dword ptr [ecx]</span><br><span class="line">FF 12 call dword ptr [edx]</span><br><span class="line">FF 13 call dword ptr [ebx]</span><br><span class="line">;call的是寄存器的值</span><br><span class="line">FF D0 call eax</span><br><span class="line">FF D1 call ecx</span><br><span class="line">FF D2 call edx </span><br><span class="line">FF D3 call ebx</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922170402346-103598367.png" alt="image-20210922170402158"> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FF 15 [地址] 常见于调用Windows的导出表比如:</span><br><span class="line">call dword ptr ds:[&lt;&amp;CreateFileA&gt;]</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922182431178-692842958.png" alt="image-20210922182431058"> </p>
+<ul>
+<li>FF /2 (r/m64)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">同32位，只是寄存器和地址都是64位的</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>9A cd(d表示dword的意思)  – call far ptr 标号(段间转移)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">类似8086中的call far ptr</span><br><span class="line">9A xx xx xx xx xx xx</span><br><span class="line">其中最后两个xx xx &#x3D; 段地址</span><br><span class="line">9A后面4个xx       &#x3D; 要call的地址</span><br><span class="line"></span><br><span class="line">push cs</span><br><span class="line">push eip</span><br><span class="line">jmp xx xx xx xx</span><br></pre></td></tr></table></figure>
+<p>执行<code>call far ptr 标号</code>前的数据</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922183236795-1429433559.png" alt="image-20210922183236402"> </p>
+<p>跟入call后的数据，注意堆栈的内容。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922190829064-1785248816.png" alt="image-20210922190825113"> </p>
+<p>执行ret后</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922190849866-832177354.png" alt="image-20210922190846909"> </p>
+<p>返回到了call调用处</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922190917233-1739319645.png" alt="image-20210922190914295"> </p>
+<h3 id="call-指令大全图表"><a href="#call-指令大全图表" class="headerlink" title="call 指令大全图表"></a>call 指令大全图表</h3><p>表格</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>二进制格式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>call rel32</td>
+<td>E8 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EAX]</td>
+<td>FF 10</td>
+</tr>
+<tr>
+<td>call dword ptr [ECX]</td>
+<td>FF 11</td>
+</tr>
+<tr>
+<td>call dword ptr [edx]</td>
+<td>FF 12</td>
+</tr>
+<tr>
+<td>call dword ptr [ebx]</td>
+<td>FF 13</td>
+</tr>
+<tr>
+<td>call dword ptr [REG * SCALE+BASE]</td>
+<td>FF 14 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [Address]</td>
+<td>FF 15 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [ESI]</td>
+<td>FF 16</td>
+</tr>
+<tr>
+<td>call dword ptr [EDI]</td>
+<td>FF 17</td>
+</tr>
+<tr>
+<td>call dword ptr [EAX+xx]</td>
+<td>FF 50 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [ECX+xx]</td>
+<td>FF 51 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EDX+xx]</td>
+<td>FF 52 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EBX+xx]</td>
+<td>FF 53 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [REG*SCALE+BASE+offset8]</td>
+<td>FF 54 xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EBP+xx]</td>
+<td>FF 55 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [ESI+xx]</td>
+<td>FF 56 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EDI+xx]</td>
+<td>FF 57 xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EAX+xxxxxxxx]</td>
+<td>FF 90 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [ECX+xxxxxxxx]</td>
+<td>FF 91 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EDX+xxxxxxxx]</td>
+<td>FF 92 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EBX+xxxxxxxx]</td>
+<td>FF 93 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [REG*SCALE+BASE+offset32]</td>
+<td>FF 94 xx xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EBP+xxxxxxxx]</td>
+<td>FF 95 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [ESI+xxxxxxxx]</td>
+<td>FF 96 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call dword ptr [EDI+xxxxxxxx]</td>
+<td>FF 97 xx xx xx xx</td>
+</tr>
+<tr>
+<td>call eax</td>
+<td>FF D0</td>
+</tr>
+<tr>
+<td>call ecx</td>
+<td>FF D1</td>
+</tr>
+<tr>
+<td>call edx</td>
+<td>FF D2</td>
+</tr>
+<tr>
+<td>call ebx</td>
+<td>FF D3</td>
+</tr>
+<tr>
+<td>call esp</td>
+<td>FF D4</td>
+</tr>
+<tr>
+<td>call ebp</td>
+<td>FF D5</td>
+</tr>
+<tr>
+<td>call esi</td>
+<td>FF D6</td>
+</tr>
+<tr>
+<td>call edi</td>
+<td>FF D7</td>
+</tr>
+<tr>
+<td>call FAR seg16:Address</td>
+<td>9A xx xx xx xx xx xx</td>
+</tr>
+</tbody></table>
+<p>图</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210922174223474-1634946666.jpg" alt="1"> </p>
+<blockquote>
+<p>参考资料：<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/68588184">https://zhuanlan.zhihu.com/p/68588184</a> CALL指令有多少种写法<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39654127/article/details/88698911">https://blog.csdn.net/qq_39654127/article/details/88698911</a> 王爽《汇编语言》笔记（详细）</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#call%E5%92%8Cret%E6%8C%87%E4%BB%A4%E6%A6%82%E8%BF%B0%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">call和ret指令概述：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ret%E5%92%8Cretf"><span class="toc-number">2.</span> <span class="toc-text">ret和retf</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ret%E6%8C%87%E4%BB%A4"><span class="toc-number">2.1.</span> <span class="toc-text">ret指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#retf%E6%8C%87%E4%BB%A4"><span class="toc-number">2.2.</span> <span class="toc-text">retf指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#call-%E5%92%8C-ret-%E7%9A%84%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8"><span class="toc-number">2.3.</span> <span class="toc-text">call 和 ret 的配合使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#call%E6%8C%87%E4%BB%A4%E8%AF%A6%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">call指令详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#call%E5%8E%9F%E7%90%86"><span class="toc-number">3.1.</span> <span class="toc-text">call原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#call%E6%8C%87%E4%BB%A4%E6%89%80%E6%9C%89%E5%86%99%E6%B3%95"><span class="toc-number">3.2.</span> <span class="toc-text">call指令所有写法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#call-%E6%8C%87%E4%BB%A4%E5%A4%A7%E5%85%A8%E5%9B%BE%E8%A1%A8"><span class="toc-number">3.3.</span> <span class="toc-text">call 指令大全图表</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&text=CALL指令详解"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&title=CALL指令详解"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&is_video=false&description=CALL指令详解"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CALL指令详解&body=Check out this article: https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&title=CALL指令详解"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&title=CALL指令详解"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&title=CALL指令详解"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&title=CALL指令详解"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&name=CALL指令详解&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://vxer-lee.github.io/2021/09/22/DoSASM/CallDetail/&t=CALL指令详解"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    VxerLee
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="查壳UPX的壳很好脱，可以在网上找现成的脱壳工具、或者是手动用单步跟踪法、ESP定律法。   下断点 找到OEP然后下断(这里入口点感觉被修改过变异过 不像正常的vc++2015程序的入口点) 右键字符串智能搜索 找到关键字 input Your Flag 单步跟踪      分析1234567891001355386    52              push edx01355387">
+<meta property="og:type" content="article">
+<meta property="og:title" content="湖湘杯Re writeup">
+<meta property="og:url" content="https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/index.html">
+<meta property="og:site_name" content="Lee&#39;s Blog">
+<meta property="og:description" content="查壳UPX的壳很好脱，可以在网上找现成的脱壳工具、或者是手动用单步跟踪法、ESP定律法。   下断点 找到OEP然后下断(这里入口点感觉被修改过变异过 不像正常的vc++2015程序的入口点) 右键字符串智能搜索 找到关键字 input Your Flag 单步跟踪      分析1234567891001355386    52              push edx01355387">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152048299-570521887.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152057073-222047278.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152107738-391877921.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152217668-1306588929.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152229239-1896159586.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152238213-683810869.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152251437-1421067463.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152308408-1498687137.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152334302-1095832852.png">
+<meta property="article:published_time" content="2020-01-09T06:22:52.000Z">
+<meta property="article:modified_time" content="2021-08-16T07:59:18.000Z">
+<meta property="article:author" content="VxerLee">
+<meta property="article:tag" content="ctf系列">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152048299-570521887.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>湖湘杯Re writeup</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/02/06/iOSRe/iOSRe_debugserver/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&text=湖湘杯Re writeup"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&title=湖湘杯Re writeup"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&is_video=false&description=湖湘杯Re writeup"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=湖湘杯Re writeup&body=Check out this article: https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&title=湖湘杯Re writeup"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&title=湖湘杯Re writeup"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&title=湖湘杯Re writeup"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&title=湖湘杯Re writeup"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&name=湖湘杯Re writeup&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&t=湖湘杯Re writeup"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E5%A3%B3"><span class="toc-number">1.</span> <span class="toc-text">查壳</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E6%96%AD%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">下断点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%87%BD%E6%95%B01"><span class="toc-number">3.1.</span> <span class="toc-text">关键函数1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%87%BD%E6%95%B02"><span class="toc-number">3.2.</span> <span class="toc-text">关键函数2</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        湖湘杯Re writeup
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">VxerLee</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-01-09T06:22:52.000Z" itemprop="datePublished">2020-01-09</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/ctf%E7%B3%BB%E5%88%97/" rel="tag">ctf系列</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <meta name="referrer" content="no-referrer"/>
+
+<h2 id="查壳"><a href="#查壳" class="headerlink" title="查壳"></a>查壳</h2><p>UPX的壳很好脱，可以在网上找现成的脱壳工具、或者是手动用单步跟踪法、ESP定律法。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152048299-570521887.png" alt="截屏2019-11-09下午9.45.21"> </p>
+<h2 id="下断点"><a href="#下断点" class="headerlink" title="下断点"></a>下断点</h2><ol>
+<li>找到OEP然后下断(这里入口点感觉被修改过变异过 不像正常的vc++2015程序的入口点)</li>
+<li>右键字符串智能搜索</li>
+<li>找到关键字 input Your Flag 单步跟踪</li>
+</ol>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152057073-222047278.png" alt="截屏2019-11-09下午10.26.46"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152107738-391877921.png" alt="截屏2019-11-09下午10.29.31"> </p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">01355386    52              push edx</span><br><span class="line">01355387    68 68A03501     push reverse.0135A068                    ; fmcj2y~&#123;</span><br><span class="line">0135538C    E8 16C0FFFF     call reverse.013513A7;    比较最后输入的命令行参数是否为(fmcj2y~&#123;)</span><br><span class="line">01355391    83C4 08         add esp,0x8          ;    类似于c:\tset\reverse.exe fmcj2y~&#123;</span><br><span class="line">01355394    85C0            test eax,eax</span><br><span class="line">01355396    74 19           je Xreverse.013553B1</span><br><span class="line">01355398    68 307E3501     push reverse.01357E30                    ; Input Error!\n</span><br><span class="line">0135539D    E8 D8BFFFFF     call reverse.0135137A</span><br><span class="line">013553A2    83C4 04         add esp,0x4</span><br><span class="line">013553A5    33C0            xor eax,eax</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152217668-1306588929.png" alt="111"> </p>
+<h3 id="关键函数1"><a href="#关键函数1" class="headerlink" title="关键函数1"></a>关键函数1</h3><p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152229239-1896159586.png" alt="截屏2019-11-09下午10.55.47"> </p>
+<h3 id="关键函数2"><a href="#关键函数2" class="headerlink" title="关键函数2"></a>关键函数2</h3><p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152238213-683810869.png" alt="截屏2019-11-09下午11.01.54"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152251437-1421067463.png" alt="截屏2019-11-09下午11.00.05"> </p>
+<p>41A078地址的值为：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">41</span>A078[<span class="number">0</span>] = <span class="number">50</span></span><br><span class="line"><span class="number">41</span>A078[<span class="number">1</span>] = c6</span><br><span class="line"><span class="number">41</span>A078[<span class="number">2</span>] = f1</span><br><span class="line"><span class="number">41</span>A078[<span class="number">3</span>] = e4</span><br><span class="line"><span class="number">41</span>A078[<span class="number">4</span>] = e3</span><br><span class="line"><span class="number">41</span>A078[<span class="number">5</span>] = e2</span><br><span class="line"><span class="number">41</span>A078[<span class="number">6</span>] = <span class="number">9</span>a</span><br><span class="line"><span class="number">41</span>A078[<span class="number">7</span>] = a1</span><br><span class="line"><span class="number">41</span>A078[<span class="number">8</span>] = a7</span><br><span class="line"><span class="number">41</span>A078[<span class="number">9</span>] = de</span><br><span class="line"><span class="number">41</span>A078[<span class="number">10</span>] = da</span><br><span class="line"><span class="number">41</span>A078[<span class="number">11</span>] = <span class="number">46</span></span><br><span class="line"><span class="number">41</span>A078[<span class="number">12</span>] = ab</span><br><span class="line"><span class="number">41</span>A078[<span class="number">13</span>] = <span class="number">2</span>e</span><br><span class="line"><span class="number">41</span>A078[<span class="number">14</span>] = ff</span><br><span class="line"><span class="number">41</span>A078[<span class="number">15</span>] = db</span><br></pre></td></tr></table></figure>
+
+<p>最后将每个值减1<br>得到flag<br><code>flag&#123;4fc5f0e3e2e199a0a6ddd945aa2dfeda&#125;</code></p>
+<hr>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152308408-1498687137.png" alt="截屏2019-11-09下午11.18.50"> </p>
+<p>欢迎加入QQ群：一起研究逆向 、PWN、WEB安全、物联网安全</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202108/2080041-20210816152334302-1095832852.png" alt="Pwn菜鸡学习小分队群聊二维码"> </p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E5%A3%B3"><span class="toc-number">1.</span> <span class="toc-text">查壳</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E6%96%AD%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">下断点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%87%BD%E6%95%B01"><span class="toc-number">3.1.</span> <span class="toc-text">关键函数1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%87%BD%E6%95%B02"><span class="toc-number">3.2.</span> <span class="toc-text">关键函数2</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&text=湖湘杯Re writeup"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&title=湖湘杯Re writeup"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&is_video=false&description=湖湘杯Re writeup"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=湖湘杯Re writeup&body=Check out this article: https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&title=湖湘杯Re writeup"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&title=湖湘杯Re writeup"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&title=湖湘杯Re writeup"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&title=湖湘杯Re writeup"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&name=湖湘杯Re writeup&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://vxer-lee.github.io/2020/01/09/PCRe/HuxiangBei_Writeup/&t=湖湘杯Re writeup"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    VxerLee
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

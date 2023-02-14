@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="转移指令可以修改IP，或同时可以修改CS和IP的指令统称为：转移指令 8086CPU的转移行为有以下几类：  只修改IP时，称为段内转移，比如：jmp ax。 同时修改CS和IP时，称为段间转移，比如：jmp 1000:0。  由于转移指令对IP的修改范围不同，段内转移又分为：短转移和近转移。  短转移IP的修改范围为-128~127(0xFF) 近转移IP的修改范围为-32768~32767">
+<meta property="og:type" content="article">
+<meta property="og:title" content="转移指令原理和Inline Hook">
+<meta property="og:url" content="https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/index.html">
+<meta property="og:site_name" content="Lee&#39;s Blog">
+<meta property="og:description" content="转移指令可以修改IP，或同时可以修改CS和IP的指令统称为：转移指令 8086CPU的转移行为有以下几类：  只修改IP时，称为段内转移，比如：jmp ax。 同时修改CS和IP时，称为段间转移，比如：jmp 1000:0。  由于转移指令对IP的修改范围不同，段内转移又分为：短转移和近转移。  短转移IP的修改范围为-128~127(0xFF) 近转移IP的修改范围为-32768~32767">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918143140531-2008352147.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918144623663-219091642.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918145107101-354257289.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918160641539-1461236271.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918161229851-1188553784.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918161736599-1281580491.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918170436048-1143709016.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918170703443-874850949.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918170737726-1528159212.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918172320244-2144817826.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918172653005-1631893331.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918203636137-886924868.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918203920782-2082657891.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918204106980-521533007.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918204134570-1795939212.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918205234237-1010668954.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918205537550-1594805525.png">
+<meta property="article:published_time" content="2021-09-18T13:13:08.000Z">
+<meta property="article:modified_time" content="2021-09-18T13:25:34.000Z">
+<meta property="article:author" content="VxerLee">
+<meta property="article:tag" content="黑魔法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918143140531-2008352147.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>转移指令原理和Inline Hook</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Lee's Blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2021/09/22/DoSASM/CallDetail/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2021/09/15/DoSASM/Register/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&text=转移指令原理和Inline Hook"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&title=转移指令原理和Inline Hook"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&is_video=false&description=转移指令原理和Inline Hook"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=转移指令原理和Inline Hook&body=Check out this article: https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&title=转移指令原理和Inline Hook"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&title=转移指令原理和Inline Hook"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&title=转移指令原理和Inline Hook"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&title=转移指令原理和Inline Hook"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&name=转移指令原理和Inline Hook&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&t=转移指令原理和Inline Hook"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E6%8C%87%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">转移指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6offset"><span class="toc-number">2.</span> <span class="toc-text">操作符offset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jmp%E6%8C%87%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">jmp指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E4%BD%8D%E7%A7%BB%E8%BF%9B%E8%A1%8C%E8%BD%AC%E7%A7%BB%E7%9A%84jmp%E6%8C%87%E4%BB%A4"><span class="toc-number">4.</span> <span class="toc-text">根据位移进行转移的jmp指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E6%92%ADHOOK%E7%9F%A5%E8%AF%86"><span class="toc-number">5.</span> <span class="toc-text">插播HOOK知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Inline-Hook"><span class="toc-number">5.1.</span> <span class="toc-text">Inline Hook</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Inline-Hook-%E5%8E%9F%E7%90%86"><span class="toc-number">5.2.</span> <span class="toc-text">Inline Hook 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hook%E4%BB%A3%E7%A0%81%E5%BC%80%E5%8F%91"><span class="toc-number">5.3.</span> <span class="toc-text">Hook代码开发</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E7%9A%84%E7%9B%AE%E7%9A%84%E5%9C%B0%E5%9D%80%E5%9C%A8%E6%8C%87%E4%BB%A4%E4%B8%AD%E7%9A%84jmp%E6%8C%87%E4%BB%A4"><span class="toc-number">6.</span> <span class="toc-text">转移的目的地址在指令中的jmp指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E5%9C%B0%E5%9D%80%E5%9C%A8%E5%AF%84%E5%AD%98%E5%99%A8%E6%88%96%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84jmp%E6%8C%87%E4%BB%A4"><span class="toc-number">7.</span> <span class="toc-text">转移地址在寄存器或内存中的jmp指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jcxz%E6%8C%87%E4%BB%A4%E5%92%8Cloop%E6%8C%87%E4%BB%A4"><span class="toc-number">8.</span> <span class="toc-text">jcxz指令和loop指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jcxz%E6%8C%87%E4%BB%A4"><span class="toc-number">8.1.</span> <span class="toc-text">jcxz指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loop%E6%8C%87%E4%BB%A4"><span class="toc-number">8.2.</span> <span class="toc-text">loop指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%A0%E7%A7%8D%E8%B7%B3%E8%BD%AC%E6%8C%87%E4%BB%A4%E5%92%8C%E5%AF%B9%E5%BA%94%E7%9A%84%E6%9C%BA%E5%99%A8%E7%A0%81"><span class="toc-number">9.</span> <span class="toc-text">几种跳转指令和对应的机器码</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        转移指令原理和Inline Hook
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">VxerLee</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-09-18T13:13:08.000Z" itemprop="datePublished">2021-09-18</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/PC%E9%80%86%E5%90%91/">PC逆向</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E9%BB%91%E9%AD%94%E6%B3%95/" rel="tag">黑魔法</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <meta name="referrer" content="no-referrer"/>
+
+<h2 id="转移指令"><a href="#转移指令" class="headerlink" title="转移指令"></a>转移指令</h2><p><code>可以修改IP，或同时可以修改CS和IP的指令统称为：转移指令</code></p>
+<p><code>8086CPU</code>的<code>转移行为</code>有以下几类：</p>
+<ul>
+<li>只修改IP时，称为段内转移，比如：jmp ax。</li>
+<li>同时修改CS和IP时，称为段间转移，比如：jmp 1000:0。</li>
+</ul>
+<p>由于转移指令对<code>IP的修改范围</code>不同，段内转移又分为：短转移和近转移。</p>
+<ul>
+<li>短转移IP的修改范围为-128~127(0xFF)</li>
+<li>近转移IP的修改范围为-32768~32767(0xFFFF)</li>
+</ul>
+<p><code>8086CPU</code>的<code>转移指令</code>分为以下几类：</p>
+<ul>
+<li>无条件转移指令（jmp）</li>
+<li>条件转移指令（jnz jz..）</li>
+<li>循环指令（loop）</li>
+<li>过程</li>
+<li>中断（int）</li>
+</ul>
+<h2 id="操作符offset"><a href="#操作符offset" class="headerlink" title="操作符offset"></a>操作符offset</h2><p>操作符offset是伪指令，在汇编语言中由编译器处理的符号，它的功能是<code>取得标号的偏移地址</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918143140531-2008352147.png" alt="image-20210918143138015"> </p>
+<h2 id="jmp指令"><a href="#jmp指令" class="headerlink" title="jmp指令"></a>jmp指令</h2><p>jmp为无条件转移指令，可以只修改IP，也可以同时修改CS和IP。</p>
+<p>jmp指令要给出两种信息：</p>
+<ul>
+<li>(1) 转移的目的地址</li>
+<li>(2) 转移的距离（段间转移、段内短转移、段内近转移）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jmp short 标号</span><br><span class="line">jmp near ptr 标号</span><br><span class="line">jcxz 标号</span><br><span class="line">loop 标号 等几种汇编指令，它们对 IP的修改是根据转移目的地址和转移起始地址之间的位移来进行的。在它们对应的机器码中不包含转移的目的地址，而包含的是到目的地址的位移距离。</span><br></pre></td></tr></table></figure>
+
+<h2 id="根据位移进行转移的jmp指令"><a href="#根据位移进行转移的jmp指令" class="headerlink" title="根据位移进行转移的jmp指令"></a>根据位移进行转移的jmp指令</h2><p><code>jmp short 标号</code>（段内短转移）</p>
+<p>指令“<code>jmp short 标号</code>”的功能为<code>(IP)=(IP)+8位位移</code>，转到标号处执行指令</p>
+<ul>
+<li>8位位移 = “标号”处的地址 - jmp指令后的第一个字节的地址；</li>
+<li>short指明此处的位移为8位位移动；</li>
+<li>8位位移的范围为(-128~127)，用补码表示。  也就是最大一个字节(0xFF)</li>
+<li>8位位移由编译程序在编译时算出</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918144623663-219091642.png" alt="image-20210918144622021"> </p>
+<p>编译后标号被翻译成了位移。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918145107101-354257289.png" alt="image-20210918145105557"> </p>
+<p>CPU不需要这个目的地址就可以实现对IP的修改。这里是依据位移进行转移。</p>
+<p>jmp short s指令的读取和执行过程如下：</p>
+<ul>
+<li>(1) (CS)=076C,(IP)=0000，执行完<code>mov ax,0</code>后CS:IP指向了<code>EB 03</code>(jmp short s机器码)；</li>
+<li>(2) 读取指令码<code>EB 03</code>进入指令缓冲器；</li>
+<li>(3) (IP) = (IP) + 所读取指令的长度 = (IP) + 2 = 5，CS:IP指向了add ax,1；</li>
+<li>(4) CPU执行指令缓冲器中的指令<code>EB 03</code>；</li>
+<li>(5) 指令执行后<code>IP+位移</code>=(IP) + 3 = 8，CS:IP(076C:0008) 指向-&gt;inc ax</li>
+</ul>
+<h2 id="插播HOOK知识"><a href="#插播HOOK知识" class="headerlink" title="插播HOOK知识"></a>插播HOOK知识</h2><p>这里插播点<code>X86</code>平台下的hook知识，看到这里我们已经知道了我们可以通过修改ip的方式来让代码跳到想要的地方执行代码。</p>
+<h3 id="Inline-Hook"><a href="#Inline-Hook" class="headerlink" title="Inline Hook"></a>Inline Hook</h3><p>inline hook是一种通过修改机器码的方式来实现hook的技术。</p>
+<p>在没有学汇编知识前，我们可能对Hook这种技术感到很深奥，觉得这简直是一种黑魔法，凭什么他就能把正常函数替换成我们自己的假函数。</p>
+<h3 id="Inline-Hook-原理"><a href="#Inline-Hook-原理" class="headerlink" title="Inline Hook 原理"></a>Inline Hook 原理</h3><p>当我们学习了王爽老师的汇编知识后，才明白原来在底层，CPU是根据ip寄存器来控制我们要执行的指令处的。</p>
+<p>而学习了《王爽汇编第9章转移指令的原理》后，了解了可以通过jmp指令来修改ip寄存器，目前我们已经学习了短转移的使用，这已经足够用来学HOOK了。 </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918160641539-1461236271.png" alt="image-20210918160639667"> </p>
+<p>打开OD载入程序，然后找到执行demo函数的汇编代码处，再利用我们今天刚学的短转移知识进行机器码的修改。</p>
+<p>首先经过单步调试后，我找到了执行demo函数处的位置，我们先记下他下条指令的地址<code>0x00481885</code>。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918161229851-1188553784.png" alt="image-20210918161228301"> </p>
+<p>接着我们需要找到<code>标号</code>处，也就是<code>fake_demo</code>函数处，也记下地址<code>0x004817D0</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918161736599-1281580491.png" alt="image-20210918161734983"> </p>
+<p>好了，最后的步骤就是改机器码，根据公式计算出位移：<code>-181(0xFFFFFF4B)</code></p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918170436048-1143709016.png" alt="image-20210918170433891"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918170703443-874850949.png" alt="image-20210918170702265"> </p>
+<p>最后来执行一遍：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918170737726-1528159212.png" alt="image-20210918170736257"> </p>
+<h3 id="Hook代码开发"><a href="#Hook代码开发" class="headerlink" title="Hook代码开发"></a>Hook代码开发</h3><p>在了解了Hook原理后，甚至我们用手动方式实现了HOOK后，就有了思路来代码开发了。</p>
+<p>在此之前让我们先来认识两个函数<code>WriteProcessMemory</code>、<code>VirtualProtect</code></p>
+<ul>
+<li>WriteProcessMemory函数可以对进程的内存进行写入，这样我们就可以修改，写入机器码了。</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918172320244-2144817826.png" alt="image-20210918172319045"> </p>
+<ul>
+<li>VirtualProtect函数可以更改虚拟内存中的访问保护，在Win32中代码段具有写保护，所以我们无法直接写入，可以利用此函数修改保护后再调用WriteProcessMemory修改和写入机器码。</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918172653005-1631893331.png" alt="image-20210918172651511"> </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*************************************************</span></span><br><span class="line"><span class="comment"> *功能：内联HOOK 函数，可以劫持函数的原本流程</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *函数名：InlineHook</span></span><br><span class="line"><span class="comment"> *参数：(原函数地址)、(fake函数地址)</span></span><br><span class="line"><span class="comment"> *by: 《王爽汇编笔记》</span></span><br><span class="line"><span class="comment"> ************************************************/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InlineHook</span><span class="params">(DWORD dwHookAddr, LPVOID pFunAddr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    BYTE jmpCode[<span class="number">5</span>] = &#123;<span class="number">0xE9</span>&#125;;</span><br><span class="line">    <span class="comment">//计算偏移</span></span><br><span class="line">    *(DWORD*)(&amp;jmpCode[<span class="number">1</span>]) = (DWORD)pFunAddr - dwHookAddr - <span class="number">5</span>;</span><br><span class="line">    <span class="comment">// 保存以前的属性用于还原</span></span><br><span class="line">    DWORD OldProtext = <span class="number">0</span>;</span><br><span class="line">    DWORD dwWritten;</span><br><span class="line">    <span class="comment">// 因为要往代码段写入数据，又因为代码段是不可写的，所以需要修改属性</span></span><br><span class="line">    <span class="built_in">VirtualProtect</span>((LPVOID)dwHookAddr, <span class="number">5</span>, PAGE_EXECUTE_READWRITE, &amp;OldProtext);</span><br><span class="line">    <span class="built_in">WriteProcessMemory</span>(<span class="built_in">GetCurrentProcess</span>(), (FARPROC)dwHookAddr, jmpCode, <span class="number">5</span>, &amp;dwWritten);</span><br><span class="line">    <span class="built_in">VirtualProtect</span>((LPVOID)dwHookAddr, <span class="number">5</span>, OldProtext, &amp;OldProtext);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//故意让程序暂停</span></span><br><span class="line">    <span class="built_in">getchar</span>();</span><br><span class="line">    <span class="comment">//执行函数</span></span><br><span class="line">    <span class="built_in">InlineHook</span>((DWORD)&amp;demo, &amp;fake_demo);</span><br><span class="line">    <span class="built_in">demo</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="转移的目的地址在指令中的jmp指令"><a href="#转移的目的地址在指令中的jmp指令" class="headerlink" title="转移的目的地址在指令中的jmp指令"></a>转移的目的地址在指令中的jmp指令</h2><p><code>jmp far ptr 标号</code>(远转移、段间转移)</p>
+<ul>
+<li>(CS) = 标号所在段的段地址;</li>
+<li>(IP) = 标号所在段中的偏移地址。</li>
+<li>far ptr 指明了指令用标号的<code>段地址 和 偏移地址</code>修改 <code>CS和IP</code>。</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918203636137-886924868.png" alt="image-20210918203632593"> </p>
+<p>在<code>Win32</code>中的<code>远转移</code>可以跳到其他DLL的空间，其中关键的机器码是<code>0xFF25</code> + 目标地址</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918203920782-2082657891.png" alt="image-20210918203919798">  </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918204106980-521533007.png" alt="image-20210918204105999"> </p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918204134570-1795939212.png" alt="image-20210918204133578"> </p>
+<h2 id="转移地址在寄存器或内存中的jmp指令"><a href="#转移地址在寄存器或内存中的jmp指令" class="headerlink" title="转移地址在寄存器或内存中的jmp指令"></a>转移地址在寄存器或内存中的jmp指令</h2><p><code>jmp 16位寄存器</code>功能：<code>IP=(16位寄存器)[段内转移]</code></p>
+<p>转移地址在内存中的jmp指令有两周格式：</p>
+<ul>
+<li>jmp word ptr […] (段内转移)</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918205234237-1010668954.png" alt="image-20210918205233143"> </p>
+<ul>
+<li>jmp dword ptr […] (段间转移)</li>
+</ul>
+<p>功能：从内存单元地址处开始存放着两个字，<code>高地址</code>出的字是转移目的<code>段地址</code>，<code>低地址</code>处是转移目的<code>偏移地址</code>。</p>
+<p>1：(CS) = (内存单元地址+2)</p>
+<p>2：(IP) = (内存单元地址)</p>
+<p><img src="https://img2020.cnblogs.com/blog/2080041/202109/2080041-20210918205537550-1594805525.png" alt="image-20210918205536587"> </p>
+<h2 id="jcxz指令和loop指令"><a href="#jcxz指令和loop指令" class="headerlink" title="jcxz指令和loop指令"></a>jcxz指令和loop指令</h2><h3 id="jcxz指令"><a href="#jcxz指令" class="headerlink" title="jcxz指令"></a>jcxz指令</h3><p>jcxz指令为有条件转移指令，所有的有条件转移指令都是短转移，在对应的机器码中包含转移的<code>位移</code>，<code>而不是目的地址</code>。对IP的修改范围都为-128~127(0xff)。</p>
+<p>指令格式：jcxz <code>标号</code> (如果<code>cx=0</code>,则转移到标号处执行。)</p>
+<p>当(cx) = 0时，(IP) = (IP) + 8位位移</p>
+<ul>
+<li>8位位移 = “标号” 处的地址 - jcxz指令后的第一个字节的地址；</li>
+<li>8位位移的范围为-128~127，用补码表示；</li>
+<li>8位位移由编译程序在编译时算出。</li>
+</ul>
+<p>当(cx)!=0时，程序向下执行什么都不做！</p>
+<h3 id="loop指令"><a href="#loop指令" class="headerlink" title="loop指令"></a>loop指令</h3><p>loop指令为循环指令，所有的循环指令都是短转移，在对应的机器码中包含转移的<code>位移</code>，而不是目的地址。</p>
+<p>对IP的修改范围都为-128~127(0xFF)。</p>
+<p>指令格式：loop <code>标号</code> ((cx) = (cx) - 1，如果<code>(cx) ≠ 0</code>，转移到标号处执行)。</p>
+<p>(cx) = (cx) - 1；如果 (cx) != 0，(IP) = (IP) + 8位位移。</p>
+<ul>
+<li>8位位移 = “”标号””处的地址 - loop指令后的第一个字节的地址；</li>
+<li>8位位移的范围为-128~127，用补码表示；</li>
+<li>8位位移由编译程序在编译时算出。</li>
+</ul>
+<p>如果（cx）= 0，什么也不做（程序向下执行）。</p>
+<h2 id="几种跳转指令和对应的机器码"><a href="#几种跳转指令和对应的机器码" class="headerlink" title="几种跳转指令和对应的机器码"></a>几种跳转指令和对应的机器码</h2><p>注：(Win32 x86架构下)</p>
+<table>
+<thead>
+<tr>
+<th>机器码</th>
+<th>指令</th>
+<th align="center">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0xE8</td>
+<td>CALL</td>
+<td align="center">后面的四个字节是地址 (近转移)</td>
+</tr>
+<tr>
+<td>0xE9</td>
+<td>JMP</td>
+<td align="center">后面的四个字节是偏移 (近转移)</td>
+</tr>
+<tr>
+<td>0xEB</td>
+<td>JMP</td>
+<td align="center">后面的二个字节是偏移 (近转移 8086)</td>
+</tr>
+<tr>
+<td>0xFF15</td>
+<td>CALL</td>
+<td align="center">后面的四个字节是存放地址的地址 (远转移)</td>
+</tr>
+<tr>
+<td>0xFF25</td>
+<td>JMP</td>
+<td align="center">后面的四个字节是存放地址的地址 (远转移)</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>PUSH</td>
+<td align="center">后面的四个字节入栈</td>
+</tr>
+<tr>
+<td>0x6A</td>
+<td>PUSH</td>
+<td align="center">后面的一个字节入栈</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>参考文献：<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Archimedes/p/14823218.html">https://www.cnblogs.com/Archimedes/p/14823218.html</a> inline hook原理和实现<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/wzsy/article/details/17163589">https://blog.csdn.net/wzsy/article/details/17163589</a> 几种跳转指令和对应的机器码<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39654127/article/details/88698911">https://blog.csdn.net/qq_39654127/article/details/88698911</a> 王爽《汇编语言》笔记（详细）<br>《王爽汇编第四版 第9章》</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E6%8C%87%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">转移指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6offset"><span class="toc-number">2.</span> <span class="toc-text">操作符offset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jmp%E6%8C%87%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">jmp指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E4%BD%8D%E7%A7%BB%E8%BF%9B%E8%A1%8C%E8%BD%AC%E7%A7%BB%E7%9A%84jmp%E6%8C%87%E4%BB%A4"><span class="toc-number">4.</span> <span class="toc-text">根据位移进行转移的jmp指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E6%92%ADHOOK%E7%9F%A5%E8%AF%86"><span class="toc-number">5.</span> <span class="toc-text">插播HOOK知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Inline-Hook"><span class="toc-number">5.1.</span> <span class="toc-text">Inline Hook</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Inline-Hook-%E5%8E%9F%E7%90%86"><span class="toc-number">5.2.</span> <span class="toc-text">Inline Hook 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hook%E4%BB%A3%E7%A0%81%E5%BC%80%E5%8F%91"><span class="toc-number">5.3.</span> <span class="toc-text">Hook代码开发</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E7%9A%84%E7%9B%AE%E7%9A%84%E5%9C%B0%E5%9D%80%E5%9C%A8%E6%8C%87%E4%BB%A4%E4%B8%AD%E7%9A%84jmp%E6%8C%87%E4%BB%A4"><span class="toc-number">6.</span> <span class="toc-text">转移的目的地址在指令中的jmp指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E5%9C%B0%E5%9D%80%E5%9C%A8%E5%AF%84%E5%AD%98%E5%99%A8%E6%88%96%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84jmp%E6%8C%87%E4%BB%A4"><span class="toc-number">7.</span> <span class="toc-text">转移地址在寄存器或内存中的jmp指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jcxz%E6%8C%87%E4%BB%A4%E5%92%8Cloop%E6%8C%87%E4%BB%A4"><span class="toc-number">8.</span> <span class="toc-text">jcxz指令和loop指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#jcxz%E6%8C%87%E4%BB%A4"><span class="toc-number">8.1.</span> <span class="toc-text">jcxz指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loop%E6%8C%87%E4%BB%A4"><span class="toc-number">8.2.</span> <span class="toc-text">loop指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%A0%E7%A7%8D%E8%B7%B3%E8%BD%AC%E6%8C%87%E4%BB%A4%E5%92%8C%E5%AF%B9%E5%BA%94%E7%9A%84%E6%9C%BA%E5%99%A8%E7%A0%81"><span class="toc-number">9.</span> <span class="toc-text">几种跳转指令和对应的机器码</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&text=转移指令原理和Inline Hook"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&title=转移指令原理和Inline Hook"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&is_video=false&description=转移指令原理和Inline Hook"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=转移指令原理和Inline Hook&body=Check out this article: https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&title=转移指令原理和Inline Hook"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&title=转移指令原理和Inline Hook"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&title=转移指令原理和Inline Hook"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&title=转移指令原理和Inline Hook"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&name=转移指令原理和Inline Hook&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://vxer-lee.github.io/2021/09/18/DoSASM/JmpAndHook/&t=转移指令原理和Inline Hook"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    VxerLee
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
